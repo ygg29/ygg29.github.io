@@ -5,7 +5,7 @@
 # Site
 title: 友果果的博客
 subtitle: Be insteresting and powerful
-description:
+description: iOS 前端 逆向
 keywords:
 author: You Shaw
 language: zh-Hans
@@ -79,5 +79,6 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: https://github.com/ygg29/ygg29.github.io.git
+  repository: git@yshaw.cn:/srv/my-blog.git
+  # //https://github.com/ygg29/ygg29.github.io.git
   branch: master
