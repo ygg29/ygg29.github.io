@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/swift_vscode%E9%85%8D%E7%BD%AE.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/image-20201207152145435.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/image-20201207152353407.png">
-<meta property="og:updated_time" content="2020-12-07T07:39:32.664Z">
+<meta property="og:updated_time" content="2020-12-07T07:41:12.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="swift源码编译及运行调试">
 <meta name="twitter:description" content="预期：编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。 准备： 硬盘空间。swift 编译出文件大小大约为 50G，准备一个空间充足的电脑或者移动硬盘。 耐心。 编译过程较慢，足足编译了一天，当然这条和设备有关，也有的不到一个小时就OK的。  我编译出的文件夹大小为: 编译：编译流程在 Git 上面描述的很清楚，有两种方式：通过 XCode 和 ninja，不">
@@ -351,7 +351,7 @@
 <p><img src="/images/swift_vscode%E9%85%8D%E7%BD%AE.png" alt></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"version"</span>: <span class="string">"0.2.0"</span>, </span><br><span class="line">  <span class="attr">"configurations"</span>: [</span><br><span class="line">		&#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"lldb"</span>,</span><br><span class="line">      <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"Debug"</span>,</span><br><span class="line">      <span class="attr">"program"</span>: <span class="string">"$&#123;workspaceFolder&#125;/build/Ninja-RelWithDebInfoAssert+stdlib-DebugAssert/swift-macosx-x86_64/bin/swift"</span>,</span><br><span class="line">      <span class="attr">"args"</span>: [],</span><br><span class="line">    	<span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span></span><br><span class="line">    &#125; </span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>注意：􏱄􏱅􏰞􏰾􏲧 􏲨􏰇􏰂􏲩􏰇􏰖􏰘 􏰧􏱏􏱸􏲪􏲫􏱷􏱝􏰥􏰦􏰧􏱏􏱸􏲪􏲫􏱩􏱃􏱼􏰸􏲨􏰇􏰂􏲩􏰇􏰖􏰘 􏰧􏱏􏱸􏲪􏲫􏱷􏱝􏰥􏰦􏰧􏱏􏱸􏲪􏲫􏱩􏱃上述 program 的文件和编译的文件路径要相同</p>
+<p>注意：program 的文件和编译的文件路径要相同</p>
 <ol start="2">
 <li><p>LLDB配置</p>
 <p>为了进行 debug，需要对 LLDB 进行一些配置：</p>
