@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="iOS,">
+  <meta name="keywords" content="iOS 源码,">
 
 
 
@@ -80,18 +80,22 @@
 
 
 
-<meta name="description" content="123131231231">
-<meta name="keywords" content="iOS">
+<meta name="description" content="预期：编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。 准备： 硬盘空间。swift 编译出文件大小大约为 50G，准备一个空间充足的电脑或者移动硬盘。 耐心。 编译过程较慢，足足编译了一天，当然这条和设备有关，也有的不到一个小时就OK的。  我编译出的文件夹大小为:![](./images/swift 源码大小.png) 编译：编译流程在 Git 上面描述的">
+<meta name="keywords" content="iOS 源码">
 <meta property="og:type" content="article">
-<meta property="og:title" content="swift源码解析">
-<meta property="og:url" content="http://blog.yshaw.cn/2020/10/03/swift源码解析/index.html">
+<meta property="og:title" content="swift源码编译及运行调试">
+<meta property="og:url" content="http://blog.yshaw.cn/2020/10/03/swift源码编译及运行调试/index.html">
 <meta property="og:site_name" content="友果果的博客">
-<meta property="og:description" content="123131231231">
+<meta property="og:description" content="预期：编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。 准备： 硬盘空间。swift 编译出文件大小大约为 50G，准备一个空间充足的电脑或者移动硬盘。 耐心。 编译过程较慢，足足编译了一天，当然这条和设备有关，也有的不到一个小时就OK的。  我编译出的文件夹大小为:![](./images/swift 源码大小.png) 编译：编译流程在 Git 上面描述的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-04T11:06:20.109Z">
+<meta property="og:image" content="http://blog.yshaw.cn/2020/10/03/swift源码编译及运行调试/images/swift_vscode%E9%85%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://blog.yshaw.cn/2020/10/03/swift源码编译及运行调试/images/image-20201207152145435.png">
+<meta property="og:image" content="http://blog.yshaw.cn/2020/10/03/swift源码编译及运行调试/image-20201207152353407.png">
+<meta property="og:updated_time" content="2020-12-07T07:30:43.105Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="swift源码解析">
-<meta name="twitter:description" content="123131231231">
+<meta name="twitter:title" content="swift源码编译及运行调试">
+<meta name="twitter:description" content="预期：编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。 准备： 硬盘空间。swift 编译出文件大小大约为 50G，准备一个空间充足的电脑或者移动硬盘。 耐心。 编译过程较慢，足足编译了一天，当然这条和设备有关，也有的不到一个小时就OK的。  我编译出的文件夹大小为:![](./images/swift 源码大小.png) 编译：编译流程在 Git 上面描述的">
+<meta name="twitter:image" content="http://blog.yshaw.cn/2020/10/03/swift源码编译及运行调试/images/swift_vscode%E9%85%8D%E7%BD%AE.png">
 
 
 
@@ -121,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.yshaw.cn/2020/10/03/swift源码解析/">
+  <link rel="canonical" href="http://blog.yshaw.cn/2020/10/03/swift源码编译及运行调试/">
 
 
 
 
 
-  <title>swift源码解析 | 友果果的博客</title>
+  <title>swift源码编译及运行调试 | 友果果的博客</title>
   
 
 
@@ -162,7 +166,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">技术只是工具</p>
+        <p class="site-subtitle">让技术成为工具</p>
       
   </div>
 
@@ -254,7 +258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2020/10/03/swift源码解析/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2020/10/03/swift源码编译及运行调试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="You Shaw">
@@ -271,7 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">swift源码解析</h1>
+          <h1 class="post-title" itemprop="name headline">swift源码编译及运行调试</h1>
         
 
         <div class="post-meta">
@@ -321,7 +325,48 @@
       
 
       
-        <p>123131231231</p>
+        <h4 id="预期："><a href="#预期：" class="headerlink" title="预期："></a>预期：</h4><p>编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。</p>
+<h4 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h4><ul>
+<li><strong>硬盘空间</strong>。swift 编译出文件大小大约为 50G，准备一个空间充足的电脑或者移动硬盘。</li>
+<li><strong>耐心</strong>。 编译过程较慢，足足编译了一天，当然这条和设备有关，也有的不到一个小时就OK的。</li>
+</ul>
+<p>我编译出的文件夹大小为:![](./images/swift 源码大小.png)</p>
+<h4 id="编译："><a href="#编译：" class="headerlink" title="编译："></a>编译：</h4><p>编译流程在 <a href="https://github.com/apple/swift/blob/main/docs/HowToGuides/GettingStarted.md#incremental-builds-with-ninja" target="_blank" rel="noopener">Git</a> 上面描述的很清楚，有两种方式：通过 <strong>XCode</strong> 和 <strong>ninja</strong>，不过查过的资料有大佬反映通过 Xcode编译的兼容性不是很好，我采用的是 ninja 编译。懒得看官方的可直接往下看：</p>
+<p>以 <strong>swift5.3.1</strong>为例：</p>
+<ul>
+<li><p>clone 项目</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone --branch swift-5.3.1-RELEASE https://github.com/apple/swift.git</span><br><span class="line">utils/update-checkout --clone</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过工具链安装 swift 的依赖库</p>
+<p><code>./swift/utils/update-checkout --tag swift-5.3.1-RELEASE --clone</code></p>
+</li>
+<li><p>编译</p>
+<p><code>./swift/utils/build-script -r --debug-swift-stdlib --lldb</code></p>
+</li>
+</ul>
+<h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><ol>
+<li>安装 vscode，并安装CodeLLDB 插件。</li>
+</ol>
+<p><img src="./images/swift_vscode%E9%85%8D%E7%BD%AE.png" alt></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"version"</span>: <span class="string">"0.2.0"</span>, </span><br><span class="line">  <span class="attr">"configurations"</span>: [</span><br><span class="line">		&#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"lldb"</span>,</span><br><span class="line">      <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"Debug"</span>,</span><br><span class="line">      <span class="attr">"program"</span>: <span class="string">"$&#123;workspaceFolder&#125;/build/Ninja-RelWithDebInfoAssert+stdlib-DebugAssert/swift-macosx-x86_64/bin/swift"</span>,</span><br><span class="line">      <span class="attr">"args"</span>: [],</span><br><span class="line">    	<span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span></span><br><span class="line">    &#125; </span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：􏱄􏱅􏰞􏰾􏲧 􏲨􏰇􏰂􏲩􏰇􏰖􏰘 􏰧􏱏􏱸􏲪􏲫􏱷􏱝􏰥􏰦􏰧􏱏􏱸􏲪􏲫􏱩􏱃􏱼􏰸􏲨􏰇􏰂􏲩􏰇􏰖􏰘 􏰧􏱏􏱸􏲪􏲫􏱷􏱝􏰥􏰦􏰧􏱏􏱸􏲪􏲫􏱩􏱃上述 program 的文件和编译的文件路径要相同</p>
+<ol start="2">
+<li><p>LLDB配置</p>
+<p>为了进行 debug，需要对 LLDB 进行一些配置：</p>
+<ul>
+<li><p>找到􏲝􏰿􏱀 <code>CodeLLDB</code> 􏰧􏲠􏲡􏱗􏱟􏰞安装目录：–（1）</p>
+<p><img src="./images/image-20201207152145435.png" alt></p>
+</li>
+<li><p>找到编译后的 <code>LLDB</code> 文件夹：–（2）</p>
+<p><img src="image-20201207152353407.png" alt="image-20201207152353407"></p>
+</li>
+</ul>
+</li>
+</ol>
+<p>将（2）中的文件全部拷贝到（1）中，同时将 （2）中<code>bin</code> 文件夹中的 lldb 文件 拷贝到 （1）中<code>lldb</code> 目录下的 lib 目录中，并将名称修改为 <code>liblldb.dylib</code></p>
+<p>然后可以愉快的调试了。</p>
+<p>Enjoy it！</p>
 
       
     </div>
@@ -339,7 +384,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/iOS/" rel="tag"># iOS</a>
+            <a href="/tags/iOS-源码/" rel="tag"># iOS 源码</a>
           
         </div>
       
@@ -416,8 +461,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -456,7 +510,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -509,6 +563,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#预期："><span class="nav-number">1.</span> <span class="nav-text">预期：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备："><span class="nav-number">2.</span> <span class="nav-text">准备：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编译："><span class="nav-number">3.</span> <span class="nav-text">编译：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调试"><span class="nav-number">4.</span> <span class="nav-text">调试</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
