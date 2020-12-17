@@ -4,7 +4,7 @@
 
 # Site
 title: 友友的开发笔记
-subtitle: Think deeply look more # 让技术成为工具
+subtitle: 正经人谁写博客呀 #Think deeply look more # 让技术成为工具
 description: iOS 前端 逆向
 keywords:
 author: You Shaw
@@ -73,7 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape #next
+theme: next #landscape
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
