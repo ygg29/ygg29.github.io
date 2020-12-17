@@ -277,14 +277,13 @@ p {
   margin: 0 0 20px 0;
 }
 a {
-  color: #555;
+  color: #0681d0;
   text-decoration: none;
   outline: none;
-  border-bottom: 1px solid #999;
   word-wrap: break-word;
 }
 a:hover {
-  color: #222;
+  color: #00f;
   border-bottom-color: #222;
 }
 blockquote {
@@ -498,7 +497,7 @@ code {
 code {
   padding: 2px 4px;
   word-wrap: break-word;
-  color: #555;
+  color: #c7254e;
   background: #eee;
   border-radius: 3px;
   font-size: 13px;
@@ -1823,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #9ce461;
+  background: #309c3e;
 }
 .links-of-blogroll {
   font-size: 13px;
