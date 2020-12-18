@@ -83,14 +83,14 @@
 <meta name="description" content="原文：Generics Manifesto – Douglas Gregor 译者注在我慢慢地深入使用 Swift 之后，碰壁了很多次，很大一部分都是因为 Swift 的泛型系统导致的，很多抽象都没办法很好地表达出来，所以就翻译了这篇文章来学习一下 Swift 的泛型。 文章里特别提到了要用官方提到的用语来讨论，所以那些 feature 的名称我都会保留英文。 简介“完善的泛型系统” 这个 Swi">
 <meta name="keywords" content="泛型,swift">
 <meta property="og:type" content="article">
-<meta property="og:title" content="swift泛型宣言">
-<meta property="og:url" content="http://blog.yshaw.cn/2018/05/21/swift泛型宣言/index.html">
+<meta property="og:title" content="【译文】swift泛型宣言">
+<meta property="og:url" content="http://blog.yshaw.cn/2018/05/21/【译文】swift泛型宣言/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
 <meta property="og:description" content="原文：Generics Manifesto – Douglas Gregor 译者注在我慢慢地深入使用 Swift 之后，碰壁了很多次，很大一部分都是因为 Swift 的泛型系统导致的，很多抽象都没办法很好地表达出来，所以就翻译了这篇文章来学习一下 Swift 的泛型。 文章里特别提到了要用官方提到的用语来讨论，所以那些 feature 的名称我都会保留英文。 简介“完善的泛型系统” 这个 Swi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-01T10:31:14.101Z">
+<meta property="og:updated_time" content="2020-12-18T07:28:56.367Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="swift泛型宣言">
+<meta name="twitter:title" content="【译文】swift泛型宣言">
 <meta name="twitter:description" content="原文：Generics Manifesto – Douglas Gregor 译者注在我慢慢地深入使用 Swift 之后，碰壁了很多次，很大一部分都是因为 Swift 的泛型系统导致的，很多抽象都没办法很好地表达出来，所以就翻译了这篇文章来学习一下 Swift 的泛型。 文章里特别提到了要用官方提到的用语来讨论，所以那些 feature 的名称我都会保留英文。 简介“完善的泛型系统” 这个 Swi">
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.yshaw.cn/2018/05/21/swift泛型宣言/">
+  <link rel="canonical" href="http://blog.yshaw.cn/2018/05/21/【译文】swift泛型宣言/">
 
 
 
 
 
-  <title>swift泛型宣言 | 友友的开发笔记</title>
+  <title>【译文】swift泛型宣言 | 友友的开发笔记</title>
   
 
 
@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/05/21/swift泛型宣言/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/05/21/【译文】swift泛型宣言/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="You Shaw">
@@ -271,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">swift泛型宣言</h1>
+          <h1 class="post-title" itemprop="name headline">【译文】swift泛型宣言</h1>
         
 
         <div class="post-meta">
@@ -313,6 +313,17 @@
 
                 
                 
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件开发/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
               
             </span>
           
@@ -324,8 +335,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/21/swift泛型宣言/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/05/21/swift泛型宣言/" itemprop="commentCount"></span>
+                <a href="/2018/05/21/【译文】swift泛型宣言/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/05/21/【译文】swift泛型宣言/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -333,7 +344,7 @@
 
           
           
-             <span id="/2018/05/21/swift泛型宣言/" class="leancloud_visitors" data-flag-title="swift泛型宣言">
+             <span id="/2018/05/21/【译文】swift泛型宣言/" class="leancloud_visitors" data-flag-title="【译文】swift泛型宣言">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -626,8 +637,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/04/Swift内存模型和方法调度/" rel="prev" title="Swift内存模型和方法调度">
-                Swift内存模型和方法调度 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/04/【译文】Swift内存模型和方法调度/" rel="prev" title="【译文】Swift内存模型和方法调度">
+                【译文】Swift内存模型和方法调度 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -721,7 +732,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -771,6 +782,10 @@
                 友情链接
               </div>
               <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.yuhanle.com/" title="煜寒了" target="_blank">煜寒了</a>
+                  </li>
                 
                   <li class="links-of-blogroll-item">
                     <a href="http://theme-next.iissnan.com/" title="NexT" target="_blank">NexT</a>

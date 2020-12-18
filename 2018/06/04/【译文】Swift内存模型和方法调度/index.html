@@ -83,8 +83,8 @@
 <meta name="description" content="前言Apple今年推出了Swift3.0，较2.3来说，3.0是一次重大的升级。关于这次更新，在这里都可以找到，最主要的还是提高了Swift的性能，优化了Swift API的设计（命名）规范。 前段时间对之前写的一个项目ImageMaskTransition做了简单迁移，先保证能在3.0下正常运行，只用了不到30分钟。总的来说，这次迁移还是非常轻松的。但是，有一点要注意：3.0的API设计规范较2">
 <meta name="keywords" content="memory layout,堆栈">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Swift内存模型和方法调度">
-<meta property="og:url" content="http://blog.yshaw.cn/2018/06/04/Swift内存模型和方法调度/index.html">
+<meta property="og:title" content="【译文】Swift内存模型和方法调度">
+<meta property="og:url" content="http://blog.yshaw.cn/2018/06/04/【译文】Swift内存模型和方法调度/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
 <meta property="og:description" content="前言Apple今年推出了Swift3.0，较2.3来说，3.0是一次重大的升级。关于这次更新，在这里都可以找到，最主要的还是提高了Swift的性能，优化了Swift API的设计（命名）规范。 前段时间对之前写的一个项目ImageMaskTransition做了简单迁移，先保证能在3.0下正常运行，只用了不到30分钟。总的来说，这次迁移还是非常轻松的。但是，有一点要注意：3.0的API设计规范较2">
 <meta property="og:locale" content="zh-Hans">
@@ -101,9 +101,9 @@
 <meta property="og:image" content="https://img-blog.csdn.net/20161113152858186">
 <meta property="og:image" content="https://img-blog.csdn.net/20161113153233395">
 <meta property="og:image" content="https://img-blog.csdn.net/20161113155750072">
-<meta property="og:updated_time" content="2019-08-01T10:30:45.336Z">
+<meta property="og:updated_time" content="2020-12-18T07:28:19.837Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swift内存模型和方法调度">
+<meta name="twitter:title" content="【译文】Swift内存模型和方法调度">
 <meta name="twitter:description" content="前言Apple今年推出了Swift3.0，较2.3来说，3.0是一次重大的升级。关于这次更新，在这里都可以找到，最主要的还是提高了Swift的性能，优化了Swift API的设计（命名）规范。 前段时间对之前写的一个项目ImageMaskTransition做了简单迁移，先保证能在3.0下正常运行，只用了不到30分钟。总的来说，这次迁移还是非常轻松的。但是，有一点要注意：3.0的API设计规范较2">
 <meta name="twitter:image" content="https://img-blog.csdn.net/20161112210639104">
 
@@ -135,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.yshaw.cn/2018/06/04/Swift内存模型和方法调度/">
+  <link rel="canonical" href="http://blog.yshaw.cn/2018/06/04/【译文】Swift内存模型和方法调度/">
 
 
 
 
 
-  <title>Swift内存模型和方法调度 | 友友的开发笔记</title>
+  <title>【译文】Swift内存模型和方法调度 | 友友的开发笔记</title>
   
 
 
@@ -268,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/06/04/Swift内存模型和方法调度/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/06/04/【译文】Swift内存模型和方法调度/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="You Shaw">
@@ -285,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Swift内存模型和方法调度</h1>
+          <h1 class="post-title" itemprop="name headline">【译文】Swift内存模型和方法调度</h1>
         
 
         <div class="post-meta">
@@ -327,6 +327,17 @@
 
                 
                 
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件开发/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
               
             </span>
           
@@ -338,8 +349,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/06/04/Swift内存模型和方法调度/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/04/Swift内存模型和方法调度/" itemprop="commentCount"></span>
+                <a href="/2018/06/04/【译文】Swift内存模型和方法调度/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/04/【译文】Swift内存模型和方法调度/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -347,7 +358,7 @@
 
           
           
-             <span id="/2018/06/04/Swift内存模型和方法调度/" class="leancloud_visitors" data-flag-title="Swift内存模型和方法调度">
+             <span id="/2018/06/04/【译文】Swift内存模型和方法调度/" class="leancloud_visitors" data-flag-title="【译文】Swift内存模型和方法调度">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -531,8 +542,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/21/swift泛型宣言/" rel="next" title="swift泛型宣言">
-                <i class="fa fa-chevron-left"></i> swift泛型宣言
+              <a href="/2018/05/21/【译文】swift泛型宣言/" rel="next" title="【译文】swift泛型宣言">
+                <i class="fa fa-chevron-left"></i> 【译文】swift泛型宣言
               </a>
             
           </div>
@@ -541,8 +552,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/21/swift 派发机制/" rel="prev" title="swift 派发机制">
-                swift 派发机制 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/21/【译文】swift 派发机制/" rel="prev" title="【译文】swift 派发机制">
+                【译文】swift 派发机制 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -636,7 +647,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -686,6 +697,10 @@
                 友情链接
               </div>
               <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.yuhanle.com/" title="煜寒了" target="_blank">煜寒了</a>
+                  </li>
                 
                   <li class="links-of-blogroll-item">
                     <a href="http://theme-next.iissnan.com/" title="NexT" target="_blank">NexT</a>
