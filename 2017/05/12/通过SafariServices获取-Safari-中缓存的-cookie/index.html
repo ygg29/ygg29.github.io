@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="VPN,">
+  <meta name="keywords" content="iOS,">
 
 
 
@@ -80,18 +80,18 @@
 
 
 
-<meta name="description" content="SS是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。 准备在开始之前，请确保：  拥有一个可以正常使用的SS Mac上已安装有Homebrew  安装privoxy使用以下命令安装： 1brew install privoxy  privoxy配置打开配置文件，文件路径为/usr/local/etc/privoxy/config在配置">
-<meta name="keywords" content="VPN">
+<meta name="description" content="需求场景：  通过推广人分享获得的新用户要确认与推广人产生直接联系（即与推广人绑定），iOS 因为系统封闭无法取得其他应用的信息，iOS9后苹果推出的SafariServices可以在应用中打开一个 Safari 页面，这个页面与 safari 共享 cookie，解决了这个问题  基本流程与思路：  1、推广人A分享链接2、新用户B打开该链接（必须用 Safari 打开，否则在 app中无法读取">
+<meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在Mac终端中使用SS代理">
-<meta property="og:url" content="http://blog.yshaw.cn/2018/07/13/:2018-07-13-在Mac终端中使用SS代理/index.html">
+<meta property="og:title" content="通过SafariServices获取Safari中缓存的cookie">
+<meta property="og:url" content="http://blog.yshaw.cn/2017/05/12/通过SafariServices获取-Safari-中缓存的-cookie/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
-<meta property="og:description" content="SS是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。 准备在开始之前，请确保：  拥有一个可以正常使用的SS Mac上已安装有Homebrew  安装privoxy使用以下命令安装： 1brew install privoxy  privoxy配置打开配置文件，文件路径为/usr/local/etc/privoxy/config在配置">
+<meta property="og:description" content="需求场景：  通过推广人分享获得的新用户要确认与推广人产生直接联系（即与推广人绑定），iOS 因为系统封闭无法取得其他应用的信息，iOS9后苹果推出的SafariServices可以在应用中打开一个 Safari 页面，这个页面与 safari 共享 cookie，解决了这个问题  基本流程与思路：  1、推广人A分享链接2、新用户B打开该链接（必须用 Safari 打开，否则在 app中无法读取">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-01T10:33:46.353Z">
+<meta property="og:updated_time" content="2019-08-01T10:29:59.064Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在Mac终端中使用SS代理">
-<meta name="twitter:description" content="SS是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。 准备在开始之前，请确保：  拥有一个可以正常使用的SS Mac上已安装有Homebrew  安装privoxy使用以下命令安装： 1brew install privoxy  privoxy配置打开配置文件，文件路径为/usr/local/etc/privoxy/config在配置">
+<meta name="twitter:title" content="通过SafariServices获取Safari中缓存的cookie">
+<meta name="twitter:description" content="需求场景：  通过推广人分享获得的新用户要确认与推广人产生直接联系（即与推广人绑定），iOS 因为系统封闭无法取得其他应用的信息，iOS9后苹果推出的SafariServices可以在应用中打开一个 Safari 页面，这个页面与 safari 共享 cookie，解决了这个问题  基本流程与思路：  1、推广人A分享链接2、新用户B打开该链接（必须用 Safari 打开，否则在 app中无法读取">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.yshaw.cn/2018/07/13/:2018-07-13-在Mac终端中使用SS代理/">
+  <link rel="canonical" href="http://blog.yshaw.cn/2017/05/12/通过SafariServices获取-Safari-中缓存的-cookie/">
 
 
 
 
 
-  <title>在Mac终端中使用SS代理 | 友友的开发笔记</title>
+  <title>通过SafariServices获取Safari中缓存的cookie | 友友的开发笔记</title>
   
 
 
@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/07/13/:2018-07-13-在Mac终端中使用SS代理/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2017/05/12/通过SafariServices获取-Safari-中缓存的-cookie/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="You Shaw">
@@ -271,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">在Mac终端中使用SS代理</h1>
+          <h1 class="post-title" itemprop="name headline">通过SafariServices获取Safari中缓存的cookie</h1>
         
 
         <div class="post-meta">
@@ -283,8 +283,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-13T11:21:33+08:00">
-                2018-07-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-12T09:51:18+08:00">
+                2017-05-12
               </time>
             
 
@@ -343,47 +343,27 @@
       
 
       
-        <p><a href="https://github.com/shadowsocks" target="_blank" rel="noopener">SS</a>是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。</p>
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>在开始之前，请确保：</p>
-<ul>
-<li>拥有一个可以正常使用的SS</li>
-<li>Mac上已安装有<a href="https://brew.sh/" target="_blank" rel="noopener">Homebrew</a></li>
-</ul>
-<h2 id="安装privoxy"><a href="#安装privoxy" class="headerlink" title="安装privoxy"></a>安装privoxy</h2><p>使用以下命令安装：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install privoxy</span><br></pre></td></tr></table></figure>
+        <p>需求场景：</p>
+<blockquote>
+<p>通过推广人分享获得的新用户要确认与推广人产生直接联系（即与推广人绑定），iOS 因为系统封闭无法取得其他应用的信息，iOS9后苹果推出的<code>SafariServices</code>可以在应用中打开一个 Safari 页面，这个页面与 safari 共享 cookie，解决了这个问题</p>
+</blockquote>
+<p>基本流程与思路：</p>
+<blockquote>
+<p>1、推广人A分享链接<br>2、新用户B打开该链接（<strong>必须用 Safari 打开，否则在 app中无法读取 cookie</strong>）<br>3、写入信息到 cookie（这里写的是A的id，cookie 的有效时间可以自己设定）<br>4、B打开 app<br>5、 <strong>在 app中通过<code>SafariViewController</code>使服务器获取到 Safari 保存的 cookie 并通过 openurl 传给 app</strong><br>6、B获取到 cookie</p>
+</blockquote>
+<p> <strong>上面的流程都是隐形过程，用户感受不到。</strong></p>
+<p> <strong>不过 iOS10.0之后，iOS可以通过 js 读写剪切板，即新用户打开某个连接后将所需要的内容保存在剪切板中，在需要的时候再从剪切板中取出（目前Android 多是采用这种做法）。因为使用SafariServices这种获取 cookie 的方式，<code>SafariViewController</code>始终是隐藏的，而这是苹果命令禁止的：</strong></p>
+<blockquote>
+<p>SafariViewContoller must be used to visibly present information to users; the controller may not be hidden or obscured by other views or layers. Additionally, an app may not use SafariViewController to track users without their knowledge and consent.</p>
+</blockquote>
+<p>所以如果你仅支持 iOS10的话，使用剪切板是最安全的，</p>
+<p>iOS 部分代码<br>需要添加库<code>SafariServices.framwork</code><br>并引入头文件<code>#import &lt;SafariServices/SafariServices.h&gt;</code><br>遵循协议<code>SFSafariViewControllerDelegate</code></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)getCookieFromSafari&#123;</span><br><span class="line">    <span class="comment">//获取 safari cookie推广人 id</span></span><br><span class="line">    SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[<span class="built_in">NSURL</span> URLWithString:<span class="string">@"your url"</span>]];</span><br><span class="line">          safari.view.frame = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    safari.delegate = <span class="keyword">self</span>;</span><br><span class="line">    <span class="built_in">UIViewController</span> *C = [<span class="built_in">UIApplication</span> sharedApplication].keyWindow.rootViewController;</span><br><span class="line"><span class="comment">//    [C presentViewController:safari animated:NO completion:nil];</span></span><br><span class="line">        [C addChildViewController:safari];</span><br><span class="line">        [<span class="keyword">self</span>.window addSubview:safari.view];</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#pragma mark ------SFSafariViewControllerDelegate&#123;</span></span><br><span class="line">- (<span class="keyword">void</span>)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(<span class="built_in">BOOL</span>)didLoadSuccessfully&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (didLoadSuccessfully) &#123;</span><br><span class="line"><span class="comment">//        [controller dismissViewControllerAnimated:NO completion:nil];</span></span><br><span class="line">                [controller removeFromParentViewController];</span><br><span class="line">                [controller.view removeFromSuperview];</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="privoxy配置"><a href="#privoxy配置" class="headerlink" title="privoxy配置"></a>privoxy配置</h2><p>打开配置文件，文件路径为<code>/usr/local/etc/privoxy/config</code><br>在配置文件底部加入以下语句：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">listen-address 0.0.0.0:8118</span><br><span class="line">forward-socks5 / localhost:1080 .</span><br></pre></td></tr></table></figure>
+<p>*<em>在 AppDelegate 中会通过方法 *</em></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application openURL:(<span class="built_in">NSURL</span> *)url sourceApplication:(<span class="built_in">NSString</span> *)sourceApplication annotation:(<span class="keyword">id</span>)annotation</span><br></pre></td></tr></table></figure>
 
-<h2 id="启动privoxy"><a href="#启动privoxy" class="headerlink" title="启动privoxy"></a>启动privoxy</h2><p>输入以下语句：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/local/sbin/privoxy /usr/local/etc/privoxy/config</span><br></pre></td></tr></table></figure>
-
-<p>查看是否启动成功：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -na | grep 8118</span><br></pre></td></tr></table></figure>
-
-<p>看到如下消息说明启动成功：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp4 0 0 *.8118 *.* LISTEN</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用privoxy"><a href="#使用privoxy" class="headerlink" title="使用privoxy"></a>使用privoxy</h2><p>在命令行终端中输入如下命令后，该终端即可走代理。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy='http://localhost:8118'</span><br><span class="line">export https_proxy='http://localhost:8118'</span><br></pre></td></tr></table></figure>
-
-<p>这时输入<code>curl ip.gs</code>会显示代理服务器的信息<br>关闭终端代理：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unset http_proxy</span><br><span class="line">unset https_proxy</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置bash文件"><a href="#配置bash文件" class="headerlink" title="配置bash文件"></a>配置bash文件</h2><p>经过上面几步，已经可以在终端使用SS代理，每次使用都需要输入一大串命令。可以在 ~/.bash_profile 里加入函数，便于使用。</p>
-<ul>
-<li><p>macOS系统中默认没有<code>.bash_profile</code>文件，需要手动创建文件：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~/</span><br><span class="line">touch .bash_profile</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编辑<code>.bash_profile</code>文件：<code>open -e .bash_profile</code></p>
-</li>
-<li><p>在<code>.bash_profile</code>里写入函数</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function proxy_off()&#123;</span><br><span class="line">    unset http_proxy</span><br><span class="line">    unset https_proxy</span><br><span class="line">    echo -e "已关闭代理"</span><br><span class="line">&#125;</span><br><span class="line">function proxy_on() &#123;</span><br><span class="line">    export http_proxy='http://localhost:8118'</span><br><span class="line">    export https_proxy='http://localhost:8118'</span><br><span class="line">    echo -e "已开启代理"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使配置立即生效：<code>source ~/.bash_profile</code></p>
-<h2 id="调用bash函数"><a href="#调用bash函数" class="headerlink" title="调用bash函数"></a>调用bash函数</h2><p>配置已经全部完成，在终端使用<code>proxy_on</code>/<code>proxy_off</code>指令即可打开/关闭代理</p>
-</li>
-</ul>
+<p>将你需要的信息通过 <code>url</code>传过来</p>
 
       
     </div>
@@ -401,7 +381,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/VPN/" rel="tag"># VPN</a>
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
           
         </div>
       
@@ -414,18 +394,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/23/:2018-06-23-Swift-中的泛型编程/" rel="next" title="Swift 中的泛型编程">
-                <i class="fa fa-chevron-left"></i> Swift 中的泛型编程
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/10/21/:2018-10-21-【精彩片段】温酒斩华雄/" rel="prev" title="【精彩片段】温酒斩华雄">
-                【精彩片段】温酒斩华雄 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/21/swift泛型宣言/" rel="prev" title="swift泛型宣言">
+                swift泛型宣言 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -478,17 +454,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -516,7 +483,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -580,22 +547,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装privoxy"><span class="nav-number">2.</span> <span class="nav-text">安装privoxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#privoxy配置"><span class="nav-number">3.</span> <span class="nav-text">privoxy配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动privoxy"><span class="nav-number">4.</span> <span class="nav-text">启动privoxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用privoxy"><span class="nav-number">5.</span> <span class="nav-text">使用privoxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置bash文件"><span class="nav-number">6.</span> <span class="nav-text">配置bash文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用bash函数"><span class="nav-number">7.</span> <span class="nav-text">调用bash函数</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
