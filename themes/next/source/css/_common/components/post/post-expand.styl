@@ -27,8 +27,24 @@
   }
 }
 
+// fixed
+.page-home .posts-expand > .post > .post-block > .post-body {
+  color: #999;
+}
+
+.page-post-detail .post-body a {
+  color: $custom_linkcolor;//$black-light;
+
+  &:hover {
+    color: $custom_link-hover-color;//$link-hover-color;
+  }
+}
+
+
 .posts-expand .post-body {
-  +desktop() { text-align: justify; }
+  +desktop() {
+    text-align: justify;
+    }
 
 
   h2, h3, h4, h5, h6 {

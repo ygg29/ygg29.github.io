@@ -11,7 +11,13 @@ date: 2020-03-04 19:33:23
 
 ### 启动过程
 
-> 说明：App 启动根据 Apple 划分有三种形式：`Cold`、`Warm`、`Resume`，下文中的的启动皆为 Cold 即冷启动。
+> App 启动根据 Apple 划分有三种形式：
+>
+> **冷启动(`cold`):**指手机刚刚重启，完全清除dyld缓存，用户点击App lcon到完
+> 全可用状态。
+> **暖启动(`warm`) :**指app刚被kill掉，但是app的可执行程序仍旧留在dyld缓
+> 存里面，下次启动由于会命中部分缓存，启动速度会快很多。
+> **热启动(`Resume`):**指app从后台切到前台，完全在内存里。
 
 > **启动以 main 函数为界限分为两个部分 ： `pre-main` 和 `post-main` 阶段**，
 >
@@ -55,13 +61,13 @@ date: 2020-03-04 19:33:23
 
 2. `post-main` 
 
-   post-main 阶段耗时可通过埋点、 instruments 、[AppleTrace](https://github.com/everettjf/AppleTrace)等工具监控，和业务相关性较大，主要思路是启动任务分层，非必须任务采用懒加载方式进行。不是本文重点。
+   post-main 阶段耗时可通过埋点、 instruments 、[AppleTrace](https://github.com/everettjf/AppleTrace)等工具监控，和业务相关性较大，主要优化思路是启动任务分层，非必须任务采用懒加载方式进行。不是本文重点。
 
 ### 二进制重排原理
 
 > 安全考虑，iOS 使用了虚拟内存，并在iOS4.3 后引入了 ASLR 安全机制。由于启动过程所调用的函数可能在多个 page 中，为了尽量减少 Page Fault的次数，通过重排将启动时期所调用的函数尽量排在同一个 page 中，进而达到减少启动耗时的目的。
 
-可通过配置查看当前符号的排列顺序：
+可通过配置的 linkmap 文件查看当前符号的排列顺序：
 
 ​	![](/images/WX20201216-162043@2x.png)
 
@@ -71,7 +77,7 @@ date: 2020-03-04 19:33:23
 
 ![](/images/WX20201216-163816@2x.png)
 
-上图标注的地方即为当前符号的排序
+上图标注的地方即为当前二进制文件中，符号的排序。
 
 >**原始符号排列规则：**
 >
@@ -80,7 +86,7 @@ date: 2020-03-04 19:33:23
 
 
 
-Xcode 的连接器为**ld**，可通过`Build Setting -> Order File` 设置二进制重排的索引文件：
+Xcode 的连接器为**ld**，可通过在`Build Setting -> Order File` 中设置 order 文件，来让连接器根据order文件来进行二进制的重排。如下图：
 
 ![](/images/WX20201216-173003@2x.png)
 
@@ -88,21 +94,23 @@ Xcode 的连接器为**ld**，可通过`Build Setting -> Order File` 设置二�
 
 注意此处**方法**与**函数**的符号区别，二进制中没有的符号会自动忽略
 
-然后查看 linkmap文件即可看到重排后的结果
+然后查看 linkmap 文件即可看到重排后的结果
 
 
 
 ### Clang插桩
 
-二进制重排的难点在于获取启动过程中调用的`函数/Block/方法`的符号，[抖音方案](https://mp.weixin.qq.com/s/Drmmx5JtjG3UtTFksL6Q8Q)也仅覆盖80%～90%的符号，所以Clang插桩是个更有效更简单的方式。
+二进制重排的难点在于获取启动过程中调用的`函数/Block/方法`的**符号**，[抖音方案](https://mp.weixin.qq.com/s/Drmmx5JtjG3UtTFksL6Q8Q)也仅覆盖80%～90%的符号，所以 Clang 插桩是个更有效更简单的方式。
 
 #### 原理
 
-> [Clang 的官方文档](http://clang.llvm.org/docs/SanitizerCoverage.html#tracing-pcs-with-guards)中有这样一段描述
+> [Clang 的官方文档](http://clang.llvm.org/docs/SanitizerCoverage.html#tracing-pcs-with-guards)中有这样一段描述：
 >
 > LLVM has a simple code coverage instrumentation built in (SanitizerCoverage). **It inserts calls to user-defined functions on function-, basic-block-, and edge- levels.**Default implementations of those callbacks are provided and implement simple coverage reporting and visualization
 
  Clang 编译器会在每个方法、函数、block 的调用起始处插入一个 `trace-pc-guard`的 C flag，用户可以HOOK到每个函数的调用。
+
+![](/images/WX20201218-183905@2x.png)
 
 这个C flag 就是所谓的“桩”.
 
@@ -113,13 +121,66 @@ void __sanitizer_cov_trace_pc_guard_init(uint32_t *start, uint32_t *stop) {}
 void __sanitizer_cov_trace_pc_guard(uint32_t *guard) {}
 ```
 
+我们可以通过汇编看到 `Clang ` 实际是在每个函数调用的边缘位置插入了一个`bl`指令，跳转到 `__sanitizer_cov_trace_pc_guard` 函数，可以实现了一个全局的 AOP。
+
 ![](/images/WX20201217-173509@2x.png)
 
-可以通过汇编看到`Clang `实际是在每个函数调用的边缘位置插入了一个`bl`指定，跳转到`__sanitizer_cov_trace_pc_guard`函数，实现了一个全局的 AOP。
+接下来就是一个体力活了。。。
 
-#### 获取符号
+##### 1. 获取函数地址
 
-获取地址：
+```objc
+void *PC = __builtin_return_address(0);
+```
+
+##### 2. 获取函数符号
+
+这里需要借助 Dl_info 结构体：
+
+```objc
+void *PC = __builtin_return_address(0);
+Dl_info info;
+dladdr(PC, &info);
+```
+
+我们可以打印一下 `info ` 值，会发现 `info.dli_sname` 即为我们梦寐以求的的符号字符串！
+
+##### 3.生成 order 文件
+
+```objc
+// 1、拿到该函数返回到调用函数的函数地址
+void *PC = __builtin_return_address(0);
+Dl_info info;
+dladdr(PC, &info);
+
+// 2. 创建结构体保存 node
+XYNode *node = malloc(sizeof(XYNode));
+*node = (XYNode){PC, NULL};
+
+// 3. 加入队列
+OSAtomicEnqueue(&symbolQueue, node, offsetof(XYNode, next));
+```
+
+然后需要在 App 启动完成之后从队列中取出符号，以 `rootViewController `的`viewDidAppear` 方法调用完成作为启动结束的判断标志。
+
+```objc
+while (YES) {
+    // 4. 取出 pc
+    XYNode *node = OSAtomicDequeue(&symbolQueue, offsetof(XYNode, next));
+    if (node == NULL) { break; }
+    // 5. 赋值
+    Dl_info info = {0};
+    dladdr(node->pc, &info);
+}
+```
+
+这里有一个 bug： 一个循环也被插桩了， 所以这里会有一个死循环，需要更改
+
+
+
+
+
+
 
 
 
