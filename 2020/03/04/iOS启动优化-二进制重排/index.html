@@ -80,13 +80,13 @@
 
 
 
-<meta name="description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。 启动过程 说明：App 启动根据 Apple 划分有三种形式：Cold、Warm、Resume，下文中的的启动皆为 Cold即冷启动。   启动以 main 函数为界限分为两个部分 ： pre-main">
+<meta name="description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。 启动过程 App 启动根据 Apple 划分有三种形式： 冷启动(cold):指手机刚刚重启，完全清除dyld缓存，用户点击App lcon到完全可用状态。暖启动(warm) :指app刚被kill掉，">
 <meta name="keywords" content="启动优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS启动优化-二进制重排">
 <meta property="og:url" content="http://blog.yshaw.cn/2020/03/04/iOS启动优化-二进制重排/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
-<meta property="og:description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。 启动过程 说明：App 启动根据 Apple 划分有三种形式：Cold、Warm、Resume，下文中的的启动皆为 Cold即冷启动。   启动以 main 函数为界限分为两个部分 ： pre-main">
+<meta property="og:description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。 启动过程 App 启动根据 Apple 划分有三种形式： 冷启动(cold):指手机刚刚重启，完全清除dyld缓存，用户点击App lcon到完全可用状态。暖启动(warm) :指app刚被kill掉，">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201217-110408@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201216-143742@2x.png">
@@ -98,10 +98,10 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201216-173355@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201218-183905@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201217-173509@2x.png">
-<meta property="og:updated_time" content="2020-12-18T10:48:28.850Z">
+<meta property="og:updated_time" content="2020-12-20T09:14:13.654Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS启动优化-二进制重排">
-<meta name="twitter:description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。 启动过程 说明：App 启动根据 Apple 划分有三种形式：Cold、Warm、Resume，下文中的的启动皆为 Cold即冷启动。   启动以 main 函数为界限分为两个部分 ： pre-main">
+<meta name="twitter:description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。 启动过程 App 启动根据 Apple 划分有三种形式： 冷启动(cold):指手机刚刚重启，完全清除dyld缓存，用户点击App lcon到完全可用状态。暖启动(warm) :指app刚被kill掉，">
 <meta name="twitter:image" content="http://blog.yshaw.cn/images/WX20201217-110408@2x.png">
 
 
@@ -377,7 +377,8 @@
       
         <p>随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。<a href="https://mp.weixin.qq.com/s/Drmmx5JtjG3UtTFksL6Q8Q" target="_blank" rel="noopener">抖音研发实践</a>中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。</p>
 <h3 id="启动过程"><a href="#启动过程" class="headerlink" title="启动过程"></a>启动过程</h3><blockquote>
-<p>说明：App 启动根据 Apple 划分有三种形式：<code>Cold</code>、<code>Warm</code>、<code>Resume</code>，下文中的的启动皆为 <code>Cold</code>即冷启动。</p>
+<p>App 启动根据 Apple 划分有三种形式：</p>
+<p><strong>冷启动(<code>cold</code>):</strong>指手机刚刚重启，完全清除dyld缓存，用户点击App lcon到完<br>全可用状态。<br><strong>暖启动(<code>warm</code>) :</strong>指app刚被kill掉，但是app的可执行程序仍旧留在dyld缓<br>存里面，下次启动由于会命中部分缓存，启动速度会快很多。<br><strong>热启动(<code>Resume</code>):</strong>指app从后台切到前台，完全在内存里。</p>
 </blockquote>
 <blockquote>
 <p><strong>启动以 main 函数为界限分为两个部分 ： <code>pre-main</code> 和 <code>post-main</code> 阶段</strong>，</p>
@@ -459,7 +460,7 @@
 <p>我们可以打印一下 <code>info</code> 值，会发现 <code>info.dli_sname</code> 即为我们梦寐以求的的符号字符串！</p>
 <h5 id="3-生成-order-文件"><a href="#3-生成-order-文件" class="headerlink" title="3.生成 order 文件"></a>3.生成 order 文件</h5><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1、拿到该函数返回到调用函数的函数地址</span></span><br><span class="line"><span class="keyword">void</span> *PC = __builtin_return_address(<span class="number">0</span>);</span><br><span class="line">Dl_info info;</span><br><span class="line">dladdr(PC, &amp;info);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 创建结构体保存 node</span></span><br><span class="line">XYNode *node = malloc(<span class="keyword">sizeof</span>(XYNode));</span><br><span class="line">*node = (XYNode)&#123;PC, <span class="literal">NULL</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 加入队列</span></span><br><span class="line">OSAtomicEnqueue(&amp;symbolQueue, node, offsetof(XYNode, next));</span><br></pre></td></tr></table></figure>
 
-<p>然后需要在 App 启动完成之后从队列中取出符号，这里我使用的是第一个视图的 <code>viewDidLoad</code>方法调用完成作为启动结束的判断标志。</p>
+<p>然后需要在 App 启动完成之后从队列中取出符号，以 <code>rootViewController</code>的<code>viewDidAppear</code> 方法调用完成作为启动结束的判断标志。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">YES</span>) &#123;</span><br><span class="line">    <span class="comment">// 4. 取出 pc</span></span><br><span class="line">    XYNode *node = OSAtomicDequeue(&amp;symbolQueue, offsetof(XYNode, next));</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="literal">NULL</span>) &#123; <span class="keyword">break</span>; &#125;</span><br><span class="line">    <span class="comment">// 5. 赋值</span></span><br><span class="line">    Dl_info info = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    dladdr(node-&gt;pc, &amp;info);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这里有一个 bug： 一个循环也被插桩了， 所以这里会有一个死循环，需要更改</p>
@@ -474,7 +475,54 @@
     
 
     
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我喝杯青岛吧~~~</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
 
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="You Shaw 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="You Shaw 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    You Shaw
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://blog.yshaw.cn/2020/03/04/iOS启动优化-二进制重排/" title="iOS启动优化-二进制重排">http://blog.yshaw.cn/2020/03/04/iOS启动优化-二进制重排/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
