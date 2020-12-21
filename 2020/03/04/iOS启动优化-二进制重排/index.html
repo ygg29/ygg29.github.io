@@ -98,7 +98,8 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201216-173355@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201218-183905@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201217-173509@2x.png">
-<meta property="og:updated_time" content="2020-12-21T07:05:50.184Z">
+<meta property="og:image" content="http://blog.yshaw.cn/images/WX20201221-150023@2x.png">
+<meta property="og:updated_time" content="2020-12-21T08:45:44.937Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS启动优化-二进制重排">
 <meta name="twitter:description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。 启动过程 App 启动根据 Apple 划分有三种形式： 冷启动(cold):指手机刚刚重启，完全清除dyld缓存，用户点击App lcon到完全可用状态。暖启动(warm) :指app刚被kill掉，">
@@ -470,8 +471,9 @@
 
 <p>然后就可以让二进制文件根据生成的 order 文件进行重排了。</p>
 <h4 id="Swift-插桩"><a href="#Swift-插桩" class="headerlink" title="Swift 插桩"></a>Swift 插桩</h4><p>很简单，<code>Other Swift Flags</code> 添加两个 flag：</p>
-<p><a href="/images/WX20201221-150023@2x.png"></a></p>
-<p><strong>附：WWDC 中对于启动优化的介绍</strong> <a href="https://developer.apple.com/videos/play/wwdc2019/423/" target="_blank" rel="noopener">Optimizing App Launch</a></p>
+<p><img src="/images/WX20201221-150023@2x.png" alt></p>
+<p>即可实现捕获 swift 函数。</p>
+<p>参考：<a href="https://eisel.me/order" target="_blank" rel="noopener">Improving App Performance with Order Files</a>、<a href="https://developer.apple.com/videos/play/wwdc2019/423/" target="_blank" rel="noopener">Optimizing App Launch</a></p>
 
       
     </div>
