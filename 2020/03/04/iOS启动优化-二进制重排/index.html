@@ -99,7 +99,7 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201218-183905@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201217-173509@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201221-150023@2x.png">
-<meta property="og:updated_time" content="2020-12-21T08:45:44.937Z">
+<meta property="og:updated_time" content="2020-12-21T09:04:08.127Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS启动优化-二进制重排">
 <meta name="twitter:description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。 启动过程 App 启动根据 Apple 划分有三种形式： 冷启动(cold):指手机刚刚重启，完全清除dyld缓存，用户点击App lcon到完全可用状态。暖启动(warm) :指app刚被kill掉，">
@@ -441,7 +441,7 @@
 <p>然后查看 linkmap 文件即可看到重排后的结果。</p>
 <h3 id="Clang插桩"><a href="#Clang插桩" class="headerlink" title="Clang插桩"></a>Clang插桩</h3><p>二进制重排的难点在于获取启动过程中调用的<code>函数/Block/方法</code>的<strong>符号</strong>，<a href="https://mp.weixin.qq.com/s/Drmmx5JtjG3UtTFksL6Q8Q" target="_blank" rel="noopener">抖音方案</a>也仅覆盖80%～90%的符号，所以 Clang 插桩是个更有效更简单的方式。</p>
 <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p><a href="http://clang.llvm.org/docs/SanitizerCoverage.html#tracing-pcs-with-guards" target="_blank" rel="noopener">Clang 的官方文档</a>中有这样一段描述：</p>
+<p><a href="http://clang.llvm.org/docs/SanitizerCoverage.html#tracing-pcs-with-guards" target="_blank" rel="noopener">Clang 12 documentation</a>中有这样一段描述：</p>
 <p>LLVM has a simple code coverage instrumentation built in (SanitizerCoverage). <strong>It inserts calls to user-defined functions on function-, basic-block-, and edge- levels.</strong>Default implementations of those callbacks are provided and implement simple coverage reporting and visualization</p>
 </blockquote>
 <p> Clang 编译器会在每个方法、函数、block 的调用起始处插入一个 <code>trace-pc-guard</code> 的 C flag，用户可以HOOK到每个函数的调用。</p>
@@ -473,7 +473,11 @@
 <h4 id="Swift-插桩"><a href="#Swift-插桩" class="headerlink" title="Swift 插桩"></a>Swift 插桩</h4><p>很简单，<code>Other Swift Flags</code> 添加两个 flag：</p>
 <p><img src="/images/WX20201221-150023@2x.png" alt></p>
 <p>即可实现捕获 swift 函数。</p>
-<p>参考：<a href="https://eisel.me/order" target="_blank" rel="noopener">Improving App Performance with Order Files</a>、<a href="https://developer.apple.com/videos/play/wwdc2019/423/" target="_blank" rel="noopener">Optimizing App Launch</a></p>
+<p><strong>参考：</strong></p>
+<p><a href="https://eisel.me/order" target="_blank" rel="noopener">Improving App Performance with Order Files</a></p>
+<p><a href="https://developer.apple.com/videos/play/wwdc2019/423/" target="_blank" rel="noopener">Optimizing App Launch</a></p>
+<p><a href="https://mp.weixin.qq.com/s/Drmmx5JtjG3UtTFksL6Q8Q" target="_blank" rel="noopener">抖音研发实践</a></p>
+<p><a href="http://clang.llvm.org/docs/SanitizerCoverage.html#tracing-pcs-with-guards" target="_blank" rel="noopener">Clang 12 documentation</a></p>
 
       
     </div>
