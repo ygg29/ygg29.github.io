@@ -92,9 +92,9 @@ Xcode 的连接器为**ld**，可通过在`Build Setting -> Order File` 中设�
 
 ![](/images/WX20201216-173355@2x.png)
 
-注意此处**方法**与**函数**的符号区别，二进制中没有的符号会自动忽略
+注意此处**方法**与**函数**的符号区别，二进制中没有的符号会自动忽略。
 
-然后查看 linkmap 文件即可看到重排后的结果
+然后查看 linkmap 文件即可看到重排后的结果。
 
 
 
@@ -108,9 +108,11 @@ Xcode 的连接器为**ld**，可通过在`Build Setting -> Order File` 中设�
 >
 > LLVM has a simple code coverage instrumentation built in (SanitizerCoverage). **It inserts calls to user-defined functions on function-, basic-block-, and edge- levels.**Default implementations of those callbacks are provided and implement simple coverage reporting and visualization
 
- Clang 编译器会在每个方法、函数、block 的调用起始处插入一个 `trace-pc-guard`的 C flag，用户可以HOOK到每个函数的调用。
+ Clang 编译器会在每个方法、函数、block 的调用起始处插入一个 `trace-pc-guard` 的 C flag，用户可以HOOK到每个函数的调用。
 
 ![](/images/WX20201218-183905@2x.png)
+
+> 注：Clang 不仅会在每个函数的边缘插入”桩“，一个循环也会被插入，所以除了 `trace-pc-guard` 外，还需加入一个额外的 `func` 过滤掉循环。
 
 这个C flag 就是所谓的“桩”.
 
@@ -171,28 +173,41 @@ while (YES) {
     // 5. 赋值
     Dl_info info = {0};
     dladdr(node->pc, &info);
+  	// 6. 拿到符号
+    NSString *name = @(info.dli_sname);
+    // 7. 处理函数名称(函数需要添加下划线)
+    BOOL isObjcFunc = [name hasPrefix:@"-["] || [name hasPrefix:@"+["];
+    NSString *symbolName = isObjcFunc ? name : [@"_" stringByAppendingString:name];
+    [symbolNames addObject:symbolName];
 }
 ```
 
-这里有一个 bug： 一个循环也被插桩了， 所以这里会有一个死循环，需要更改
+```objc
+  // 8. 数组取反
+    symbolNames = (NSMutableArray<NSString *> *)[[symbolNames reverseObjectEnumerator] allObjects];
+    // 9. 数组去重
+    NSMutableArray *resFuncs = [NSMutableArray arrayWithCapacity:symbolNames.count];
+    [symbolNames enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (![resFuncs containsObject:obj]) {
+            [resFuncs addObject:obj];
+        }
+    }];
+    // 10. 写入文件
+    NSString *symbolStr = [resFuncs componentsJoinedByString:@"\n"];
+    NSData *data = [symbolStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingString:@"symbol.order"];
+    [[NSFileManager defaultManager]createFileAtPath:filePath contents:data attributes:nil];
+```
+
+然后就可以让二进制文件根据生成的 order 文件进行重排了。
 
 
 
+#### Swift 插桩
 
+很简单，`Other Swift Flags` 添加两个 flag：
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+[](/images/WX20201221-150023@2x.png)
 
 
 
