@@ -104,7 +104,7 @@ Xcode 的连接器为**ld**，可通过在`Build Setting -> Order File` 中设�
 
 #### 原理
 
-> [Clang 的官方文档](http://clang.llvm.org/docs/SanitizerCoverage.html#tracing-pcs-with-guards)中有这样一段描述：
+> [Clang 12 documentation](http://clang.llvm.org/docs/SanitizerCoverage.html#tracing-pcs-with-guards)中有这样一段描述：
 >
 > LLVM has a simple code coverage instrumentation built in (SanitizerCoverage). **It inserts calls to user-defined functions on function-, basic-block-, and edge- levels.**Default implementations of those callbacks are provided and implement simple coverage reporting and visualization
 
@@ -201,15 +201,23 @@ while (YES) {
 
 然后就可以让二进制文件根据生成的 order 文件进行重排了。
 
-
-
 #### Swift 插桩
 
 很简单，`Other Swift Flags` 添加两个 flag：
 
-[](/images/WX20201221-150023@2x.png)
+![](/images/WX20201221-150023@2x.png)
+
+即可实现捕获 swift 函数。
 
 
 
-**附：WWDC 中对于启动优化的介绍** [Optimizing App Launch](https://developer.apple.com/videos/play/wwdc2019/423/ )
+**参考：**
+
+[Improving App Performance with Order Files](https://eisel.me/order)
+
+[Optimizing App Launch](https://developer.apple.com/videos/play/wwdc2019/423/ )
+
+[抖音研发实践](https://mp.weixin.qq.com/s/Drmmx5JtjG3UtTFksL6Q8Q)
+
+[Clang 12 documentation](http://clang.llvm.org/docs/SanitizerCoverage.html#tracing-pcs-with-guards)
 
