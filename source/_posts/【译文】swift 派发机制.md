@@ -15,6 +15,8 @@ tags:
 >
 > **注：**之前看了很多关于 Swift 派发机制的内容, 但感觉没有一篇能够彻底讲清楚这件事情, 看完了这篇文章之后我对 Swift 的派发机制才建立起了初步的认知.
 
+<!-- more -->
+
 ![img](https://raizlabscom-wpengine.netdna-ssl.com/dev/wp-content/uploads/sites/10/2016/12/Summary-3-755x255.png)
 
 一张表总结引用类型, 修饰符和它们对于 Swift 函数派发方式的影响.

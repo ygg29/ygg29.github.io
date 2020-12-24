@@ -7,6 +7,8 @@ tags: VPN
 
 [SS](https://github.com/shadowsocks)是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。
 
+<!-- more -->
+
 ## 准备
 
 在开始之前，请确保：

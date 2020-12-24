@@ -1,0 +1,40 @@
+
+.post-body {
+  font-size: 0.875em;
+}
+
+.post-eof {
+  margin: 16px auto 50px; //$post-eof-margin-top auto $post-eof-margin-bottom;
+  width: 100%; //8%;
+}
+
+.post-button {
+  margin-top: 20px; //40px;
+  text-align: right; //center;
+}
+
+.main > .index > .post-block > .post-body {
+  color: #999;
+  & > blockquote {
+    color: #999;
+  }
+  & a {
+    color: #999;
+  }
+}
+
+.main > .index > .post-block > .post-body > .post-button > .btn {
+  border: 0px solid var(--btn-default-border-color);//2px solid var(--btn-default-border-color);
+  border-radius: 0px;//$btn-default-radius;
+  &:hover {
+    background: transparent; //var(--btn-default-hover-bg);
+    border-color: transparent; //var(--btn-default-hover-border-color);
+    color: $custom_linkcolor; // var(--btn-default-hover-color);
+  }
+}
+
+
+.posts-expand .post-header {
+  margin-bottom: 40px;
+}
+
