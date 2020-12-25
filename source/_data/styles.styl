@@ -38,3 +38,31 @@
   margin-bottom: 40px;
 }
 
+code {
+  color: $custom_foreground;
+  background-color: $custom_foreground_background;
+}
+
+.post-body a, span.exturl {
+    border-bottom: 0px solid #999;
+    color: $custom_linkcolor;
+    outline: 0;
+    text-decoration: none;
+    overflow-wrap: break-word;
+    cursor: pointer;
+    &:hover {
+      color: blue;
+  }
+}
+
+.post-copyright {
+  font-size: $font-size-smallest;
+}
+
+.post-footer > .reward-container {
+  font-size: $font-size-medium ;
+}
+
+.posts-expand .post-title {
+  font-size: 1.375em;  
+}

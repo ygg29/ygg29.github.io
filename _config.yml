@@ -85,10 +85,3 @@ deploy:
   repository: https://github.com/ygg29/ygg29.github.io.git
   # //https://github.com/ygg29/ygg29.github.io.git
   branch: master
-
-# math:
-#   engine: 'mathjax' # or 'katex'
-#   mathjax:
-#     # src: custom_mathjax_source
-#     config:
-#       # MathJax config
