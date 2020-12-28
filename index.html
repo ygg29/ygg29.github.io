@@ -624,81 +624,14 @@
     <div class="post-body" itemprop="articleBody">
           <h3 id="1、">1、</h3>
 <p>问题先从一个协议说起</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">DefaultProtocol</span>: <span class="title">NSObjectProtocol</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">DefaultProtocol</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;默认实现&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这是一个方法带有默认实现的协议，实现它：</p>
-</blockquote>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperClass</span>: <span class="title">NSObject</span>, <span class="title">DefaultProtocol</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubClass</span>: <span class="title">SuperClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;子类实现&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>使用：</p>
-</blockquote>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> object: <span class="type">DefaultProtocol</span> <span class="operator">=</span> <span class="type">SubClass</span>()</span><br><span class="line">object.defaultImpl()</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>输出是什么呢？</p>
-</blockquote>
-<p>可以简单分析一下代码：<br>
-<code> object</code> 指定为 <code>DefaultProtocol</code> 类型，其指针指向的是<code>SubClass</code>对象， 当调用<code>object.defaultImpl()</code> 时，系统首先拿到<code>object</code>的 <code>isa</code>指针找到 <code>SubClass</code>  然后找到<code>SubClass</code>对应的虚函数表，根据偏移量找到<code>defaultImpl()</code>方法调用，输出 <code>子类实现</code></p>
-<p>大概就是这么个流程对吧</p>
-<blockquote>
-<p>ok<br>
-现在来看输出</p>
-</blockquote>
-<p><img src="/images/1240.png" alt=""></p>
-<p>纳尼？！！不科学！<br>
-这太不唯物主义了！</p>
-<p>难道swift实现了什么黑魔法？</p>
-<blockquote>
-<p>我们把代码稍微调整一下：</p>
-</blockquote>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//2</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperClass</span>: <span class="title">NSObject</span>, <span class="title">DefaultProtocol</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;父类实现&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubClass</span>: <span class="title">SuperClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;子类实现&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>再来看输出：</p>
-</blockquote>
-<p><img src="/images/1240-20201228191236613.png" alt=""></p>
-<p>ok， 这才是我们想要的结果。</p>
-<blockquote>
-<p>由1、2结合可以推测出来，当<code>SuperClass</code>没有实现协议方法时，<code>SubClass</code>对协议方法的实现并不会写到自己的<code>method_list</code>中, 所以才会调用方法的默认实现，在 2中<code>SuperClass</code>实现了协议方法，<code>SubClass</code>重写覆盖了父类在<code>method_list</code>中的方法，才能正常调用。</p>
-</blockquote>
-<p>通过google（<a target="_blank" rel="noopener" href="https://forums.swift.org/t/default-protocol-implementation-inheritance-behaviour-the-current-situation-and-what-if-anything-should-be-done-about-it/28049">这里</a>）后发现这玩意很可能是个bug，并且尝试过<code>Java</code>和<code>kotlin</code>的相同实现方法都没有问题。</p>
-<blockquote>
-<p>那就暂且当作一个待修复的 bug 处理吧。</p>
-</blockquote>
-<h3 id="2、">2、</h3>
-<blockquote>
-<p>那自己写的协议与系统提供的协议会不会有不一样的表现呢？</p>
-</blockquote>
-<p>拿个我们最熟悉的协议 <code>UIScrollViewDelegate</code>举个简单的🌰。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperVC</span>: <span class="title">UIViewController</span>, <span class="title">UIScrollViewDelegate</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        <span class="keyword">self</span>.view.addSubview(scrollView)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">var</span> scrollView: <span class="type">UIScrollView</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> o <span class="operator">=</span> <span class="type">UIScrollView</span>.<span class="keyword">init</span>(frame: <span class="keyword">self</span>.view.bounds)</span><br><span class="line">        o.contentSize <span class="operator">=</span> <span class="type">CGSize</span>(width: <span class="type">ScreenW</span><span class="operator">*</span><span class="number">2</span>, height: <span class="type">ScreenH</span><span class="operator">*</span><span class="number">2</span>)</span><br><span class="line">        o.backgroundColor <span class="operator">=</span> .magenta</span><br><span class="line">        o.delegate <span class="operator">=</span> <span class="keyword">self</span></span><br><span class="line">        <span class="keyword">return</span> o &#125;()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubVC</span>: <span class="title">SuperVC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">scrollViewDidScroll</span><span class="params">(<span class="keyword">_</span> scrollView: UIScrollView)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;滚动<span class="subst">\(scrollView.contentOffset)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>输出</p>
-</blockquote>
-<p><img src="/images/1240-20201228191236806.png" alt=""></p>
-<p><strong>父类没有实现的协议方法在子类正常调用！！！</strong><br>
-？？？？？？？<br>
-<img src="/images/1240-20201228191236711.png" alt=""><br>
-<img src="/images/1240-20201228191236805.png" alt=""></p>
-<p>如果问题到这里，就按照bug解决， 爱谁谁，以后多注意就完事了</p>
-<blockquote>
-<p><strong>但偏偏我又多做了一个试验</strong></p>
-</blockquote>
-<h3 id="3、">3、</h3>
-<blockquote>
-<p>如果实现协议的类带了泛型呢？</p>
-</blockquote>
-<p><strong>Let’s coding happily</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperVC</span>&lt;<span class="title">T</span>&gt;: <span class="title">UIViewController</span>, <span class="title">UIScrollViewDelegate</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> text: <span class="type">T</span>?</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        <span class="keyword">self</span>.view.addSubview(scrollView)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">var</span> scrollView: <span class="type">UIScrollView</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> o <span class="operator">=</span> <span class="type">UIScrollView</span>.<span class="keyword">init</span>(frame: <span class="keyword">self</span>.view.bounds)</span><br><span class="line">        o.contentSize <span class="operator">=</span> <span class="type">CGSize</span>(width: <span class="type">ScreenW</span><span class="operator">*</span><span class="number">2</span>, height: <span class="type">ScreenH</span><span class="operator">*</span><span class="number">2</span>)</span><br><span class="line">        o.backgroundColor <span class="operator">=</span> .magenta</span><br><span class="line">        o.delegate <span class="operator">=</span> <span class="keyword">self</span></span><br><span class="line">        <span class="keyword">return</span> o &#125;()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubVC</span>: <span class="title">SuperVC</span>&lt;<span class="title">NSString</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">var</span> text: <span class="type">NSString</span>? &#123;<span class="keyword">get</span>&#123;<span class="keyword">return</span> <span class="string">&quot;范型～～～&quot;</span>&#125; <span class="keyword">set</span>&#123;&#125;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">scrollViewDidScroll</span><span class="params">(<span class="keyword">_</span> scrollView: UIScrollView)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;滚动<span class="subst">\(scrollView.contentOffset)</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(text<span class="operator">!</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>输出：</p>
-<p><strong>并没有任何输出！</strong></p>
-</blockquote>
-<p><strong>同问题1一样子类跳过父类实现的协议方法并没有被调用</strong><br>
-而现在我只是多加了个泛型而已</p>
-<p>试验到这我已经词穷了， 一万头草泥马，万脸懵逼。</p>
-<h3 id="问题">问题</h3>
-<p><strong>1、协议中的<code>optional</code>方法, 实现的时候是通过何种方式派发的？</strong><br>
-<strong>2、为什么自己实现的协议与系统表现的不一样，系统提供的协议做了什么？</strong><br>
-<strong>3、swift在编译的过程中，对有范型的类除了做了泛型擦除还做了什么，以至于影响到了函数的派发？</strong></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
