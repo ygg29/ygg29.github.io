@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"blog.yshaw.cn","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="预期： 编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。">
+  <meta name="description" content="¶预期： 编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="swift源码编译及运行调试">
 <meta property="og:url" content="http://blog.yshaw.cn/2020/10/03/swift%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E5%8F%8A%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
-<meta property="og:description" content="预期： 编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。">
+<meta property="og:description" content="¶预期： 编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。">
 <meta property="og:locale" content="zh_CH">
 <meta property="og:image" content="http://blog.yshaw.cn/images/swift%E6%BA%90%E7%A0%81%E5%A4%A7%E5%B0%8F.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/swift_vscode%E9%85%8D%E7%BD%AE.png">
@@ -327,10 +327,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h4 id="预期：">预期：</h4>
+        <h4 id="预期："><a class="header-anchor" href="#预期：">¶</a>预期：</h4>
 <p>编译出可运行的 swift 源码，并可在 vscode 中进行 debug 调试运行。</p>
 <a id="more"></a>
-<h4 id="准备：">准备：</h4>
+<h4 id="准备："><a class="header-anchor" href="#准备：">¶</a>准备：</h4>
 <ul>
 <li>
 <p><strong>环境</strong></p>
@@ -348,7 +348,7 @@
 </li>
 </ul>
 <p>我编译出的文件夹大小为:<img src="/images/swift%E6%BA%90%E7%A0%81%E5%A4%A7%E5%B0%8F.png" alt=""></p>
-<h4 id="编译：">编译：</h4>
+<h4 id="编译："><a class="header-anchor" href="#编译：">¶</a>编译：</h4>
 <p>编译流程在 <a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/main/docs/HowToGuides/GettingStarted.md#incremental-builds-with-ninja">Git</a> 上面描述的很清楚，有两种方式：通过 <strong>XCode</strong> 和 <strong>ninja</strong>，不过查过的资料有大佬反映通过 Xcode编译的兼容性不是很好，我采用的是 ninja 编译。懒得看官方的可直接往下看：</p>
 <p>以 <strong>swift5.3.1</strong>为例：</p>
 <ul>
@@ -365,7 +365,7 @@
 <p><code>./swift/utils/build-script -r --debug-swift-stdlib --lldb</code></p>
 </li>
 </ul>
-<h4 id="调试">调试</h4>
+<h4 id="调试"><a class="header-anchor" href="#调试">¶</a>调试</h4>
 <ol>
 <li>安装 vscode，并安装CodeLLDB 插件。</li>
 </ol>

@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"blog.yshaw.cn","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="1、 问题先从一个协议说起">
+  <meta name="description" content="¶1、 问题先从一个协议说起">
 <meta property="og:type" content="article">
 <meta property="og:title" content="swift协议与函数派发的几点问题">
 <meta property="og:url" content="http://blog.yshaw.cn/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
-<meta property="og:description" content="1、 问题先从一个协议说起">
+<meta property="og:description" content="¶1、 问题先从一个协议说起">
 <meta property="og:locale" content="zh_CH">
 <meta property="og:image" content="http://blog.yshaw.cn/images/1240.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/1240-20201228191236613.png">
@@ -38,10 +38,10 @@
 <meta property="article:modified_time" content="2020-12-28T11:17:47.057Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="iOS">
-<meta property="article:tag" content="源码">
-<meta property="article:tag" content="泛型">
 <meta property="article:tag" content="swift">
 <meta property="article:tag" content="函数派发">
+<meta property="article:tag" content="泛型">
+<meta property="article:tag" content="源码">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.yshaw.cn/images/1240.png">
 
@@ -340,7 +340,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h3 id="1、">1、</h3>
+        <h3 id="1、"><a class="header-anchor" href="#1、">¶</a>1、</h3>
 <p>问题先从一个协议说起</p>
 <a id="more"></a>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">DefaultProtocol</span>: <span class="title">NSObjectProtocol</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">DefaultProtocol</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;默认实现&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -382,7 +382,7 @@
 <blockquote>
 <p>那就暂且当作一个待修复的 bug 处理吧。</p>
 </blockquote>
-<h3 id="2、">2、</h3>
+<h3 id="2、"><a class="header-anchor" href="#2、">¶</a>2、</h3>
 <blockquote>
 <p>那自己写的协议与系统提供的协议会不会有不一样的表现呢？</p>
 </blockquote>
@@ -400,7 +400,7 @@
 <blockquote>
 <p><strong>但偏偏我又多做了一个试验</strong></p>
 </blockquote>
-<h3 id="3、">3、</h3>
+<h3 id="3、"><a class="header-anchor" href="#3、">¶</a>3、</h3>
 <blockquote>
 <p>如果实现协议的类带了泛型呢？</p>
 </blockquote>
@@ -413,7 +413,7 @@
 <p><strong>同问题1一样子类跳过父类实现的协议方法并没有被调用</strong><br>
 而现在我只是多加了个泛型而已</p>
 <p>试验到这我已经词穷了， 一万头草泥马，万脸懵逼。</p>
-<h3 id="问题">问题</h3>
+<h3 id="问题"><a class="header-anchor" href="#问题">¶</a>问题</h3>
 <p><strong>1、协议中的<code>optional</code>方法, 实现的时候是通过何种方式派发的？</strong><br>
 <strong>2、为什么自己实现的协议与系统表现的不一样，系统提供的协议做了什么？</strong><br>
 <strong>3、swift在编译的过程中，对有范型的类除了做了泛型擦除还做了什么，以至于影响到了函数的派发？</strong></p>
@@ -462,10 +462,10 @@
 
           <div class="post-tags">
               <a href="/tags/iOS/" rel="tag"># iOS</a>
-              <a href="/tags/%E6%BA%90%E7%A0%81/" rel="tag"># 源码</a>
-              <a href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag"># 泛型</a>
               <a href="/tags/swift/" rel="tag"># swift</a>
               <a href="/tags/%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91/" rel="tag"># 函数派发</a>
+              <a href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag"># 泛型</a>
+              <a href="/tags/%E6%BA%90%E7%A0%81/" rel="tag"># 源码</a>
           </div>
 
         

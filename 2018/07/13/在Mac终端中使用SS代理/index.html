@@ -332,33 +332,33 @@
     <div class="post-body" itemprop="articleBody">
         <p><a target="_blank" rel="noopener" href="https://github.com/shadowsocks">SS</a>是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。</p>
 <a id="more"></a>
-<h2 id="准备">准备</h2>
+<h2 id="准备"><a class="header-anchor" href="#准备">¶</a>准备</h2>
 <p>在开始之前，请确保：</p>
 <ul>
 <li>拥有一个可以正常使用的SS</li>
 <li>Mac上已安装有<a target="_blank" rel="noopener" href="https://brew.sh/">Homebrew</a></li>
 </ul>
-<h2 id="安装privoxy">安装privoxy</h2>
+<h2 id="安装privoxy"><a class="header-anchor" href="#安装privoxy">¶</a>安装privoxy</h2>
 <p>使用以下命令安装：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install privoxy</span><br></pre></td></tr></table></figure>
-<h2 id="privoxy配置">privoxy配置</h2>
+<h2 id="privoxy配置"><a class="header-anchor" href="#privoxy配置">¶</a>privoxy配置</h2>
 <p>打开配置文件，文件路径为<code>/usr/local/etc/privoxy/config</code><br>
 在配置文件底部加入以下语句：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">listen-address 0.0.0.0:8118</span><br><span class="line">forward-socks5 / localhost:1080 .</span><br></pre></td></tr></table></figure>
-<h2 id="启动privoxy">启动privoxy</h2>
+<h2 id="启动privoxy"><a class="header-anchor" href="#启动privoxy">¶</a>启动privoxy</h2>
 <p>输入以下语句：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/local/sbin/privoxy /usr/local/etc/privoxy/config</span><br></pre></td></tr></table></figure>
 <p>查看是否启动成功：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -na | grep 8118</span><br></pre></td></tr></table></figure>
 <p>看到如下消息说明启动成功：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp4 0 0 *.8118 *.* LISTEN</span><br></pre></td></tr></table></figure>
-<h2 id="使用privoxy">使用privoxy</h2>
+<h2 id="使用privoxy"><a class="header-anchor" href="#使用privoxy">¶</a>使用privoxy</h2>
 <p>在命令行终端中输入如下命令后，该终端即可走代理。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=&#x27;http://localhost:8118&#x27;</span><br><span class="line">export https_proxy=&#x27;http://localhost:8118&#x27;</span><br></pre></td></tr></table></figure>
 <p>这时输入<code>curl ip.gs</code>会显示代理服务器的信息<br>
 关闭终端代理：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unset http_proxy</span><br><span class="line">unset https_proxy</span><br></pre></td></tr></table></figure>
-<h2 id="配置bash文件">配置bash文件</h2>
+<h2 id="配置bash文件"><a class="header-anchor" href="#配置bash文件">¶</a>配置bash文件</h2>
 <p>经过上面几步，已经可以在终端使用SS代理，每次使用都需要输入一大串命令。可以在 ~/.bash_profile 里加入函数，便于使用。</p>
 <ul>
 <li>
@@ -374,7 +374,7 @@
 </li>
 <li>
 <p>使配置立即生效：<code>source ~/.bash_profile</code></p>
-<h2 id="调用bash函数">调用bash函数</h2>
+<h2 id="调用bash函数"><a class="header-anchor" href="#调用bash函数">¶</a>调用bash函数</h2>
 <p>配置已经全部完成，在终端使用<code>proxy_on</code>/<code>proxy_off</code>指令即可打开/关闭代理</p>
 </li>
 </ul>

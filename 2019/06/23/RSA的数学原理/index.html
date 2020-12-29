@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"blog.yshaw.cn","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="发展历史 密码学的历史大致可以追溯到两千年前，相传古罗马名将凯撒大帝为了防止敌方截获情报，用密码传送情报。凯撒的做法很简单，就是对二十几个罗马字母建立一张对应表。这样，如果不知道密码本，即使截获一段信息也看不懂。">
+  <meta name="description" content="¶发展历史 密码学的历史大致可以追溯到两千年前，相传古罗马名将凯撒大帝为了防止敌方截获情报，用密码传送情报。凯撒的做法很简单，就是对二十几个罗马字母建立一张对应表。这样，如果不知道密码本，即使截获一段信息也看不懂。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RSA的数学原理">
 <meta property="og:url" content="http://blog.yshaw.cn/2019/06/23/RSA%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
-<meta property="og:description" content="发展历史 密码学的历史大致可以追溯到两千年前，相传古罗马名将凯撒大帝为了防止敌方截获情报，用密码传送情报。凯撒的做法很简单，就是对二十几个罗马字母建立一张对应表。这样，如果不知道密码本，即使截获一段信息也看不懂。">
+<meta property="og:description" content="¶发展历史 密码学的历史大致可以追溯到两千年前，相传古罗马名将凯撒大帝为了防止敌方截获情报，用密码传送情报。凯撒的做法很简单，就是对二十几个罗马字母建立一张对应表。这样，如果不知道密码本，即使截获一段信息也看不懂。">
 <meta property="og:locale" content="zh_CH">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201224-165942@2x.png">
 <meta property="article:published_time" content="2019-06-23T06:16:48.000Z">
@@ -332,17 +332,17 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="发展历史">发展历史</h2>
+        <h2 id="发展历史"><a class="header-anchor" href="#发展历史">¶</a>发展历史</h2>
 <p><strong>密码学</strong>的历史大致可以追溯到两千年前，相传古罗马名将凯撒大帝为了防止敌方截获情报，用密码传送情报。凯撒的做法很简单，就是对二十几个罗马字母建立一张对应表。这样，如果不知道密码本，即使截获一段信息也看不懂。</p>
 <a id="more"></a>
 <p>从凯撒大帝时代到上世纪70年代这段很长的时间里，密码学的发展非常的缓慢，因为设计者基本上靠经验，加密解密使用同一套算法，没有运用<strong>数学原理</strong>。</p>
-<h2 id="近代发展">近代发展</h2>
+<h2 id="近代发展"><a class="header-anchor" href="#近代发展">¶</a>近代发展</h2>
 <ul>
 <li>在1976年以前，所有的加密方法都是同一种模式：<strong>加密</strong>、<strong>解密</strong>使用<strong>同一种</strong>算法。在交互数据的时候，彼此通信的双方就必须将规则告诉对方，否则没法解密。那么加密和解密的规则（简称<strong>密钥</strong>），它保护就显得尤其重要。传递密钥就成为了最大的隐患。这种加密方式被成为<strong>对称加密算法（<strong>symmetric encryption algorithm</strong>）</strong>。</li>
 <li>1976年，两位美国计算机学家 <strong>迪菲</strong>（W.Diffie）、<strong>赫尔曼</strong>（ M.Hellman ） 提出了一种崭新构思，可以在不直接传递密钥的情况下，完成密钥交换。这被称为 <strong>“迪菲赫尔曼密钥交换”</strong> 算法。开创了密码学研究的新方向。</li>
 <li>1977年三位麻省理工学院的数学家 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%BD%97%E7%BA%B3%E5%BE%B7%C2%B7%E6%9D%8E%E7%BB%B4%E6%96%AF%E7%89%B9/700199">罗纳德</a><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%BD%97%E7%BA%B3%E5%BE%B7%C2%B7%E6%9D%8E%E7%BB%B4%E6%96%AF%E7%89%B9/700199">·</a><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%BD%97%E7%BA%B3%E5%BE%B7%C2%B7%E6%9D%8E%E7%BB%B4%E6%96%AF%E7%89%B9/700199">李维斯特</a>（Ron Rivest）、<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%98%BF%E8%BF%AA%C2%B7%E8%90%A8%E8%8E%AB%E5%B0%94">阿迪</a><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%98%BF%E8%BF%AA%C2%B7%E8%90%A8%E8%8E%AB%E5%B0%94">·</a><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%98%BF%E8%BF%AA%C2%B7%E8%90%A8%E8%8E%AB%E5%B0%94">萨莫尔</a>（Adi Shamir）和<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%BC%A6%E7%BA%B3%E5%BE%B7%C2%B7%E9%98%BF%E5%BE%B7%E6%9B%BC/12575612">伦纳德</a><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%BC%A6%E7%BA%B3%E5%BE%B7%C2%B7%E9%98%BF%E5%BE%B7%E6%9B%BC/12575612">·</a><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%BC%A6%E7%BA%B3%E5%BE%B7%C2%B7%E9%98%BF%E5%BE%B7%E6%9B%BC/12575612">阿德曼</a>（Leonard Adleman）一起设计了一种算法，可以实现非对称加密。这个算法用他们三个人的名字命名，叫做<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/zh-cn/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95">RSA算法</a>。</li>
 </ul>
-<h2 id="迪菲-赫尔曼密钥交换">迪菲-赫尔曼密钥交换</h2>
+<h2 id="迪菲-赫尔曼密钥交换"><a class="header-anchor" href="#迪菲-赫尔曼密钥交换">¶</a>迪菲-赫尔曼密钥交换</h2>
 <p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%BF%AA%E8%8F%B2-%E8%B5%AB%E7%88%BE%E6%9B%BC%E5%AF%86%E9%91%B0%E4%BA%A4%E6%8F%9B">迪菲-赫尔曼密钥交换</a>（D-H）是一种<strong>安全协议</strong>。它可以让双方在完全没有对方任何预先信息的条件下<strong>通过不安全信道创建起一个密钥</strong>。</p>
 <p>D-H 的基本原理其实就是下式：</p>
 <p><font size=5 color=red>$(m^d \bmod n)^e \bmod n = (m^e \bmod n)^d \bmod n$</font></p>
@@ -370,15 +370,15 @@
 <p><strong><font color=red>C_KEY</font> = <font color=red>S_KEY</font> = <font color=red>10</font>  并没有在公共信道上传输，但是客户端与服务端拿到了同样的值，即完成了秘钥的交换。</strong></p>
 <p>过程如下：</p>
 <p><img src="/images/WX20201224-165942@2x.png" alt=""></p>
-<h2 id="RSA数学原理与概念">RSA数学原理与概念</h2>
+<h2 id="RSA数学原理与概念"><a class="header-anchor" href="#RSA数学原理与概念">¶</a>RSA数学原理与概念</h2>
 <blockquote>
 <p>上世纪70年代产生的一种加密算法。其加密方式比较特殊，需要两个密钥：公开密钥简称<strong>公钥（publickey）<strong>和私有密钥简称</strong>私钥（privatekey）</strong>。<strong>公钥加密，私钥解密；私钥加密，公钥解密</strong>。</p>
 <p>这种算法非常可靠，密钥越长，破解难度越高。根据公开资料，目前被破解的最长 RSA密钥是 768 个二进制位。因此可以认为，1024 位的 RSA 密钥基本安全，2048 位的密钥极其安全。</p>
 </blockquote>
-<h3 id="离散对数问题">离散对数问题</h3>
+<h3 id="离散对数问题"><a class="header-anchor" href="#离散对数问题">¶</a>离散对数问题</h3>
 <p>RSA 算法的基础建立在<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/4538780">离散对数</a>问题求解的复杂度上，即加密容易而破解困难。如：</p>
 <p>对于<code>g^N mod P = A</code> 的等式来说，正向求值是很容易的，但是想反向求出 <code>N</code> 则非常困难，而且困难程度随着 P 的增大指数上升。</p>
-<h3 id="原根">原根</h3>
+<h3 id="原根"><a class="header-anchor" href="#原根">¶</a>原根</h3>
 <p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8E%9F%E6%A0%B9">原根</a>是数论中一个非常重要的概念，它在密码学中有着很广泛的应，原根从直观上非常好理解。</p>
 <p>定义：<strong><font color=green>对于素数 P 存在整数 $g(1&lt;g&lt;P)$ 使 $g^i \bmod P(0&lt;i&lt;P) $ 的结果两两不同，即称 g 为 P 的原根。</font></strong></p>
 <p>记为：</p>
@@ -386,7 +386,7 @@
 <p>如 ：$2^1 \bmod 5 \equiv 2$；$2^2 \bmod 5 \equiv 4$； $2^3 \bmod 5 \equiv 3$； $2^3 \bmod 5 \equiv 1$；</p>
 <p>可见指数取值为{ 1、2、3、4} 时，结果取值也正好为 {1、2、3、4}</p>
 <p>则称 <strong>2 为 5 的原根</strong>。</p>
-<h3 id="欧拉函数">欧拉函数</h3>
+<h3 id="欧拉函数"><a class="header-anchor" href="#欧拉函数">¶</a>欧拉函数</h3>
 <p>思考：<strong><font color=green>任意给定正整数n，请问在小于等于n的正整数之中，有多少个与n构成互质关系？</font></strong></p>
 <p>上述问题的求解函数及为<strong>欧拉函数</strong>，记为<strong>φ(n)</strong>。</p>
 <p>欧拉函数有如下特点：</p>
@@ -394,14 +394,14 @@
 <li>当n是质数的时候，φ(n)=n-1。</li>
 <li>如果n可以分解成两个互质的整数之积，如<code>n=A*B</code>则：<code>φ(A*B)=φ(A)φ(B)</code></li>
 </ul>
-<h3 id="欧拉定理">欧拉定理</h3>
+<h3 id="欧拉定理"><a class="header-anchor" href="#欧拉定理">¶</a>欧拉定理</h3>
 <p>定理：<strong><font color=green>如果两个正整数m和n互质，那么m的φ(n)次方减去1，可以被n整除。</font></strong></p>
 <p>记为：</p>
 <p><strong><font color=red>$m^{\phi (n)} \bmod n \equiv 1$</font></strong></p>
-<h3 id="模反元素">模反元素</h3>
+<h3 id="模反元素"><a class="header-anchor" href="#模反元素">¶</a>模反元素</h3>
 <p>定理：<strong><font color=green>如果两个正整数e和x互质，那么一定可以找到整数d，使得 ed-1 被 x 整除。</font></strong></p>
 <p>那么d就是e对于x的 <strong>“模反元素”</strong></p>
-<h2 id="RSA公式推导">RSA公式推导</h2>
+<h2 id="RSA公式推导"><a class="header-anchor" href="#RSA公式推导">¶</a>RSA公式推导</h2>
 <p><font color=#be7148 size=4>根据欧拉定理</font></p>
 <p><font color=#be7148 size=4>对于 $m^{\phi (n)} \bmod n \equiv 1$ 且 gcd(m, n) = 1</font></p>
 <p><font color=#be7148 size=4>有$m^{\phi (n) \times k} \bmod n \equiv 1^k$</font></p>
@@ -413,12 +413,12 @@
 <p><font color=#be7148 size=4>结合 ①、 ②则有</font></p>
 <p><font color=red size=5><strong>$m^{e*d}\bmod n \equiv m$</strong></font> (n为素数，且 m &lt; n)</p>
 <p><strong>上式即为非对称加密的基本公式， <code>n</code>和<code>e</code>、<code>n</code>和<code>d </code>分别组成对应的公钥和私钥， <code>m</code> 即为需要加密的数据。</strong></p>
-<h3 id="加密解密过程">加密解密过程</h3>
+<h3 id="加密解密过程"><a class="header-anchor" href="#加密解密过程">¶</a>加密解密过程</h3>
 <p>根据<strong>迪菲-赫尔曼密钥交换</strong> $m^{e*d}\bmod n \equiv m$ 可拆解为两部分，即：</p>
 <p><font color=red>$m^e \bmod n \equiv C$</font> —加密</p>
 <p><font color=red>$C^d\bmod n \equiv m$</font> —解密</p>
 <p>C 即为密文，可以安全的在网络上传输。</p>
-<h2 id="RSA秘钥生成过程">RSA秘钥生成过程</h2>
+<h2 id="RSA秘钥生成过程"><a class="header-anchor" href="#RSA秘钥生成过程">¶</a>RSA秘钥生成过程</h2>
 <p>由于 RSA 加密消耗较大，通常在通信的初期使用 RSA 加密需要下发的非对称加密的秘钥，后续通信使用该秘钥进行通信。</p>
 <p>仍然使用 S 与 C 进行举例：</p>
 <ol>
