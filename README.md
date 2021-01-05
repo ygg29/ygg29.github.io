@@ -7,6 +7,8 @@
   - 打包：hexo g （generate）
 
   - 发布：hexo d （deploy）
+  
+  - 预览：hexo s （server）
 
     
 
