@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/fp1.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/fp2.png">
 <meta property="article:published_time" content="2020-06-20T15:42:21.000Z">
-<meta property="article:modified_time" content="2020-12-29T10:01:04.412Z">
+<meta property="article:modified_time" content="2020-12-29T15:15:03.997Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="文章翻译">
 <meta name="twitter:card" content="summary">
@@ -189,14 +189,14 @@
     <img class="site-author-image" itemprop="image" alt="You Shaw"
       src="/images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
   <p class="site-author-name" itemprop="name">You Shaw</p>
-  <div class="site-description" itemprop="description">iOS 前端 逆向</div>
+  <div class="site-description" itemprop="description">潘驴邓小闲</div>
 </div>
 <div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -268,7 +268,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
       <meta itemprop="name" content="You Shaw">
-      <meta itemprop="description" content="iOS 前端 逆向">
+      <meta itemprop="description" content="潘驴邓小闲">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -340,14 +340,14 @@
 </blockquote>
 <a id="more"></a>
 <h2 id="摘要"><a class="header-anchor" href="#摘要">¶</a>摘要</h2>
-<p>软件正在变得越来越复杂，因此良好的软件构架也越来越重要。结构良好的软件易于编写，易于除错，同时提供可复用组件库以降低未来开发的成本。传统型语言在程序模块化方面具有理念上的局限性，而函数式语言超越了局限。在本文中我们指出，函数式语言的两大特性，<strong>高阶函数</strong>与<strong>惰性求值</strong>，能够极大地促进模块化。作为例证，我们处理了列表和树，编写了一些数值算法，并实现了alpha-beta启发式搜索（一个人工智能算法，用于游戏系统中）。既然模块化是程序设计成功的关键，那么函数式语言对现实世界而言便极其重要了。</p>
+<p>软件正在变得越来越复杂，因此良好的软件构架也越来越重要。结构良好的软件易于编写，易于除错，同时提供可复用组件库以降低未来开发的成本。传统型语言在程序模块化方面具有理念上的局限性，而函数式语言超越了局限。在本文中我们指出，函数式语言的两大特性，<strong>高阶函数</strong>与<strong>惰性求值</strong><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>，能够极大地促进模块化。作为例证，我们处理了列表和树，编写了一些数值算法，并实现了alpha-beta启发式搜索（一个人工智能算法，用于游戏系统中）。既然模块化是程序设计成功的关键，那么函数式语言对现实世界而言便极其重要了。</p>
 <h2 id="1-引言"><a class="header-anchor" href="#1-引言">¶</a>1.引言</h2>
 <p>本论文试图证明，对“现实世界”而言，函数式程序设计是极其重要的。同时，本文也试图明确指出函数式语言的长处，以帮助使用函数式语言的程序员们将这些长处发挥到极致。</p>
 <p>函数式语言之所以被如此称呼，是因为程序完全是由函数组成的。主程序本身也是一个函数，以程序的输入为参数，并返回其输出。典型地，主函数通过其他函数定义，而这些函数又同样以更多的其他函数来定义，直到最低层的语言原生函数为止。这些函数与数学中的函数很相像，因此在本文中将以普通等式来定义它们。本文使用了Turner的程序语言Miranda中的表示方法，但对于之前没有函数式语言相关知识的读者，本文仍然是可读的。（Miranda是Research Software Ltd.的商标。）</p>
 <p>函数式程序设计的特性与优点通常总结为类似这样：函数式程序<strong>不包含任何赋值语句</strong>，因此变量一旦被赋予一个值，就不再改变。更一般地说，函数式程序不包含任何副作用：<strong>一个函数除了计算它本身的值以外，不产生任何作用</strong>。这一特性消灭了“Bug”的一个主要来源，同时也使执行顺序不再重要——没有副作用能够改变一个表达式的值，故它可以在任何时刻被求值。这一特性将程序员从决定控制流的重担之下拯救出来。由于表达式可以在任何时刻被求值，程序员便可以随心所欲地使用变量的值来代替变量，反之亦然——也就是说，程序是“引用透明”的。这一自由使得函数式程序与它们传统的对应物相比，更容易数学化地控制。</p>
 <p>这样的“优点”列表很不错，但如果说外行人不把它当回事，这也并不会令人惊讶。它列出了很多理由说明函数式程序设计“没有”什么（它没有赋值，没有副作用，没有控制流）但却没多说它“有”什么。函数式程序员听起来很像是中世纪的僧侣似的，他们禁绝了尘世中的种种乐趣并且期望这能使自己变得高洁。对于那些更关心物质利益的人而言，这些“优点”并没有多大的说服力。</p>
 <p>函数式程序员们争辩说，函数式程序设计确实有巨大的物质利益——一个函数式程序员拥有比他传统型的同行高得多的生产力，因为函数式程序短得多。但这有什么道理吗？在这些“优点”的基础之上，唯一的很靠不住的借口就是，传统的程序中有90％是赋值语句，而在函数式程序中这些全都可以省略！这真是太荒唐了，如果省略赋值语句可以带来如此巨大的好处，那么FORTRAN程序员们早该这样干了二十年了。<strong>通过省略特性来使语言更加强大在逻辑上是不可能的，不论这种特性是多么糟糕。</strong></p>
-<p>函数式编程的程序员甚至应该对这些所谓的“优点”表示不满意，因为它们对于发掘函数式语言的威力毫无帮助，不可能据此写出一个完全缺少了赋值语句或<strong>引用透明</strong><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>的程序。因为没有衡量程序质量的标准，所以过于关注这些并不是一个理想的方式。</p>
+<p>函数式编程的程序员甚至应该对这些所谓的“优点”表示不满意，因为它们对于发掘函数式语言的威力毫无帮助，不可能据此写出一个完全缺少了赋值语句或<strong>引用透明</strong><sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>的程序。因为没有衡量程序质量的标准，所以过于关注这些并不是一个理想的方式。</p>
 <p>很明显，对函数式程序设计的特性的描述是不完备的。我们必须找出一些东西来填补——它们不但要解释函数式程序设计的威力，更要给函数式编程一个清楚完备的未来。</p>
 <h2 id="2-与结构化编程的类比"><a class="header-anchor" href="#2-与结构化编程的类比">¶</a>2.与结构化编程的类比</h2>
 <p>指出函数式与结构化程序设计之间的相似性是很有帮助的。过去，结构化程序设计的特性与优点被总结为类似这样：结构化程序不包含<code>goto</code>语句；结构化程序中的语句块没有多入口与多出口；结构化程序与它们传统的对应物相比，更容易数学化地控制。这些结构化程序设计的“优点”与我们之前所谈到的函数式程序设计的“优点”在本质上很相似。这些叙述本质上都是否定式的，从而导致了诸如“不可或缺的<code>goto</code>”之类一大堆徒劳的争论。</p>
@@ -416,64 +416,73 @@
 <p>这些例子应该已经足以使读者确信，一点模块化的努力可以产生很大的效果。通过将一个简单的函数（sum）模块化为一个“高阶函数”与一些简单参数的聚合，我们得到了一个部件（reduce），它可以用于编写与列表有关的许多函数，而又不再需要（更多的）编程努力。不止是对有关列表的函数可以这么干，举另外一个例子，考虑数据类型“有序标记树”，其定义是：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeof X ::= node X (listof (treeof X))</span><br></pre></td></tr></table></figure>
 <p>这个定义表明，一棵X的树，由一个标记类型为<code>X</code>的结点（node），以及一个子树列表组成，而这些子树也是<code>X</code>的树。例如，树：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">   1 o</span><br><span class="line">    &#x2F;\</span><br><span class="line">   &#x2F;  \</span><br><span class="line">  &#x2F;    \</span><br><span class="line">2 o     o 3</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">        o 4</span><br></pre></td></tr></table></figure>
+<pre><code>       1 o
+        /\
+       /  \
+      /    \
+    2 o     o 3
+            |
+            |
+            |
+            o 4
+</code></pre>
 <p>可以被表示成：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">node <span class="number">1</span>(cons</span><br><span class="line">  (node <span class="number">2</span> nil)</span><br><span class="line">  (cons (node <span class="number">3</span></span><br><span class="line">    (cons (node <span class="number">4</span> nil) nil)</span><br><span class="line">  )</span><br><span class="line">nil))</span><br></pre></td></tr></table></figure>
 <p>我们不再给出一个函数例子并将它抽象为高阶函数，取而代之的是，直接给出一个类似于<code>reduce</code>的函数<code>redtree</code>。回忆一下，<code>reduce</code>有两个参数，一个用于取代<code>cons</code>，另一个用于取代<code>nil</code>。既然树由<code>node</code>，<code>cons</code>和<code>nil</code>组成，那么<code>redtree</code>必须有三个参数——用于分别取代上述三者。由于树和列表不是同一种类型，我们得定义两个函数分别处理它们。因此我们定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redtree f g a (node label subtrees) &#x3D; f label (redtree&#39; f g a subtrees )</span><br><span class="line">redtree&#39; f g a (cons subtree rest) &#x3D; g (redtree f g a subtree) (redtree&#39; f g a rest)</span><br><span class="line">redtree&#39; f g a nil &#x3D; a</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redtree f g a (node label subtrees) = f label (redtree&#x27; f g a subtrees )</span><br><span class="line">redtree<span class="number">&#x27;</span> <span class="function">f g <span class="title">a</span> <span class="params">(cons subtree rest)</span> </span>= g (redtree f g a subtree) (redtree<span class="number">&#x27;</span> f g a rest)</span><br><span class="line">redtree<span class="number">&#x27;</span> f g a nil = a</span><br></pre></td></tr></table></figure>
 <p>［这相当于<code>f</code>取代<code>node</code>，<code>g</code>取代<code>cons</code>，<code>a</code>取代<code>nil</code>。］</p>
 <p>很多有趣的函数都可以通过把<code>redtree</code>和其他函数粘起来的方法来定义。例如，要把一棵数字树上的所有标记累加起来，可以使用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sumtree &#x3D; redtree add add 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sumtree = redtree add add <span class="number">0</span></span><br></pre></td></tr></table></figure>
 <p>以我们刚才表述的那棵树为例，<code>sumtree</code>展开成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add 1</span><br><span class="line">(add (add 2 0)</span><br><span class="line">(add (add 3</span><br><span class="line">(add (add 4 0) 0))</span><br><span class="line">0))</span><br><span class="line">&#x3D; 10</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add <span class="number">1</span></span><br><span class="line">(add (add <span class="number">2</span> <span class="number">0</span>)</span><br><span class="line">(add (add <span class="number">3</span></span><br><span class="line">(add (add <span class="number">4</span> <span class="number">0</span>) <span class="number">0</span>))</span><br><span class="line"><span class="number">0</span>))</span><br><span class="line">= <span class="number">10</span></span><br></pre></td></tr></table></figure>
 <p>要生成一个包含树中全部标记的列表，可以用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labels &#x3D; redtree cons append nil</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labels = redtree cons append nil</span><br></pre></td></tr></table></figure>
 <p>仍然是那个例子，得到：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cons 1</span><br><span class="line">(append (cons 2 nil)</span><br><span class="line">(append (cons 3</span><br><span class="line">(append (cons 4 nil) nil))</span><br><span class="line">nil))</span><br><span class="line">&#x3D; [1,2,3,4]</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cons <span class="number">1</span></span><br><span class="line">(append (cons <span class="number">2</span> nil)</span><br><span class="line">(append (cons <span class="number">3</span></span><br><span class="line">(append (cons <span class="number">4</span> nil) nil))</span><br><span class="line">nil))</span><br><span class="line">= [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
 <p>最后，可以定义一个类似于<code>map</code>的函数，此函数使函数f作用于树中的全部标记上：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maptree f &#x3D; redtree (node . f) cons nil</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maptree f = redtree (node . f) cons nil</span><br></pre></td></tr></table></figure>
 <p>以上这些操作之所以可行，是因为函数式语言允许将传统型语言中不可分解的函数表达为一些部件的聚合，也就是一个泛化的高阶函数与一些特化函数的聚合。这样的高阶函数一旦定义，便使得很多操作都可以很容易地编写出来。不论何时，只要一个新的数据类型被定义，就应当同时定义用于处理这种数据的高阶函数。这样就简化了对数据类型的处理，同时也将与它的表示细节相关的知识局部化了。与函数式语言最相像的传统程序语言是可扩展语言，只要有需求，这种程序语言就好像随时都可以扩展出新的控制结构一样。</p>
 <h2 id="4-把程序粘起来"><a class="header-anchor" href="#4-把程序粘起来">¶</a>4.把程序粘起来</h2>
 <p>函数式语言提供的另一种黏合剂使得所有程序都可以粘在一起。回忆一下，一个完整的函数式程序只不过是一个从输入映射到输出的函数。如果<code>f</code>和<code>g</code>是这样的程序，那么对程序<code>(g.f)</code>当提供了输入参数<code>input</code>之后，得到：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g (f input)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g (f input)</span><br></pre></td></tr></table></figure>
 <p>程序<code>f</code>计算自身的输出，此输出被用作程序<code>g</code>的输入。传统上，这是通过将f的输出储存在临时文件中实现的。这种方法的毛病是，临时文件可能会占用太大的空间，以至于将程序黏合起来变得很不现实。函数式语言提供了一种解决方案。程序<code>f</code>和<code>g</code>严格地同步运行，只有当<code>g</code>试图读取输入时，<code>f</code>才启动，并且只运行足够的时间，恰好可以提供<code>g</code>需要读取的输出数据。而后<code>f</code>将被挂起，<code>g</code>将继续执行，直到它试图读取另一个输入。一个额外的好处是，如果<code>g</code>没有读取完f的全部输出就终止了，那么<code>f</code>也将被终止。<code>f</code>甚至可以是一个不会自行终止的程序，它可以产生无穷多的输出，因为当<code>g</code>运行结束时，<code>f</code>也将被强行终止。这就使得终止条件可以与循环体分离——一种强大的模块化形式。</p>
 <p>这种求值方式使得f尽可能地少运行，因此被称为“<strong>惰性求值（lazy evaluation）</strong>”。它使得将程序模块化为一个产生大量可能解的生成器与一个选取恰当解的选择器的方案变得可行。有些其他的系统也允许程序以这种方式运行，但只有函数式语言对每一个函数调用都一律使用惰性求值，使得程序的每个部分都可以用这种方式模块化。惰性求值也许是函数式程序员的拿手利器中威力最大的模块化工具。</p>
 <h2 id="4-1-牛顿－拉夫森求根法"><a class="header-anchor" href="#4-1-牛顿－拉夫森求根法">¶</a>4.1.牛顿－拉夫森求根法</h2>
-<p>我们将编写一些数值算法以展现惰性求值的威力。首先，考虑用于求解平方根的牛顿－拉夫森算法。该算法从一个初始的近似值<code>a0</code>开始计算数<code>N</code>的平方根，为了求得更好的解，它使用下述规则：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a(n+1) &#x3D; (a(n) + N&#x2F;a(n)) &#x2F; 2</span><br></pre></td></tr></table></figure>
+<p>我们将编写一些数值算法以展现惰性求值的威力。首先，考虑用于<strong>求解平方根的牛顿－拉夫森</strong>算法。该算法从一个初始的近似值<code>a0</code>开始计算数<code>N</code>的平方根，为了求得更好的解，它使用下述规则：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a(n+<span class="number">1</span>) = (a(n) + N/a(n)) / <span class="number">2</span></span><br></pre></td></tr></table></figure>
 <p>如果近似值序列趋近于某一个极限<code>a</code>，那么</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; (a + N&#x2F;a) &#x2F; 2</span><br><span class="line">2a &#x3D; a + N&#x2F;a</span><br><span class="line">a &#x3D; N&#x2F;a</span><br><span class="line">a*a &#x3D; N</span><br><span class="line">a &#x3D; squareroot(N)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = (a + N/a) / <span class="number">2</span></span><br><span class="line"><span class="number">2</span>a = a + N/a</span><br><span class="line">a = N/a</span><br><span class="line">a*a = N</span><br><span class="line">a = squareroot(N)</span><br></pre></td></tr></table></figure>
 <p>事实上，这个近似值序列确实迅速地趋近于一个极限。平方根算法取一个允许误差<code>eps</code>为参数，当两个相邻的近似值之差的绝对值小于<code>eps</code>时，算法便终止了。</p>
 <p>这个算法通常被编写为类似下面这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">C N IS CALLED ZN HERE SO THAT IT HAS THE RIGHT TYPE</span><br><span class="line">X &#x3D; A0</span><br><span class="line">Y &#x3D; A0 + 2.*EPS</span><br><span class="line">C THE VALUE OF Y DOES NOT MATTER SO LONG AS ABS(X-Y).GT.EPS</span><br><span class="line">100 IF (ABS(X-Y).LE.EPS) GOTO 200</span><br><span class="line">Y &#x3D; X</span><br><span class="line">X &#x3D; (X + ZN&#x2F;X) &#x2F; 2</span><br><span class="line">200 CONTINUE</span><br><span class="line">C THE SQUARE ROOT OF ZN IS NOW IN X</span><br></pre></td></tr></table></figure>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">C N IS CALLED ZN HERE SO THAT IT HAS THE RIGHT TYPE</span></span><br><span class="line">X = A0</span><br><span class="line">Y = A0 + <span class="number">2.</span>*EPS</span><br><span class="line"><span class="comment">C THE VALUE OF Y DOES NOT MATTER SO LONG AS ABS(X-Y).GT.EPS</span></span><br><span class="line"><span class="number">100</span> <span class="keyword">IF</span> (<span class="built_in">ABS</span>(X-Y).LE.EPS) <span class="keyword">GOTO</span> <span class="number">200</span></span><br><span class="line">Y = X</span><br><span class="line">X = (X + ZN/X) / <span class="number">2</span></span><br><span class="line"><span class="number">200</span> <span class="keyword">CONTINUE</span></span><br><span class="line"><span class="comment">C THE SQUARE ROOT OF ZN IS NOW IN X</span></span><br></pre></td></tr></table></figure>
 <p>［这是一段FORTRAN的程序，C代表注释行。.LE.是“Less than or Equal to”（小于或等于）的缩写，同理.GT.是“大于”的意思。]</p>
 <p>在传统型语言中，这个程序是不可分解的。我们将利用惰性求值将其化为更加模块化的形式，而后演示所生成部件的一些其他用途。</p>
 <p>由于牛顿－拉夫森算法计算的是一个近似值的序列，故将它写作一个使用近似值列表的程序就再自然不过了。每个近似值都可以通过下面的函数从前一个值计算得到：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">next N x &#x3D; (x + N&#x2F;x) &#x2F; 2</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">next N x = (x + N/x) / <span class="number">2</span></span><br></pre></td></tr></table></figure>
 <p>因此(next N)是从一个近似值映射到下一个值的函数。调用函数f，得到近似值序列：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[a0, f a0, f(f a0), f(f(f a0)), ...]</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[a0, f a0, f(f a0), f(f(f a0)), ...]</span><br></pre></td></tr></table></figure>
 <p>我们可以定义一个函数来计算：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repeat f a &#x3D; cons a (repeat f (f a))</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repeat f a = cons a (repeat f (f a))</span><br></pre></td></tr></table></figure>
 <p>因此近似值序列可以这样计算：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repeat (next N) a0</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repeat (next N) a0</span><br></pre></td></tr></table></figure>
 <p><code>repeat</code>是一个具有“无穷”输出的函数的例子——但这没关系，因为超出程序其余部分需求的近似值并不会被计算。无穷性只是潜在的：它只说明，只要有需求，就可以计算出任意数量的近似值，<code>repeat</code>本身不会强加任何限制。</p>
 <p>求根函数的剩余部分是函数<code>within</code>，它取一个允许误差与一个近似值列表作为参数，并在列表中查找差值不超过允许误差的一对相邻的近似值。这个函数可以定义为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">within eps (cons a (cons b rest)) &#x3D; &#123;</span><br><span class="line">&#x3D; b, 如果 abs(a-b) &lt;&#x3D; eps</span><br><span class="line">&#x3D; within eps (cons b rest), 其他情况</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">within <span class="title">eps</span> <span class="params">(cons a (cons b rest))</span> </span>= &#123;</span><br><span class="line">= b, 如果 <span class="built_in">abs</span>(a-b) &lt;= eps</span><br><span class="line">= within eps (cons b rest), 其他情况</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>将这两个部件结合起来，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqrt a0 eps N &#x3D; within eps (repeat (next N) a0)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sqrt</span> a0 eps N = within eps (repeat (next N) a0)</span><br></pre></td></tr></table></figure>
 <p>现在我们得到了求根函数的两大部件，便可以尝试用不同的方式组合它们。将要进行的修改之一，是将判断条件改为“相邻近似值的比趋近1”而不是“差趋近0”。这对于非常小的数字而言更加合适（当初始的相邻近似值之间的差值很小时），对非常大的数字也是如此（当舍尾产生的误差比允许误差大很多时）。我们只需要定义一个函数来替换<code>within</code>，而并不需要改写生成近似值的部件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">relative eps (cons a (cons b rest)) &#x3D;</span><br><span class="line">&#x3D; b, 如果 abs(a-b) &lt;&#x3D; eps*abs b</span><br><span class="line">&#x3D; relative eps (cons b rest), 其他情况</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">relative <span class="title">eps</span> <span class="params">(cons a (cons b rest))</span> </span>=</span><br><span class="line">= b, 如果 <span class="built_in">abs</span>(a-b) &lt;= eps*<span class="built_in">abs</span> b</span><br><span class="line">= relative eps (cons b rest), 其他情况</span><br></pre></td></tr></table></figure>
 <p>［注意：<code>relative</code>里的<code>eps</code>与<code>within</code>里的<code>eps</code>定义是不同的！前者是绝对误差后者是相对误差！］</p>
 <h2 id="4-2-数值微分"><a class="header-anchor" href="#4-2-数值微分">¶</a>4.2.数值微分</h2>
 <p>我们已经重用了平方根近似值序列，当然，对函数<code>within</code>和<code>relative</code>的重用也是可能的，它们能够与任何一个生成近似值序列的数值算法配合。我们将这样来编写数值微分算法。</p>
 <p>函数在某一点的微分，便是其图象在该点的斜率。通过分别计算函数在该点与一个临近点处的取值，而后计算两点连线斜率的方法，可以很容易地估计出微分的值。这基于一个假定：如果这两点靠得足够近，那么函数图象在两点之间不会弯曲得很厉害。于是有下述定义：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">easydiff f x h &#x3D; (f(x+h)-f x) &#x2F; h</span><br></pre></td></tr></table></figure>
 <p>为了得到良好的近似值，<code>h</code>应该很小。不幸的是，如果<code>h</code>太小，那么<code>f(x+h)</code>与<code>f(x)</code>会相当接近，因此在相减过程中产生的舍尾误差可能会掩盖了计算结果。如何为h选取恰当的值呢？解决这个矛盾一种合理的方案是：从一个较大取值开始，不断减小<code>h</code>的值，并求出一个近似值序列。这个序列将趋近于该点的导数，但最终会由于舍尾误差的存在而不可救药地变得不精确。如果我们用<code>(within eps)</code>来选取第一个足够精确的近似值，那么舍尾误差影响结果的风险将会大大降低。我们需要一个函数来计算这个序列：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">differentiate h0 f x &#x3D; map (easydiff f x) (repeat halve h0)</span><br><span class="line">halve x &#x3D; x&#x2F;2</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">differentiate h0 f x = <span class="built_in">map</span> (easydiff f x) (repeat halve h0)</span><br><span class="line">halve x = x/<span class="number">2</span></span><br></pre></td></tr></table></figure>
 <p>此处<code>h0</code>是<code>h</code>的初值，而后继取值是通过不断减半得到的。通过这个函数，任意点处的导数可以这样计算：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">within eps (differentiate h0 f x)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">within <span class="title">eps</span> <span class="params">(differentiate h0 f x)</span></span></span><br></pre></td></tr></table></figure>
 <p>但是，甚至这个方案也不是那么令人满意的，因为近似值序列收敛得相当慢。解决这个问题需要一点数学知识，序列中的元素可以记为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">微分的精确值 ＋ 一个关于h的误差项</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">微分的精确值 ＋ 一个关于h的误差项</span><br></pre></td></tr></table></figure>
 <p>理论表明，该误差项与<code>h</code>的某一次幂大致成正比，因此当<code>h</code>减小时，误差也会减小。设精确值为<code>A</code>，而误差项为<code>B*h**n</code> [**是求幂运算符］。由于计算每个近似值时所用的h取值是下一个的两倍，故任意两个连续的近似值可以表示成：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a(i)   &#x3D; A + B*(2**n)*(h**n)</span><br><span class="line">a(i+1) &#x3D; A + B*(h**n)</span><br></pre></td></tr></table></figure>
 <p>现在就可以消去误差项了，我们得到：</p>
@@ -589,7 +598,9 @@
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>函数的返回值只依赖于其输入值，这种特性就称为引用透明性（referential transparency） <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+<li id="fn1" class="footnote-item"><p>即懒加载 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>函数的返回值只依赖于其输入值，这种特性就称为引用透明性（referential transparency） <a href="#fnref2" class="footnote-backref">↩︎</a></p>
 </li>
 </ol>
 </section>
@@ -649,8 +660,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/10/03/swift%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E5%8F%8A%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95/" rel="next" title="swift源码编译及运行调试">
-                  swift源码编译及运行调试 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/08/20/swift%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%8E%A2%E7%A9%B6/" rel="next" title="swift函数派发探究">
+                  swift函数派发探究 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -699,7 +710,7 @@
 <div class="copyright">
   
   &copy; 2016 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
