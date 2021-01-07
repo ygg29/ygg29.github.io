@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20210107-215218@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20210107-224536@2x.png">
 <meta property="article:published_time" content="2019-04-13T15:17:01.000Z">
-<meta property="article:modified_time" content="2021-01-07T15:35:43.918Z">
+<meta property="article:modified_time" content="2021-01-07T15:39:49.308Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="源码">
@@ -352,15 +352,9 @@
 <li>
 <p>(LSB)(macOS)64位分布如下：（Least Significant Bit，即<strong>最低</strong>有效位）</p>
 <ul>
-<li>
-<p>1 bit 标记是 Tagged Pointer</p>
-</li>
-<li>
-<p>3 bits 标记类型</p>
-</li>
-<li>
-<p>60 bits 负载数据容量，（存储对象数据）</p>
-</li>
+<li>1 bit 标记是 Tagged Pointer</li>
+<li>3 bits 标记类型</li>
+<li>60 bits 负载数据容量，（存储对象数据）</li>
 </ul>
 </li>
 <li>
@@ -375,18 +369,10 @@
 <li>
 <p>(LSB)(macOS)(带有扩展内容)64位分布如下：</p>
 <ul>
-<li>
-<p>1 bit 标记是 Tagged Pointer</p>
-</li>
-<li>
-<p>3 bits 是 0b111</p>
-</li>
-<li>
-<p>8 bits 扩展标记格式</p>
-</li>
-<li>
-<p>52 bits 负载数据容量，（存储对象数据）</p>
-</li>
+<li>1 bit 标记是 Tagged Pointer</li>
+<li>3 bits 是 0b111</li>
+<li>8 bits 扩展标记格式</li>
+<li>52 bits 负载数据容量，（存储对象数据）</li>
 </ul>
 </li>
 </ul>
@@ -407,8 +393,8 @@
 <p>上面的打印的结果的是什么？</p>
 <p>答案是</p>
 <blockquote>
-<p>实例变量retainCount：2</p>
-<p>局部变量retainCount：1</p>
+<p>实例变量retainCount：2<br>
+局部变量retainCount：1</p>
 </blockquote>
 <p>根据源码：</p>
 <p><img src="/images/WX20210107-215218@2x.png" alt=""></p>
@@ -416,12 +402,8 @@
 <p>这里思考两个问题：</p>
 <blockquote>
 <ol>
-<li>
-<p>为什么 retainCount = 0 时对象并没有立即释放呢？</p>
-</li>
-<li>
-<p>实例变量也只是做了 <code>alloc</code> 的初始化工作，为什么 retainCount 为 1？</p>
-</li>
+<li>为什么 retainCount = 0 时对象并没有立即释放呢？</li>
+<li>实例变量也只是做了 <code>alloc</code> 的初始化工作，为什么 retainCount 为 1？</li>
 </ol>
 </blockquote>
 <p>通过分析我们可以得出结论：</p>
@@ -432,7 +414,7 @@
 </ul>
 <h2 id="nonpointer-isa"><a class="header-anchor" href="#nonpointer-isa">¶</a>nonpointer_isa</h2>
 <p>我们可以在 <a target="_blank" rel="noopener" href="https://opensource.apple.com/source/objc4/objc4-781/runtime/objc-private.h.auto.html">objc4 的源码</a>里面找到 isa 的实现, 是一个 isa_t 的类型：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">isa_t</span> &#123;</span></span><br><span class="line">    <span class="keyword">isa_t</span>() &#123; &#125;</span><br><span class="line">    <span class="keyword">isa_t</span>(<span class="keyword">uintptr_t</span> value) : bits(value) &#123; &#125;</span><br><span class="line"></span><br><span class="line">    Class cls;</span><br><span class="line">    <span class="keyword">uintptr_t</span> bits;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(ISA_BITFIELD)</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> nonpointer        : <span class="number">1</span>; <span class="comment">// 是否开启指针优化                                        </span></span><br><span class="line">        <span class="keyword">uintptr_t</span> has_assoc         : <span class="number">1</span>; <span class="comment">// 是否有关联对象？ 没有则释放会更快                                        </span></span><br><span class="line">        <span class="keyword">uintptr_t</span> has_cxx_dtor      : <span class="number">1</span>; <span class="comment">// 是否有 C++ 析构函数，没有释放会更快                                     </span></span><br><span class="line">        <span class="keyword">uintptr_t</span> shiftcls          : <span class="number">44</span>; <span class="comment">/*MACH_VM_MAX_ADDRESS 0x7fffffe00000*/</span> <span class="comment">//储存真正的类信息</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> magic             : <span class="number">6</span>; <span class="comment">// 用于在调试时分辨对象是否未完成初始化                                      </span></span><br><span class="line">        <span class="keyword">uintptr_t</span> weakly_referenced : <span class="number">1</span>; <span class="comment">// 是否有弱引用指针指向                                     </span></span><br><span class="line">        <span class="keyword">uintptr_t</span> deallocating      : <span class="number">1</span>; <span class="comment">// 是否正在释放                                      </span></span><br><span class="line">        <span class="keyword">uintptr_t</span> has_sidetable_rc  : <span class="number">1</span>; <span class="comment">// 引用计数是否过大以至于需要存在 SideTable 中                                      </span></span><br><span class="line">        <span class="keyword">uintptr_t</span> extra_rc          : <span class="number">8</span>  <span class="comment">// 引用计数</span></span><br><span class="line">    &#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">isa_t</span> &#123;</span></span><br><span class="line">    <span class="keyword">isa_t</span>() &#123; &#125;</span><br><span class="line">    <span class="keyword">isa_t</span>(<span class="keyword">uintptr_t</span> value) : bits(value) &#123; &#125;</span><br><span class="line"></span><br><span class="line">    Class cls;</span><br><span class="line">    <span class="keyword">uintptr_t</span> bits;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(ISA_BITFIELD)</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> nonpointer        : <span class="number">1</span>; <span class="comment">// 是否开启指针优化                          </span></span><br><span class="line">        <span class="keyword">uintptr_t</span> has_assoc         : <span class="number">1</span>; <span class="comment">// 是否有关联对象？ 没有则释放会更快</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> has_cxx_dtor      : <span class="number">1</span>; <span class="comment">// 是否有 C++ 析构函数，没有释放会更快</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> shiftcls          : <span class="number">44</span>; <span class="comment">/*MACH_VM_MAX_ADDRESS 0x7fffffe00000*/</span> <span class="comment">//储存真正的类信息</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> magic             : <span class="number">6</span>; <span class="comment">// 用于在调试时分辨对象是否未完成初始化</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> weakly_referenced : <span class="number">1</span>; <span class="comment">// 是否有弱引用指针指向</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> deallocating      : <span class="number">1</span>; <span class="comment">// 是否正在释放</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> has_sidetable_rc  : <span class="number">1</span>; <span class="comment">// 引用计数是否过大以至于需要存在 SideTable 中</span></span><br><span class="line">        <span class="keyword">uintptr_t</span> extra_rc          : <span class="number">8</span>  <span class="comment">// 引用计数</span></span><br><span class="line">    &#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>所谓 <code>nonpointer </code>即指针不单单是一个地址，里面存储这一些有用的信息，<code>isa</code> 是一个<strong>联合体</strong>，<strong>位域</strong>中分别存储着不同的信息。</p>
 <h3 id="retainCount-储存位置"><a class="header-anchor" href="#retainCount-储存位置">¶</a>retainCount 储存位置</h3>
 <p>我们可以查看retain 的<a target="_blank" rel="noopener" href="https://opensource.apple.com/source/objc4/objc4-781/runtime/objc-object.h.auto.html">源码</a>，在方法 <code>objc_object::rootRetain(bool tryRetain, bool handleOverflow)</code> 中</p>
