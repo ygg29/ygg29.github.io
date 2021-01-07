@@ -16,13 +16,17 @@ date: 2019-4-13 23:17:01
 
 ### 字节对齐
 
-
-
-
+<!-- more -->
 
 ## Tagged Pointer
 
-Apple 针对小对象做的一种**特殊优化**，iOS7 后引入，只支持64 位系统，**指针对象将class和对象数据存储在对象指针中；指针实际上不指向任何东西**，存取性能极高。如`NSNumber`、`NSDate`、`NSString`等。Apple 在 iOS7 后引入，引入 Tagged Pointer 后，相关逻辑能减少一半以上的内存占用，以及 3 倍的访问速度提升，100 倍的创建、销毁速度提升。
+Apple 针对小对象做的一种**特殊优化**，iOS7 后引入，只支持64 位系统。
+
+**指针对象将class和对象数据存储在对象指针中，指针实际上不指向任何东西**，存取性能极高。
+
+主要存储如`NSNumber`、`NSDate`、`NSString`等。
+
+引入 Tagged Pointer 后，相关逻辑能减少一半以上的内存占用，以及 3 倍的访问速度提升，100 倍的创建、销毁速度提升。
 
 可通过设置环境变量 `OBJC_DISABLE_TAG_OBFUSCATION = YES` ， 来关闭 `Tagged Pointer` 的数据混淆, 一遍直接打印地址查看。
 
@@ -69,29 +73,21 @@ enum objc_tag_index_t : uint16_t
 Tagged Pointer 的规则如下：
 
 > - (LSB)(macOS)64位分布如下：（Least Significant Bit，即**最低**有效位）
->
 >   - 1 bit 标记是 Tagged Pointer
->
 >   - 3 bits 标记类型
->
 >   - 60 bits 负载数据容量，（存储对象数据）
->
 > - (MSB)(iOS)64位分布如下：（Most Significant Bit，即**最高**有效位）
 >   - tag index 表示对象所属的 class
 >   - 负载格式由对象的 class 定义
 >   - 如果 tag index 是 0b111(7)， tagged pointer 对象使用 “扩展” 表示形式
 >   - 允许更多类，但 有效载荷 更小
->
 > - (LSB)(macOS)(带有扩展内容)64位分布如下：
->
 >   - 1 bit 标记是 Tagged Pointer
 >   - 3 bits 是 0b111
->
 >   - 8 bits 扩展标记格式
 >   - 52 bits 负载数据容量，（存储对象数据）
 
-总结：
-
+**总结：**
 - Tagged pointer 存储对象数据目前 分为60bits负载容量和52bits负载容量。
   - 当类标识为 0-6 时，负载数据容量为 60bits。
   - 当类标识为 7 时(对应二进制为 0b111)，负载数据容量为 52bits。
@@ -113,7 +109,6 @@ NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeR
 答案是
 
 > 实例变量retainCount：2
->
 > 局部变量retainCount：1
 
 根据源码：
@@ -125,7 +120,6 @@ NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeR
 这里思考两个问题：
 
 >1. 为什么 retainCount = 0 时对象并没有立即释放呢？
->
 >2. 实例变量也只是做了 `alloc` 的初始化工作，为什么 retainCount 为 1？
 
 通过分析我们可以得出结论：
@@ -147,14 +141,14 @@ union isa_t {
     uintptr_t bits;
 #if defined(ISA_BITFIELD)
     struct {
-        uintptr_t nonpointer        : 1; // 是否开启指针优化                                        
-        uintptr_t has_assoc         : 1; // 是否有关联对象？ 没有则释放会更快                                        
-        uintptr_t has_cxx_dtor      : 1; // 是否有 C++ 析构函数，没有释放会更快                                     
+        uintptr_t nonpointer        : 1; // 是否开启指针优化                          
+        uintptr_t has_assoc         : 1; // 是否有关联对象？ 没有则释放会更快
+        uintptr_t has_cxx_dtor      : 1; // 是否有 C++ 析构函数，没有释放会更快
         uintptr_t shiftcls          : 44; /*MACH_VM_MAX_ADDRESS 0x7fffffe00000*/ //储存真正的类信息
-        uintptr_t magic             : 6; // 用于在调试时分辨对象是否未完成初始化                                      
-        uintptr_t weakly_referenced : 1; // 是否有弱引用指针指向                                     
-        uintptr_t deallocating      : 1; // 是否正在释放                                      
-        uintptr_t has_sidetable_rc  : 1; // 引用计数是否过大以至于需要存在 SideTable 中                                      
+        uintptr_t magic             : 6; // 用于在调试时分辨对象是否未完成初始化
+        uintptr_t weakly_referenced : 1; // 是否有弱引用指针指向
+        uintptr_t deallocating      : 1; // 是否正在释放
+        uintptr_t has_sidetable_rc  : 1; // 引用计数是否过大以至于需要存在 SideTable 中
         uintptr_t extra_rc          : 8  // 引用计数
     };
 #endif
@@ -169,7 +163,7 @@ union isa_t {
 
 ![](/images/WX20210107-224536@2x.png)
 
-<!-- more -->
+
 
 迁移中...
 
