@@ -106,6 +106,8 @@ print(MemoryLayout.size(ofValue: v2)) // print: 40
 
 ### 父类是否声明协议方法影响函数派发
 
+对于如下代码：
+
 ```swift
 protocol Movable {
     func move()
