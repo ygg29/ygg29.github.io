@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20210107-215218@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20210107-224536@2x.png">
 <meta property="article:published_time" content="2019-04-13T15:17:01.000Z">
-<meta property="article:modified_time" content="2021-01-07T15:39:49.308Z">
+<meta property="article:modified_time" content="2021-01-07T15:42:02.829Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="源码">
@@ -349,16 +349,14 @@
 <p>Tagged Pointer 的规则如下：</p>
 <blockquote>
 <ul>
-<li>
-<p>(LSB)(macOS)64位分布如下：（Least Significant Bit，即<strong>最低</strong>有效位）</p>
+<li>(LSB)(macOS)64位分布如下：（Least Significant Bit，即<strong>最低</strong>有效位）
 <ul>
 <li>1 bit 标记是 Tagged Pointer</li>
 <li>3 bits 标记类型</li>
 <li>60 bits 负载数据容量，（存储对象数据）</li>
 </ul>
 </li>
-<li>
-<p>(MSB)(iOS)64位分布如下：（Most Significant Bit，即<strong>最高</strong>有效位）</p>
+<li>(MSB)(iOS)64位分布如下：（Most Significant Bit，即<strong>最高</strong>有效位）
 <ul>
 <li>tag index 表示对象所属的 class</li>
 <li>负载格式由对象的 class 定义</li>
@@ -366,8 +364,7 @@
 <li>允许更多类，但 有效载荷 更小</li>
 </ul>
 </li>
-<li>
-<p>(LSB)(macOS)(带有扩展内容)64位分布如下：</p>
+<li>(LSB)(macOS)(带有扩展内容)64位分布如下：
 <ul>
 <li>1 bit 标记是 Tagged Pointer</li>
 <li>3 bits 是 0b111</li>
