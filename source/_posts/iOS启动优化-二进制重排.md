@@ -63,7 +63,23 @@ date: 2020-03-04 19:33:23
 
 2. `post-main` 
 
-   post-main 阶段耗时可通过埋点、 instruments 、[AppleTrace](https://github.com/everettjf/AppleTrace)等工具监控，和业务相关性较大，主要优化思路是启动任务分层，非必须任务采用懒加载方式进行。不是本文重点。
+   post-main 阶段耗时可通过埋点、 instruments 、[AppleTrace](https://github.com/everettjf/AppleTrace)等工具监控，和业务相关性较大。
+
+### 启动优化建议
+
+#### pre-main阶段：
+
+- 尽量少用外部动态库，苹果官方建议自定义的动态库最好`不要超过6个`，如果超过6个，需要`合并`动态库
+
+- 减少OC类，因为OC类越多，越耗时
+
+- 将不必须在`+load`方法中做的事情延迟到 `+initialize` 中，尽量不要用C++虚函数
+
+- 如果是swift，尽量使用 `struct`
+
+#### post-main阶段：
+
+- 主要优化思路是**启动任务分层**，非必须任务采用**懒加载**方式进行。核心是减少占用主线程的时间。
 
 ### 二进制重排原理
 
@@ -209,7 +225,7 @@ while (YES) {
 
 ![](/images/WX20201221-150023@2x.png)
 
-即可实现捕获 swift 函数。
+即可实现捕获 swift 函数符号。
 
 
 
