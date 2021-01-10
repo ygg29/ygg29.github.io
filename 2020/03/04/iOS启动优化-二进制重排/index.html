@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201217-173509@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201221-150023@2x.png">
 <meta property="article:published_time" content="2020-03-04T11:33:23.000Z">
-<meta property="article:modified_time" content="2020-12-24T07:40:27.488Z">
+<meta property="article:modified_time" content="2021-01-10T15:26:58.358Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="启动优化">
 <meta name="twitter:card" content="summary">
@@ -189,7 +189,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">启动过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4%E6%A3%80%E6%B5%8B%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">启动时间检测：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">二进制重排原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clang%E6%8F%92%E6%A1%A9"><span class="nav-number">3.</span> <span class="nav-text">Clang插桩</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E8%8E%B7%E5%8F%96%E5%87%BD%E6%95%B0%E5%9C%B0%E5%9D%80"><span class="nav-number">3.1.1.</span> <span class="nav-text">1. 获取函数地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E8%8E%B7%E5%8F%96%E5%87%BD%E6%95%B0%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.1.2.</span> <span class="nav-text">2. 获取函数符号</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E7%94%9F%E6%88%90-order-%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.3.</span> <span class="nav-text">3.生成 order 文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Swift-%E6%8F%92%E6%A1%A9"><span class="nav-number">3.2.</span> <span class="nav-text">Swift 插桩</span></a></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">启动过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4%E6%A3%80%E6%B5%8B%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">启动时间检测：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="nav-number">2.</span> <span class="nav-text">启动优化建议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pre-main%E9%98%B6%E6%AE%B5%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">pre-main阶段：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#post-main%E9%98%B6%E6%AE%B5%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">post-main阶段：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92%E5%8E%9F%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">二进制重排原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clang%E6%8F%92%E6%A1%A9"><span class="nav-number">4.</span> <span class="nav-text">Clang插桩</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E8%8E%B7%E5%8F%96%E5%87%BD%E6%95%B0%E5%9C%B0%E5%9D%80"><span class="nav-number">4.1.1.</span> <span class="nav-text">1. 获取函数地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E8%8E%B7%E5%8F%96%E5%87%BD%E6%95%B0%E7%AC%A6%E5%8F%B7"><span class="nav-number">4.1.2.</span> <span class="nav-text">2. 获取函数符号</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E7%94%9F%E6%88%90-order-%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.3.</span> <span class="nav-text">3.生成 order 文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Swift-%E6%8F%92%E6%A1%A9"><span class="nav-number">4.2.</span> <span class="nav-text">Swift 插桩</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -394,9 +394,29 @@
 <ol start="2">
 <li>
 <p><code>post-main</code></p>
-<p>post-main 阶段耗时可通过埋点、 instruments 、<a target="_blank" rel="noopener" href="https://github.com/everettjf/AppleTrace">AppleTrace</a>等工具监控，和业务相关性较大，主要优化思路是启动任务分层，非必须任务采用懒加载方式进行。不是本文重点。</p>
+<p>post-main 阶段耗时可通过埋点、 instruments 、<a target="_blank" rel="noopener" href="https://github.com/everettjf/AppleTrace">AppleTrace</a>等工具监控，和业务相关性较大。</p>
 </li>
 </ol>
+<h3 id="启动优化建议"><a class="header-anchor" href="#启动优化建议">¶</a>启动优化建议</h3>
+<h4 id="pre-main阶段："><a class="header-anchor" href="#pre-main阶段：">¶</a>pre-main阶段：</h4>
+<ul>
+<li>
+<p>尽量少用外部动态库，苹果官方建议自定义的动态库最好<code>不要超过6个</code>，如果超过6个，需要<code>合并</code>动态库</p>
+</li>
+<li>
+<p>减少OC类，因为OC类越多，越耗时</p>
+</li>
+<li>
+<p>将不必须在<code>+load</code>方法中做的事情延迟到 <code>+initialize</code> 中，尽量不要用C++虚函数</p>
+</li>
+<li>
+<p>如果是swift，尽量使用 <code>struct</code></p>
+</li>
+</ul>
+<h4 id="post-main阶段："><a class="header-anchor" href="#post-main阶段：">¶</a>post-main阶段：</h4>
+<ul>
+<li>主要优化思路是<strong>启动任务分层</strong>，非必须任务采用<strong>懒加载</strong>方式进行。核心是减少占用主线程的时间。</li>
+</ul>
 <h3 id="二进制重排原理"><a class="header-anchor" href="#二进制重排原理">¶</a>二进制重排原理</h3>
 <blockquote>
 <p>安全考虑，iOS 使用了虚拟内存，并在iOS4.3 后引入了 ASLR 安全机制。由于启动过程所调用的函数可能在多个 page 中，为了尽量减少 Page Fault的次数，通过重排将启动时期所调用的函数尽量排在同一个 page 中，进而达到减少启动耗时的目的。</p>
