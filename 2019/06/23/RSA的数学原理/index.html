@@ -31,7 +31,7 @@
 <meta property="og:locale" content="zh_CH">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20201224-165942@2x.png">
 <meta property="article:published_time" content="2019-06-23T06:16:48.000Z">
-<meta property="article:modified_time" content="2020-12-27T04:26:57.757Z">
+<meta property="article:modified_time" content="2021-01-11T14:38:55.058Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -344,116 +344,92 @@
 </ul>
 <h2 id="迪菲-赫尔曼密钥交换"><a class="header-anchor" href="#迪菲-赫尔曼密钥交换">¶</a>迪菲-赫尔曼密钥交换</h2>
 <p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%BF%AA%E8%8F%B2-%E8%B5%AB%E7%88%BE%E6%9B%BC%E5%AF%86%E9%91%B0%E4%BA%A4%E6%8F%9B">迪菲-赫尔曼密钥交换</a>（D-H）是一种<strong>安全协议</strong>。它可以让双方在完全没有对方任何预先信息的条件下<strong>通过不安全信道创建起一个密钥</strong>。</p>
-<p>D-H 的基本原理其实就是下式：</p>
-<p><font size=5 color=red>$(m^d \bmod n)^e \bmod n = (m^e \bmod n)^d \bmod n$</font></p>
-<p>通过一个例子理解一下：</p>
-<p><font color=green>绿色 </font>表示非秘密信息, <font color=red>红色</font> 表示秘密信息：</p>
+<p>D-H 的基本原理其实就是下式：<br>
+<font size=5 color=red>$(m^d \bmod n)^e \bmod n = (m^e \bmod n)^d \bmod n$</font></p>
+<p>通过一个例子理解一下：<br>
+<font color=green>绿色 </font>表示非秘密信息, <font color=red>红色</font> 表示秘密信息：</p>
 <ol>
-<li>
-<p>客户端 C 与服务器 S 协定 <font color=green>m</font> = <font color=green>3</font>，<font color=green>n</font> = <font color=green>17</font>；</p>
-</li>
-<li>
-<p>S 产生一个随机数 <font color=red>d</font> = <font color=red>15</font>， 并通过公式 $ A\equiv m^d\bmod n$ 生成 <font color=green>A</font> = <font color=green>6</font> 发送给 C；</p>
-</li>
-<li>
-<p>C 产生一个随机数 <font color=red>e</font> = <font color=red>13</font>,  并通过公式 $ B\equiv m^e\bmod n$ 生成 <font color=green>B</font> = <font color=green>12</font> 发送给 S；</p>
-</li>
-<li>
-<p>S 拿到 <font color=green>B</font> 后, 计算:</p>
-<p><font color=red>S_KEY</font> =  $12^{15} \bmod 17 = 10$</p>
-</li>
-<li>
-<p>C 拿到 A 后计算：</p>
-<p><font color=red>C_KEY</font> =  $6^{13} \bmod 17 = 10$</p>
-</li>
+<li>客户端 C 与服务器 S 协定 <font color=green>m</font> = <font color=green>3</font>，<font color=green>n</font> = <font color=green>17</font>；</li>
+<li>S 产生一个随机数 <font color=red>d</font> = <font color=red>15</font>， 并通过公式 $ A\equiv m^d\bmod n$ 生成 <font color=green>A</font> = <font color=green>6</font> 发送给 C；</li>
+<li>C 产生一个随机数 <font color=red>e</font> = <font color=red>13</font>,  并通过公式 $ B\equiv m^e\bmod n$ 生成 <font color=green>B</font> = <font color=green>12</font> 发送给 S；</li>
+<li>S 拿到 <font color=green>B</font> 后, 计算:<br>
+<font color=red>S_KEY</font> =  $12^{15} \bmod 17 = 10$</li>
+<li>C 拿到 A 后计算：<br>
+<font color=red>C_KEY</font> =  $6^{13} \bmod 17 = 10$<br>
+<strong><font color=red>C_KEY</font> = <font color=red>S_KEY</font> = <font color=red>10</font>  并没有在公共信道上传输，但是客户端与服务端拿到了同样的值，即完成了秘钥的交换。</strong></li>
 </ol>
-<p><strong><font color=red>C_KEY</font> = <font color=red>S_KEY</font> = <font color=red>10</font>  并没有在公共信道上传输，但是客户端与服务端拿到了同样的值，即完成了秘钥的交换。</strong></p>
-<p>过程如下：</p>
-<p><img src="/images/WX20201224-165942@2x.png" alt=""></p>
+<p>过程如下：<br>
+<img src="/images/WX20201224-165942@2x.png" alt=""></p>
 <h2 id="RSA数学原理与概念"><a class="header-anchor" href="#RSA数学原理与概念">¶</a>RSA数学原理与概念</h2>
 <blockquote>
 <p>上世纪70年代产生的一种加密算法。其加密方式比较特殊，需要两个密钥：公开密钥简称<strong>公钥（publickey）<strong>和私有密钥简称</strong>私钥（privatekey）</strong>。<strong>公钥加密，私钥解密；私钥加密，公钥解密</strong>。</p>
 <p>这种算法非常可靠，密钥越长，破解难度越高。根据公开资料，目前被破解的最长 RSA密钥是 768 个二进制位。因此可以认为，1024 位的 RSA 密钥基本安全，2048 位的密钥极其安全。</p>
 </blockquote>
 <h3 id="离散对数问题"><a class="header-anchor" href="#离散对数问题">¶</a>离散对数问题</h3>
-<p>RSA 算法的基础建立在<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/4538780">离散对数</a>问题求解的复杂度上，即加密容易而破解困难。如：</p>
-<p>对于<code>g^N mod P = A</code> 的等式来说，正向求值是很容易的，但是想反向求出 <code>N</code> 则非常困难，而且困难程度随着 P 的增大指数上升。</p>
+<p>RSA 算法的基础建立在<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/4538780">离散对数</a>问题求解的复杂度上，即加密容易而破解困难。如：<br>
+对于<code>g^N mod P = A</code> 的等式来说，正向求值是很容易的，但是想反向求出 <code>N</code> 则非常困难，而且困难程度随着 P 的增大指数上升。</p>
 <h3 id="原根"><a class="header-anchor" href="#原根">¶</a>原根</h3>
-<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8E%9F%E6%A0%B9">原根</a>是数论中一个非常重要的概念，它在密码学中有着很广泛的应，原根从直观上非常好理解。</p>
-<p>定义：<strong><font color=green>对于素数 P 存在整数 $g(1&lt;g&lt;P)$ 使 $g^i \bmod P(0&lt;i&lt;P) $ 的结果两两不同，即称 g 为 P 的原根。</font></strong></p>
-<p>记为：</p>
-<p><font color=red>$g^i \bmod P \neq g^j \bmod P (i\neq j；0&lt;i,j&lt;P；1&lt;g&lt;P)$ </font></p>
-<p>如 ：$2^1 \bmod 5 \equiv 2$；$2^2 \bmod 5 \equiv 4$； $2^3 \bmod 5 \equiv 3$； $2^3 \bmod 5 \equiv 1$；</p>
-<p>可见指数取值为{ 1、2、3、4} 时，结果取值也正好为 {1、2、3、4}</p>
-<p>则称 <strong>2 为 5 的原根</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8E%9F%E6%A0%B9">原根</a>是数论中一个非常重要的概念，它在密码学中有着很广泛的应，原根从直观上非常好理解。<br>
+定义：<strong><font color=green>对于素数 P 存在整数 $g(1&lt;g&lt;P)$ 使 $g^i \bmod P(0&lt;i&lt;P) $ 的结果两两不同，即称 g 为 P 的原根。</font></strong><br>
+记为：<br>
+<font color=red>$g^i \bmod P \neq g^j \bmod P (i\neq j；0&lt;i,j&lt;P；1&lt;g&lt;P)$ </font><br>
+如 ：$2^1 \bmod 5 \equiv 2$；$2^2 \bmod 5 \equiv 4$； $2^3 \bmod 5 \equiv 3$； $2^3 \bmod 5 \equiv 1$；<br>
+可见指数取值为{ 1、2、3、4} 时，结果取值也正好为 {1、2、3、4}<br>
+则称 <strong>2 为 5 的原根</strong>。</p>
 <h3 id="欧拉函数"><a class="header-anchor" href="#欧拉函数">¶</a>欧拉函数</h3>
 <p>思考：<strong><font color=green>任意给定正整数n，请问在小于等于n的正整数之中，有多少个与n构成互质关系？</font></strong></p>
-<p>上述问题的求解函数及为<strong>欧拉函数</strong>，记为<strong>φ(n)</strong>。</p>
-<p>欧拉函数有如下特点：</p>
+<p>上述问题的求解函数及为<strong>欧拉函数</strong>，记为<strong>φ(n)</strong>。<br>
+欧拉函数有如下特点：</p>
 <ul>
 <li>当n是质数的时候，φ(n)=n-1。</li>
 <li>如果n可以分解成两个互质的整数之积，如<code>n=A*B</code>则：<code>φ(A*B)=φ(A)φ(B)</code></li>
 </ul>
 <h3 id="欧拉定理"><a class="header-anchor" href="#欧拉定理">¶</a>欧拉定理</h3>
-<p>定理：<strong><font color=green>如果两个正整数m和n互质，那么m的φ(n)次方减去1，可以被n整除。</font></strong></p>
-<p>记为：</p>
-<p><strong><font color=red>$m^{\phi (n)} \bmod n \equiv 1$</font></strong></p>
+<p>定理：<strong><font color=green>如果两个正整数m和n互质，那么m的φ(n)次方减去1，可以被n整除。</font></strong><br>
+记为：<br>
+<strong><font color=red>$m^{\phi (n)} \bmod n \equiv 1$</font></strong></p>
 <h3 id="模反元素"><a class="header-anchor" href="#模反元素">¶</a>模反元素</h3>
-<p>定理：<strong><font color=green>如果两个正整数e和x互质，那么一定可以找到整数d，使得 ed-1 被 x 整除。</font></strong></p>
-<p>那么d就是e对于x的 <strong>“模反元素”</strong></p>
+<p>定理：<strong><font color=green>如果两个正整数e和x互质，那么一定可以找到整数d，使得 ed-1 被 x 整除。</font></strong><br>
+那么d就是e对于x的 <strong>“模反元素”</strong></p>
 <h2 id="RSA公式推导"><a class="header-anchor" href="#RSA公式推导">¶</a>RSA公式推导</h2>
-<p><font color=#be7148 size=4>根据欧拉定理</font></p>
-<p><font color=#be7148 size=4>对于 $m^{\phi (n)} \bmod n \equiv 1$ 且 gcd(m, n) = 1</font></p>
-<p><font color=#be7148 size=4>有$m^{\phi (n) \times k} \bmod n \equiv 1^k$</font></p>
-<p><font color=#be7148 size=4>两边同乘以 m</font></p>
-<p><font color=#be7148 size=4>则 $m^{k*\phi (n)+1} \bmod n \equiv m$		①</font></p>
-<p><font color=#be7148 size=4>根据模反元素</font></p>
-<p><font color=#be7148 size=4>$e \times d \bmod x \equiv 1$</font></p>
-<p><font color=#be7148 size=4>则存在 <strong>k</strong> 使  $ed \equiv kx + 1$		②</font></p>
-<p><font color=#be7148 size=4>结合 ①、 ②则有</font></p>
-<p><font color=red size=5><strong>$m^{e*d}\bmod n \equiv m$</strong></font> (n为素数，且 m &lt; n)</p>
+<p><font color=#be7148 size=4>根据欧拉定理</font><br>
+<font color=#be7148 size=4>对于 $m^{\phi (n)} \bmod n \equiv 1$ 且 gcd(m, n) = 1</font><br>
+<font color=#be7148 size=4>有$m^{\phi (n) \times k} \bmod n \equiv 1^k$</font><br>
+<font color=#be7148 size=4>两边同乘以 m</font><br>
+<font color=#be7148 size=4>则 $m^{k*\phi (n)+1} \bmod n \equiv m$		①</font><br>
+<font color=#be7148 size=4>根据模反元素</font><br>
+<font color=#be7148 size=4>$e \times d \bmod x \equiv 1$</font><br>
+<font color=#be7148 size=4>则存在 <strong>k</strong> 使  $ed \equiv kx + 1$		②</font><br>
+<font color=#be7148 size=4>结合 ①、 ②则有</font><br>
+<font color=red size=5><strong>$m^{e*d}\bmod n \equiv m$</strong></font> (n为素数，且 m &lt; n)</p>
 <p><strong>上式即为非对称加密的基本公式， <code>n</code>和<code>e</code>、<code>n</code>和<code>d </code>分别组成对应的公钥和私钥， <code>m</code> 即为需要加密的数据。</strong></p>
 <h3 id="加密解密过程"><a class="header-anchor" href="#加密解密过程">¶</a>加密解密过程</h3>
-<p>根据<strong>迪菲-赫尔曼密钥交换</strong> $m^{e*d}\bmod n \equiv m$ 可拆解为两部分，即：</p>
-<p><font color=red>$m^e \bmod n \equiv C$</font> —加密</p>
-<p><font color=red>$C^d\bmod n \equiv m$</font> —解密</p>
-<p>C 即为密文，可以安全的在网络上传输。</p>
+<p>根据<strong>迪菲-赫尔曼密钥交换</strong> $m^{e*d}\bmod n \equiv m$ 可拆解为两部分，即：<br>
+<font color=red>$m^e \bmod n \equiv C$</font> —加密<br>
+<font color=red>$C^d\bmod n \equiv m$</font> —解密<br>
+C 即为密文，可以安全的在网络上传输。</p>
 <h2 id="RSA秘钥生成过程"><a class="header-anchor" href="#RSA秘钥生成过程">¶</a>RSA秘钥生成过程</h2>
-<p>由于 RSA 加密消耗较大，通常在通信的初期使用 RSA 加密需要下发的非对称加密的秘钥，后续通信使用该秘钥进行通信。</p>
-<p>仍然使用 S 与 C 进行举例：</p>
+<p>由于 RSA 加密消耗较大，通常在通信的初期使用 RSA 加密需要下发的非对称加密的秘钥，后续通信使用该秘钥进行通信。<br>
+仍然使用 S 与 C 进行举例：</p>
 <ol>
-<li>
-<p><strong>S 随机生成两个质数</strong></p>
-<p>p=61, q=53</p>
-</li>
-<li>
-<p><strong>通过 p、q 得到 n</strong></p>
-<p>$n=p\times q$</p>
-<p>​	$=61\times 53=3233$</p>
-</li>
-<li>
-<p><strong>通过欧拉函数计算  $\phi (n)$</strong></p>
-<p>$\phi (n)=(p-1)\times (q-1)$</p>
-<p>​		 $=60\times 52=3120$</p>
-</li>
-<li>
-<p><strong>随机选取整数 e 满足$(1&lt;e&lt;\phi (n))$且 e 与 $\phi(n)$ 互质</strong></p>
-<p>S 随机选择了17。（实际应用中，常常选择65537。）</p>
-</li>
-<li>
-<p><strong>计算 e 对于 $\phi(n)$ 的模反元素 d</strong></p>
-<p>d=2753</p>
-</li>
-<li>
-<p><strong>第六步，将n和e封装成公钥，n和d封装成私钥</strong></p>
-<p>上例中，n=3233，e=17，d=2753，所以公钥就是 <strong>(3233,17)</strong>，私钥就是 <strong>(3233, 2753)</strong>。</p>
-<p>实际应用中，公钥和私钥的数据都采用<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/zh-cn/ASN.1">ASN.1</a>格式表达。</p>
-</li>
-<li>
-<p>下发公钥 <strong>(3233,17)</strong> 给 C， C 拿到后使用公钥进行加密通信</p>
-</li>
+<li><strong>S 随机生成两个质数</strong><br>
+p=61, q=53</li>
+<li><strong>通过 p、q 得到 n</strong><br>
+$n=p\times q$<br>
+​	$=61\times 53=3233$</li>
+<li><strong>通过欧拉函数计算  $\phi (n)$</strong><br>
+$\phi (n)=(p-1)\times (q-1)$<br>
+​		 $=60\times 52=3120$</li>
+<li><strong>随机选取整数 e 满足$(1&lt;e&lt;\phi (n))$且 e 与 $\phi(n)$ 互质</strong><br>
+S 随机选择了17。（实际应用中，常常选择65537。）</li>
+<li><strong>计算 e 对于 $\phi(n)$ 的模反元素 d</strong><br>
+d=2753</li>
+<li><strong>第六步，将n和e封装成公钥，n和d封装成私钥</strong><br>
+上例中，n=3233，e=17，d=2753，所以公钥就是 <strong>(3233,17)</strong>，私钥就是 <strong>(3233, 2753)</strong>。<br>
+实际应用中，公钥和私钥的数据都采用<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/zh-cn/ASN.1">ASN.1</a>格式表达。</li>
+<li>下发公钥 <strong>(3233,17)</strong> 给 C， C 拿到后使用公钥进行加密通信<br>
+由上可知，一共用到了 6 个数字：<code>p、q、n、φ(n)、e、d</code>。</li>
 </ol>
-<p>由上可知，一共用到了 6 个数字：<code>p、q、n、φ(n)、e、d</code>。</p>
 <blockquote>
 <p>这里除了<code> n、e</code> 其他数字都是不公开的，由于<strong>离散对数问题</strong>与<strong>大数的质因数分解问题</strong>的复杂度是极高的，通过<code> n、e</code> 求出 <code>d、q </code>被认为是不可行的，所以 RSA 算法被认为是安全的加密算法。</p>
 </blockquote>
