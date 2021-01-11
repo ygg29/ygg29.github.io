@@ -62,41 +62,6 @@ static inline void pop(void *token)
 
 - **`pop`**会释放整个 page 管理的对象，对象的释放在 ` void releaseUntil(id *stop) ` 方法中可以找到。
 
-## retainCount
-
-我们通过一个例子来直观的感受一下 `retainCount`：
-
-```objc
-self.o = [NSObject alloc];
-id o = [NSObject alloc];
-NSLog(@"实例变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeRef)(self.o)));
-NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeRef)(o)));
-```
-
-上面的打印的结果的是什么？
-
-答案是
-
-> 实例变量retainCount：2
-> 局部变量retainCount：1
-
-根据源码：
-
-![](/images/WX20210107-215218@2x.png)
-
-在获取引用计数的时候实际上进行了 +1 之后才输出，所以真实的 `retainCount ` 其实分别为 1 和 0，说明 `alloc `并没有操作引用计数，这一点也可以通过查看 `alloc ` 的[源码](https://github.com/ygg29/SourceCode)实现证实，有兴趣的可以探究一下。
-
- 这里思考两个问题：
-
->1. 为什么 retainCount = 0 时对象并没有立即释放呢？
->2. 实例变量也只是做了 `alloc` 的初始化工作，为什么 retainCount 为 1？
-
-通过分析我们可以得出结论：
-
-- **alloc 方法没有与 `retainCount` 相关的操作**（init 实际是个工厂方法，为初始化提供便利）
-- **局部变量在出作用域后发送 release 消息，并不会在 retainCount = 0 时立即释放**
-- **`retainCount` 强调的是一种引用的关系，即有几个对象引用，`retainCount`就为对应的值，这里的实例变量被  `self ` 引用，所以 `retainCount` 为 1**
-
 ## Tagged Pointer
 
 Apple 针对小对象做的一种**特殊优化**，iOS7 后引入，只支持64 位系统。
@@ -206,6 +171,41 @@ union isa_t {
 
 64 位系统中`isa`占用 1 个字节，结构是一个**联合体**，**位域**中分别存储着不同的信息。
 
+## retainCount
+
+我们通过一个例子来直观的感受一下 `retainCount`：
+
+```objc
+self.o = [NSObject alloc];
+id o = [NSObject alloc];
+NSLog(@"实例变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeRef)(self.o)));
+NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeRef)(o)));
+```
+
+上面的打印的结果的是什么？
+
+答案是
+
+> 实例变量retainCount：2
+> 局部变量retainCount：1
+
+根据源码：
+
+![](/images/WX20210107-215218@2x.png)
+
+在获取引用计数的时候实际上进行了 +1 之后才输出，所以真实的 `retainCount ` 其实分别为 1 和 0，说明 `alloc `并没有操作引用计数，这一点也可以通过查看 `alloc ` 的[源码](https://github.com/ygg29/SourceCode)实现证实，有兴趣的可以探究一下。
+
+ 这里思考两个问题：
+
+>1. 为什么 retainCount = 0 时对象并没有立即释放呢？
+>2. 实例变量也只是做了 `alloc` 的初始化工作，为什么 retainCount 为 1？
+
+通过分析我们可以得出结论：
+
+- **alloc 方法没有与 `retainCount` 相关的操作**（init 实际是个工厂方法，为初始化提供便利）
+- **局部变量在出作用域后发送 release 消息，并不会在 retainCount = 0 时立即释放**
+- **`retainCount` 强调的是一种引用的关系，即有几个对象引用，`retainCount`就为对应的值，这里的实例变量被  `self ` 引用，所以 `retainCount` 为 1**
+
 ### retainCount 储存位置
 
 我们可以查看retain 的[源码](https://opensource.apple.com/source/objc4/objc4-781/runtime/objc-object.h.auto.html)，在方法 `objc_object::rootRetain(bool tryRetain, bool handleOverflow)` 中：
@@ -219,7 +219,11 @@ union isa_t {
 
 **swift 的 retainCount**
 
-swift 的类模板为 HeapObject，其中固定有两个成员：mateData 和 refCounts ，引用计数即存储在第二个变量中。
+swift 的类模板为 `HeapObject`，其中固定有两个成员：`mateData `和 `refCounts `，引用计数即存储在第二个变量中，位域信息如下：
+
+![](/images/WX20210111-153338@2x.png)
+
+swift 默认的 `retainCount `为 1，这点与 OC 有所区别。
 
 
 
