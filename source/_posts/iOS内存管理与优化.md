@@ -58,9 +58,9 @@ static inline void pop(void *token)
 - `alloc/new/copy/mutableCopy`**开头**的方法返回的对象不是 `autolease `对象，由 `ARC` 管理。
 - `autoreleasepool` 是由 `autoreleasepoolpage `组成的双向链表结构，每个 pool 的起始位置会插入一个 `POOL_BOUNDARY`的哨兵对象，用以标记 pool 的边界。
 - 每个 `page `有 4096 个字节大小，除了自身占用空间（56字节，定义在`AutoreleasePoolPageData` 中）外，全部用来存储 `pool` 管理的对象，其中首个`page`需要存储`POOL_BOUNDARY`多占用 8 个字节。
-- **`push` **方法会返回 `POOL_BOUNDARY` 对象的地址（即 pool 的边界标记），pop 时作为参数传入，防止将不属于自身管理的对象释放。
+- `push` 方法会返回 `POOL_BOUNDARY` 对象的地址（即 pool 的边界标记），pop 时作为参数传入，防止将不属于自身管理的对象释放。
 
-- **`pop`**会释放整个 page 管理的对象，对象的释放在 ` void releaseUntil(id *stop) ` 方法中可以找到。
+- `pop`会释放整个 page 管理的对象，对象的释放在 ` void releaseUntil(id *stop) ` 方法中可以找到。
 
 ## Tagged Pointer
 
@@ -206,6 +206,10 @@ NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeR
 - **局部变量在出作用域后发送 release 消息，并不会在 retainCount = 0 时立即释放**
 - **`retainCount` 强调的是一种引用的关系，即有几个对象引用，`retainCount`就为对应的值，这里的实例变量被  `self ` 引用，所以 `retainCount` 为 1**
 
+**注意：**
+
+`CFGetRetainCount()` 函数输出 `retainCount`时，OC 会 +1 输出，swift 会 +2 输出。
+
 ### retainCount 储存位置
 
 我们可以查看retain 的[源码](https://opensource.apple.com/source/objc4/objc4-781/runtime/objc-object.h.auto.html)，在方法 `objc_object::rootRetain(bool tryRetain, bool handleOverflow)` 中：
@@ -222,6 +226,14 @@ NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeR
 swift 的类模板为 `HeapObject`，其中固定有两个成员：`mateData `和 `refCounts `，引用计数即存储在第二个变量中，位域信息如下：
 
 ![](/images/WX20210111-153338@2x.png)
+
+**当存在弱引用时**，即 `UseSlowRC `位域为 1 时， refCounts 保存的为 `HeapObjectSideTableEntry` 实例指针：
+
+![](/images/WX20210113-004810@2x.png)
+
+会将`strong`、`weak`、`unowned `引用存入上方的 `refCounts `中。
+
+
 
 
 
