@@ -32,6 +32,8 @@ print("实际分配：\(MemoryLayout<Objc2>.stride)") //print 实际分配：24
 
 通过一个例子，**不同的成员变量布局内存占用会有所不同**（编译器会在编译期优化，即重新布局，保证内存最优）。
 
+<!-- more -->
+
 ### 对齐规则
 
 >**数据成员对齐规则：**（`Struct`或者`Union`的数据成员）第一个数据成员放在偏移为0的位置。以后每个数据成员的位置为`min(对齐系数，自身长度)`的整数倍。
@@ -39,8 +41,6 @@ print("实际分配：\(MemoryLayout<Objc2>.stride)") //print 实际分配：24
 >**数据成员为结构体：**该数据成员内变量的最大长度的整数倍的位置开始存储。
 >
 >**整体对齐规则：**数据成员按照1，2步骤对齐之后，其自身也要对齐，对齐原则是`min(对齐系数，数据成员最大长度)`的整数倍。
-
-<!-- more -->
 
 ## AutoreleasePool
 
@@ -193,7 +193,7 @@ NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeR
 
 ![](/images/WX20210107-215218@2x.png)
 
-在获取引用计数的时候实际上进行了 +1 之后才输出，所以真实的 `retainCount ` 其实分别为 1 和 0，说明 `alloc `并没有操作引用计数，这一点也可以通过查看 `alloc ` 的[源码](https://github.com/ygg29/SourceCode)实现证实，有兴趣的可以探究一下。
+获取引用计数的方法 `- (NSUInteger)retainCount` 调用了 `objc_object::rootRetainCount()` 可以看到输出时进行了 **+1 操作**，所以真实的 `retainCount ` 其实分别为 1 和 0，说明 `alloc `并没有操作引用计数，这一点也可以通过查看 `alloc ` 的[源码](https://github.com/ygg29/SourceCode)实现证实，有兴趣的可以探究一下。
 
  这里思考两个问题：
 
@@ -223,7 +223,7 @@ swift 的类模板为 `HeapObject`，其中固定有两个成员：`mateData `�
 
 ![](/images/WX20210111-153338@2x.png)
 
-swift 默认的 `retainCount `为 1，这点与 OC 有所区别。
+
 
 
 
