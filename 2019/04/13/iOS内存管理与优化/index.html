@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20210107-224536@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20210111-153338@2x.png">
 <meta property="article:published_time" content="2019-04-13T15:17:01.000Z">
-<meta property="article:modified_time" content="2021-01-12T16:04:35.985Z">
+<meta property="article:modified_time" content="2021-01-12T16:35:17.085Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="源码">
@@ -444,6 +444,8 @@
 <li><strong>局部变量在出作用域后发送 release 消息，并不会在 retainCount = 0 时立即释放</strong></li>
 <li><strong><code>retainCount</code> 强调的是一种引用的关系，即有几个对象引用，<code>retainCount</code>就为对应的值，这里的实例变量被  <code>self </code> 引用，所以 <code>retainCount</code> 为 1</strong></li>
 </ul>
+<p><strong>注意：</strong></p>
+<p><code>CFGetRetainCount()</code> 函数输出 <code>retainCount</code>时，OC 会 +1 输出，swift 会 +2 输出。</p>
 <h3 id="retainCount-储存位置"><a class="header-anchor" href="#retainCount-储存位置">¶</a>retainCount 储存位置</h3>
 <p>我们可以查看retain 的<a target="_blank" rel="noopener" href="https://opensource.apple.com/source/objc4/objc4-781/runtime/objc-object.h.auto.html">源码</a>，在方法 <code>objc_object::rootRetain(bool tryRetain, bool handleOverflow)</code> 中：</p>
 <p><img src="/images/WX20210107-224536@2x.png" alt=""></p>
