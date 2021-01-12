@@ -285,6 +285,15 @@
 
       <time title="创建时间：2020-10-03 17:15:32" itemprop="dateCreated datePublished" datetime="2020-10-03T17:15:32+08:00">2020-10-03</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
+        </span>
+    </span>
 
   
     <span id="/2020/10/03/swift%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E5%8F%8A%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95/" class="post-meta-item leancloud_visitors" data-flag-title="swift源码编译及运行调试" title="阅读次数">
@@ -928,12 +937,6 @@
           <h2 id="内存对齐"><a class="header-anchor" href="#内存对齐">¶</a>内存对齐</h2>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Objc1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a: <span class="type">Double</span> <span class="comment">// 8</span></span><br><span class="line">    <span class="keyword">let</span> b: <span class="type">UInt32</span> <span class="comment">// 4</span></span><br><span class="line">    <span class="keyword">let</span> c: <span class="type">UInt8</span>  <span class="comment">// 1</span></span><br><span class="line">    <span class="keyword">let</span> d: <span class="type">Int</span>    <span class="comment">// 8</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Objc2</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a: <span class="type">Double</span> <span class="comment">// 8</span></span><br><span class="line">    <span class="keyword">let</span> b: <span class="type">Int</span>    <span class="comment">// 8</span></span><br><span class="line">    <span class="keyword">let</span> c: <span class="type">UInt32</span> <span class="comment">// 4</span></span><br><span class="line">    <span class="keyword">let</span> d: <span class="type">UInt8</span>  <span class="comment">// 1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;内存占用：<span class="subst">\(MemoryLayout<span class="operator">&lt;</span>Objc1<span class="operator">&gt;</span>.size)</span>&quot;</span>)   <span class="comment">//print 内存占用：24</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;实际分配：<span class="subst">\(MemoryLayout<span class="operator">&lt;</span>Objc1<span class="operator">&gt;</span>.stride)</span>&quot;</span>) <span class="comment">//print 实际分配：24</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;内存占用：<span class="subst">\(MemoryLayout<span class="operator">&lt;</span>Objc2<span class="operator">&gt;</span>.size)</span>&quot;</span>)   <span class="comment">//print 内存占用：21</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;实际分配：<span class="subst">\(MemoryLayout<span class="operator">&lt;</span>Objc2<span class="operator">&gt;</span>.stride)</span>&quot;</span>) <span class="comment">//print 实际分配：24</span></span><br></pre></td></tr></table></figure>
 <p>通过一个例子，<strong>不同的成员变量布局内存占用会有所不同</strong>（编译器会在编译期优化，即重新布局，保证内存最优）。</p>
-<h3 id="对齐规则"><a class="header-anchor" href="#对齐规则">¶</a>对齐规则</h3>
-<blockquote>
-<p><strong>数据成员对齐规则：</strong>（<code>Struct</code>或者<code>Union</code>的数据成员）第一个数据成员放在偏移为0的位置。以后每个数据成员的位置为<code>min(对齐系数，自身长度)</code>的整数倍。</p>
-<p>**数据成员为结构体：**该数据成员内变量的最大长度的整数倍的位置开始存储。</p>
-<p>**整体对齐规则：**数据成员按照1，2步骤对齐之后，其自身也要对齐，对齐原则是<code>min(对齐系数，数据成员最大长度)</code>的整数倍。</p>
-</blockquote>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/#more" rel="contents">
