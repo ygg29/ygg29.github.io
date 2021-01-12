@@ -33,8 +33,9 @@
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20210107-215218@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20210107-224536@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/images/WX20210111-153338@2x.png">
+<meta property="og:image" content="http://blog.yshaw.cn/images/WX20210113-004810@2x.png">
 <meta property="article:published_time" content="2019-04-13T15:17:01.000Z">
-<meta property="article:modified_time" content="2021-01-12T16:35:17.085Z">
+<meta property="article:modified_time" content="2021-01-12T16:51:58.040Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="源码">
@@ -457,6 +458,9 @@
 <p><strong>swift 的 retainCount</strong></p>
 <p>swift 的类模板为 <code>HeapObject</code>，其中固定有两个成员：<code>mateData </code>和 <code>refCounts </code>，引用计数即存储在第二个变量中，位域信息如下：</p>
 <p><img src="/images/WX20210111-153338@2x.png" alt=""></p>
+<p><strong>当存在弱引用时</strong>，即 <code>UseSlowRC </code>位域为 1 时， refCounts 保存的为 <code>HeapObjectSideTableEntry</code> 实例指针：</p>
+<p><img src="/images/WX20210113-004810@2x.png" alt=""></p>
+<p>会将<code>strong</code>、<code>weak</code>、<code>unowned </code>引用存入上方的 <code>refCounts </code>中。</p>
 <h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904037649743880#heading-6"> 内存字节对齐分析</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cc9d286a1a27">AutoReleasePool &amp; NSRunLoop 底层分析</a></p>
