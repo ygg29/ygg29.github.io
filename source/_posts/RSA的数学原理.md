@@ -41,7 +41,7 @@ D-H 的基本原理其实就是下式：
 **<font color=red>C_KEY</font> = <font color=red>S_KEY</font> = <font color=red>10</font>  并没有在公共信道上传输，但是客户端与服务端拿到了同样的值，即完成了秘钥的交换。**
 
 过程如下：
-![](/images/WX20201224-165942@2x.png)
+![](/Users/hexo_images/WX20201224-165942@2x.png)
 
 ## RSA数学原理与概念
 > 上世纪70年代产生的一种加密算法。其加密方式比较特殊，需要两个密钥：公开密钥简称**公钥（publickey）**和私有密钥简称**私钥（privatekey）**。**公钥加密，私钥解密；私钥加密，公钥解密**。

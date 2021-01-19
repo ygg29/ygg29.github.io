@@ -46,7 +46,7 @@ print("实际分配：\(MemoryLayout<Objc2>.stride)") //print 实际分配：24
 
 `自动释放池`是OC中的一种`内存自动回收机制`，它可以将加入`AutoreleasePool`中变量的 `release` 的时机延迟，简单来说，就是当创建一个对象，在正常情况下，变量会在超出其作用域的时立即`release`。如果将对象加入到了自动释放池中，这个对象并不会立即释放，会等到`runloop`休眠/超出`autoreleasepool`作用域之后才会被释放。其机制如下图所示：
 
-![](/images/WX20210110-122032.png)
+![](/Users/hexo_images/WX20210110-122032.png)
 
 可以在[源码](https://opensource.apple.com/source/objc4/objc4-781/runtime/NSObject.mm.auto.html)中找到 `autoreleasepool` 的全部实现，核心方法有两个：
 
@@ -191,9 +191,9 @@ NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeR
 
 根据源码：
 
-![](/images/WX20210107-215218@2x.png)
+![](/Users/hexo_images/WX20210107-215218@2x.png)
 
-获取引用计数的方法 `- (NSUInteger)retainCount` 调用了 `objc_object::rootRetainCount()` 可以看到输出时进行了 **+1 操作**，所以真实的 `retainCount ` 其实分别为 1 和 0，说明 `alloc `并没有操作引用计数，这一点也可以通过查看 `alloc ` 的[源码](https://github.com/ygg29/SourceCode)实现证实，有兴趣的可以探究一下。
+获取引用计数的方法 `- (NSUInteger)retainCount` 调用了 `objc_object::rootRetainCount()` 可以看到输出时进行了 **+1 操作**（基于 objc4-781，objc4-818有所差异），所以真实的 `retainCount ` 其实分别为 1 和 0，说明 `alloc `并没有操作引用计数，这一点也可以通过查看 `alloc ` 的[源码](https://github.com/ygg29/SourceCode)实现证实，有兴趣的可以探究一下。
 
  这里思考两个问题：
 
@@ -214,7 +214,7 @@ NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeR
 
 我们可以查看retain 的[源码](https://opensource.apple.com/source/objc4/objc4-781/runtime/objc-object.h.auto.html)，在方法 `objc_object::rootRetain(bool tryRetain, bool handleOverflow)` 中：
 
-![](/images/WX20210107-224536@2x.png)
+![](/Users/hexo_images/WX20210107-224536@2x.png)
 
 经过源码分析我们可以得到：
 
@@ -225,11 +225,11 @@ NSLog(@"局部变量retainCount：%ld", (long)CFGetRetainCount((__bridge CFTypeR
 
 swift 的类模板为 `HeapObject`，其中固定有两个成员：`mateData `和 `refCounts `，引用计数即存储在第二个变量中，位域信息如下：
 
-![](/images/WX20210111-153338@2x.png)
+![](/Users/hexo_images/WX20210111-153338@2x.png)
 
 **当存在弱引用时**，即 `UseSlowRC `位域为 1 时， refCounts 保存的为 `HeapObjectSideTableEntry` 实例指针：
 
-![](/images/WX20210113-004810@2x.png)
+![](/Users/hexo_images/WX20210113-004810@2x.png)
 
 会将`strong`、`weak`、`unowned `引用存入上方的 `refCounts `中。
 

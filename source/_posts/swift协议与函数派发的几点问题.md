@@ -51,7 +51,7 @@ object.defaultImpl()
 >ok 
 >现在来看输出
 
-![](/images/1240.png)
+![](/Users/hexo_images/1240.png)
 
 
 纳尼？！！不科学！
@@ -74,7 +74,7 @@ class SubClass: SuperClass {
 ```
 >再来看输出：
 
-![](/images/1240-20201228191236613.png)
+![](/Users/hexo_images/1240-20201228191236613.png)
 
 ok， 这才是我们想要的结果。
 >由1、2结合可以推测出来，当`SuperClass`没有实现协议方法时，`SubClass`对协议方法的实现并不会写到自己的`method_list`中, 所以才会调用方法的默认实现，在 2中`SuperClass`实现了协议方法，`SubClass`重写覆盖了父类在`method_list`中的方法，才能正常调用。
@@ -110,12 +110,12 @@ class SubVC: SuperVC {
 ```
 >输出
 
-![](/images/1240-20201228191236806.png)
+![](/Users/hexo_images/1240-20201228191236806.png)
 
 **父类没有实现的协议方法在子类正常调用！！！**
 ？？？？？？？
-![](/images/1240-20201228191236711.png)
-![](/images/1240-20201228191236805.png)
+![](/Users/hexo_images/1240-20201228191236711.png)
+![](/Users/hexo_images/1240-20201228191236805.png)
 
 
 如果问题到这里，就按照bug解决， 爱谁谁，以后多注意就完事了

@@ -563,7 +563,7 @@ moves: position -> listof position
 
 该函数以一个游戏局势为参数，并返回一个可以由自变量出发，通过一步行动而形成的`position`的列表。以noughts and crosses游戏（tic-tac-toe）为例：
 
-![](/images/fp1.png)
+![](/Users/hexo_images/fp1.png)
 
 这个函数假定通过当前局势总是可以判定现在是哪位游戏者的回合。在noughts and crosses中，可以通过数出`0`与`X`的数目来做到这一点。在类似于象棋的游戏中，可能必须在`position`类型中显式包含这一信息。
 
@@ -583,7 +583,7 @@ gametree p = reptree moves p
 
 例如图1所示。此处使用的高阶函数`reptree`与上一节中用于构造无穷列表的函数`repeat`是类似的。
 
-![](/images/fp2.png)
+![](/Users/hexo_images/fp2.png)
 
 图1： 一棵博弈树的实例
 

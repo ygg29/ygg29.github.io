@@ -25,7 +25,7 @@ date: 2020-03-04 19:33:23
 >
 > pre-main 阶段包含动态库的加载链接过程、符号绑定、class 加载、以及 c++静态初始化的过程，如下：
 >
-> ![](/images/WX20201217-110408@2x.png)
+> ![](/Users/hexo_images/WX20201217-110408@2x.png)
 >
 > post-main 一般定义为从 main 函数的调用到首屏渲染完成的过程
 
@@ -35,11 +35,11 @@ date: 2020-03-04 19:33:23
 
 - 可配置 `DYLD `环境变量：**DYLD_PRINT_STATISTICS**
 
-  ![](/images/WX20201216-143742@2x.png)
+  ![](/Users/hexo_images/WX20201216-143742@2x.png)
 
   通过控制台输出查看耗时：
 
-  ![](/images/WX20201216-152625@2x.png)
+  ![](/Users/hexo_images/WX20201216-152625@2x.png)
 
   - **`dylib loading time`**
 
@@ -87,13 +87,13 @@ date: 2020-03-04 19:33:23
 
 可通过配置的 linkmap 文件查看当前符号的排列顺序：
 
-​	![](/images/WX20201216-162043@2x.png)
+​	![](/Users/hexo_images/WX20201216-162043@2x.png)
 
 找到 linkmap 文件：
 
-![](/images/WX20201216-163608@2x.png)
+![](/Users/hexo_images/WX20201216-163608@2x.png)
 
-![](/images/WX20201216-163816@2x.png)
+![](/Users/hexo_images/WX20201216-163816@2x.png)
 
 上图标注的地方即为当前二进制文件中，符号的排序。
 
@@ -106,9 +106,9 @@ date: 2020-03-04 19:33:23
 
 Xcode 的连接器为**ld**，可通过在`Build Setting -> Order File` 中设置 order 文件，来让连接器根据order文件来进行二进制的重排。如下图：
 
-![](/images/WX20201216-173003@2x.png)
+![](/Users/hexo_images/WX20201216-173003@2x.png)
 
-![](/images/WX20201216-173355@2x.png)
+![](/Users/hexo_images/WX20201216-173355@2x.png)
 
 注意此处**方法**与**函数**的符号区别，二进制中没有的符号会自动忽略。
 
@@ -128,7 +128,7 @@ Xcode 的连接器为**ld**，可通过在`Build Setting -> Order File` 中设�
 
  Clang 编译器会在每个方法、函数、block 的调用起始处插入一个 `trace-pc-guard` 的 C flag，用户可以HOOK到每个函数的调用。
 
-![](/images/WX20201218-183905@2x.png)
+![](/Users/hexo_images/WX20201218-183905@2x.png)
 
 > 注：Clang 不仅会在每个函数的边缘插入”桩“，一个循环也会被插入，所以除了 `trace-pc-guard` 外，还需加入一个额外的 `func` 过滤掉循环。
 
@@ -143,7 +143,7 @@ void __sanitizer_cov_trace_pc_guard(uint32_t *guard) {}
 
 我们可以通过汇编看到 `Clang ` 实际是在每个函数调用的边缘位置插入了一个`bl`指令，跳转到 `__sanitizer_cov_trace_pc_guard` 函数，可以实现了一个全局的 AOP。
 
-![](/images/WX20201217-173509@2x.png)
+![](/Users/hexo_images/WX20201217-173509@2x.png)
 
 接下来就是一个体力活了。。。
 
@@ -223,7 +223,7 @@ while (YES) {
 
 很简单，`Other Swift Flags` 添加两个 flag：
 
-![](/images/WX20201221-150023@2x.png)
+![](/Users/hexo_images/WX20201221-150023@2x.png)
 
 即可实现捕获 swift 函数符号。
 

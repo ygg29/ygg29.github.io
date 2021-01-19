@@ -127,7 +127,7 @@ sidebar:
 # Sidebar Avatar
 avatar:
   # Replace the default image and set the url here.
-  url: /images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg #http://ww1.sinaimg.cn/mw690/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg #/images/avatar.gif
+  url: /Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg #http://ww1.sinaimg.cn/mw690/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg #/images/avatar.gif
   # If true, the avatar will be dispalyed in circle.
   rounded: false
   # If true, the avatar will be rotated with the cursor.

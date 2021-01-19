@@ -65,7 +65,7 @@ v1.move()
 
 为什么`不在 protocol 声明`的方法会有这样的表现？来看一下 SIL 代码：
 
-![](/images/WeChatee95656b9520f777.png)
+![](/Users/hexo_images/WeChatee95656b9520f777.png)
 
 可以看到，在 procotol 中声明过得的方法使用的是 `witness_method（PWT）` 的派发方式, 而直接在 extension 中声明的方法是采用的**静态派发**的方式直接调用。
 
@@ -81,7 +81,7 @@ let v1: Vehicle = Vehicle()
 let v2: Movable = Vehicle()
 ```
 
-![](/images/WX20201230-173920@2x.png)
+![](/Users/hexo_images/WX20201230-173920@2x.png)
 
 可见 1 中采用的是 `class_method` 的派发方式，而 2 采用的是 `PWT` 的派发方式。
 
@@ -98,7 +98,7 @@ print(MemoryLayout.size(ofValue: v2)) // print: 40
 
 实际上声明为协议类型时，内存中保存的是结构体类型：
 
-![](/images/WX20210105-000757@2x.png)
+![](/Users/hexo_images/WX20210105-000757@2x.png)
 
 `ValueBuffer `的最大容量为 3*8 = 24 字节，即只能存储三个变量，当变量的个数大于 3 个时，会在堆上开辟空间将变量复制过去，并将指针地址保存在 Value1 中。
 
@@ -131,7 +131,7 @@ class Car: Vehicle {
 }
 ```
 
-![](/images/WX20210105-165740@2x.png)
+![](/Users/hexo_images/WX20210105-165740@2x.png)
 
 从 `SIL` 可以看出，在父类声明之后，协议中的函数是采用的 `class_method` 以 `vtable` 的形式派发，而不再父类中声明的采用直接派发的方式，直接调用 `protocol` 中的方法。
 
@@ -147,17 +147,17 @@ class Car: Vehicle {
 
 1. 找到协议
 
-![](/images/methid_dispatch1.png)
+![](/Users/hexo_images/methid_dispatch1.png)
 
 2. 通过协议，得到`PWT`
 
-![](/images/methid_dispatch2.png)
+![](/Users/hexo_images/methid_dispatch2.png)
 
 3. 通过协议的实现找到父类，这时实际上就得到了实例的 `vtable` ，可以通过函数表派发。
 
-![](/images/methid_dispatch3.png)
+![](/Users/hexo_images/methid_dispatch3.png)
 
-![](/images/methid_dispatch4.png)
+![](/Users/hexo_images/methid_dispatch4.png)
 
 
 

@@ -24,7 +24,9 @@ categories:
 - **硬盘空间**。swift 编译出文件大小大约为 50G，准备一个空间充足的电脑或者移动硬盘。
 - **耐心**。 编译过程较慢，足足编译了一天，当然这条和设备有关，也有的不到一个小时就OK的。
 
-我编译出的文件夹大小为:![](/images/swift源码大小.png)
+我编译出的文件夹大小为:
+
+![](/Users/hexo_images/swift源码大小.png)
 
 #### 编译：
 
@@ -47,13 +49,11 @@ categories:
 
   `./swift/utils/build-script -r --debug-swift-stdlib --lldb`
 
-
-
 #### 调试
 
 1. 安装 vscode，并安装CodeLLDB 插件。
 
-![](/images/swift_vscode配置.png)
+![](/Users/hexo_images/swift_vscode配置.png)
 
 ``` json
 {
@@ -79,11 +79,11 @@ categories:
 
    - 找到􏲝􏰿􏱀 `CodeLLDB` 􏰧􏲠􏲡􏱗􏱟􏰞安装目录：--（1）
 
-     ![](/images/image-20201207152145435.png)
+     ![](/Users/hexo_images/image-20201207152145435.png)
 
    - 找到编译后的 `LLDB` 文件夹：--（2）
 
-     ![](/images/image-20201207152353407.png)
+     ![](/Users/hexo_images/image-20201207152353407.png)
 
 将（2）中的文件全部拷贝到（1）中，同时将 （2）中`bin` 文件夹中的 lldb 文件 拷贝到 （1）中`lldb` 目录下的 lib 目录中，并将名称修改为 `liblldb.dylib`
 
