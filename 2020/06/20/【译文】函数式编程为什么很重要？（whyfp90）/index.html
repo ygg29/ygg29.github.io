@@ -29,14 +29,14 @@
 <meta property="og:site_name" content="友友的开发笔记">
 <meta property="og:description" content="作者： John Hughes 原文地址 此论文作于1984年，作为查麦兹大学的备忘录流传了多年，经过小幅度修订的版本出现于1989年与1990年，即［Hug89］与［Hug90］。此版本基于原查麦兹大学备忘录的nroff源码，为LaTeX做了改动,使其更接近于印刷版本并纠正了少许错误。 本文由CloudiDust在CSDN 最初翻译，由YShaw根据原文重新校对、整理和排版，并添加部分注脚。">
 <meta property="og:locale" content="zh_CH">
-<meta property="og:image" content="http://blog.yshaw.cn/images/fp1.png">
-<meta property="og:image" content="http://blog.yshaw.cn/images/fp2.png">
+<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/fp1.png">
+<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/fp2.png">
 <meta property="article:published_time" content="2020-06-20T15:42:21.000Z">
-<meta property="article:modified_time" content="2020-12-29T15:15:03.997Z">
+<meta property="article:modified_time" content="2021-01-19T08:03:17.942Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="文章翻译">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.yshaw.cn/images/fp1.png">
+<meta name="twitter:image" content="http://blog.yshaw.cn/Users/hexo_images/fp1.png">
 
 
 <link rel="canonical" href="http://blog.yshaw.cn/2020/06/20/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BE%88%E9%87%8D%E8%A6%81%EF%BC%9F%EF%BC%88whyfp90%EF%BC%89/">
@@ -187,7 +187,7 @@
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="You Shaw"
-      src="/images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      src="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
   <p class="site-author-name" itemprop="name">You Shaw</p>
   <div class="site-description" itemprop="description">潘驴邓小闲</div>
 </div>
@@ -196,7 +196,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -209,7 +209,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -266,7 +266,7 @@
     <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2020/06/20/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BE%88%E9%87%8D%E8%A6%81%EF%BC%9F%EF%BC%88whyfp90%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
       <meta itemprop="name" content="You Shaw">
       <meta itemprop="description" content="潘驴邓小闲">
     </span>
@@ -525,7 +525,7 @@
 <p>令游戏局势使用<code>position</code>类型的对象来表示。这个类型依据游戏的不同而不同，我们不对此作任何假定。必然有一种方法可以知晓对某一个局势能够采取的行动：假定有一个函数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moves: position -&gt; listof position</span><br></pre></td></tr></table></figure>
 <p>该函数以一个游戏局势为参数，并返回一个可以由自变量出发，通过一步行动而形成的<code>position</code>的列表。以noughts and crosses游戏（tic-tac-toe）为例：</p>
-<p><img src="/images/fp1.png" alt=""></p>
+<p><img src="/Users/hexo_images/fp1.png" alt=""></p>
 <p>这个函数假定通过当前局势总是可以判定现在是哪位游戏者的回合。在noughts and crosses中，可以通过数出<code>0</code>与<code>X</code>的数目来做到这一点。在类似于象棋的游戏中，可能必须在<code>position</code>类型中显式包含这一信息。</p>
 <p>利用函数<code>moves</code>，第一步是构造一棵博弈树。这棵树的结点都用局势来标记，而一个结点的子结点用从该结点一步便可到达的局势标记。也就是说，如果一个结点标记为局势<code>p</code>，那么它的子结点将使用<code>(moves p)</code>中的局势来标记。一棵博弈树完全有可能是无穷的，如果这个游戏可以在双方都不胜的情形下永远进行下去的话。博弈树与第2节中讨论的树完全类似——每个结点都有一个标记（它所代表的局势）与一个子结点列表。因此我们可以使用相同的数据类型来表示它们。</p>
 <p>博弈树是通过反复运用<code>moves</code>而构造出来的。构造从根局势开始，<code>moves</code>用于生成根结点处子树的标记，而后<code>moves</code>被用于生成子树的子树，依此类推。这一递归模式可以用一个高阶函数表示：</p>
@@ -533,7 +533,7 @@
 <p>使用这个函数可以定义另一个函数，该函数从一个特定的局势开始生成博弈树：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gametree p &#x3D; reptree moves p</span><br></pre></td></tr></table></figure>
 <p>例如图1所示。此处使用的高阶函数<code>reptree</code>与上一节中用于构造无穷列表的函数<code>repeat</code>是类似的。</p>
-<p><img src="/images/fp2.png" alt=""></p>
+<p><img src="/Users/hexo_images/fp2.png" alt=""></p>
 <p>图1： 一棵博弈树的实例</p>
 <p>alpha-beta算法从一个给定的局势出发，就游戏的发展将会是有利还是不利作出判断。然而，要做到这一点，它必须能够在不考虑下一步的情况下粗略地估计某一个局势的“价值”。在后继局势不可预测时必须使用这一函数，它也可以用来对算法进行先期引导。静态估价的结果是从计算机的角度考虑的，是对该局势的前途的度量（假设在游戏中计算机与人对抗）。结果越大，局势对计算机而言越好。结果越小，局势越糟。最简单的此类函数将会，比如说，对计算机确定胜利的局势返回+1，对计算机确定失败的局势返回-1，而对其它的局势返回0。在现实中，静态估价函数会衡量各种使局势“看上去不错”的因素。例如，具体的好处，以及象棋中对中心的控制。假定有这样一个函数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static: position -&gt; number</span><br></pre></td></tr></table></figure>
