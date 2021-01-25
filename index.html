@@ -189,7 +189,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -432,6 +432,109 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/08/20/swift%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%8E%A2%E7%A9%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2020/06/25/OC%E4%B8%AD%22__attribute__%20%22%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/25/OC%E4%B8%AD%22__attribute__%20%22%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">OC中"__attribute__ "关键字的应用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-25 12:29:25" itemprop="dateCreated datePublished" datetime="2020-06-25T12:29:25+08:00">2020-06-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2020/06/25/OC%E4%B8%AD%22__attribute__%20%22%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%BA%94%E7%94%A8/" class="post-meta-item leancloud_visitors" data-flag-title="OC中"__attribute__ "关键字的应用" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/25/OC%E4%B8%AD%22__attribute__%20%22%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%BA%94%E7%94%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/25/OC%E4%B8%AD%22__attribute__%20%22%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%BA%94%E7%94%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>关于__attribute__，你可能用的不多，但是一定经常见到，在系统的Foundation框架中，__attribute__的使用非常频繁。首先，__attribute__用于在函数，变量或类型声明时进行特殊属性设置的编译器指令。需要注意，它是一种编译器指令，这也就表明了使用它我们可以做更高级的检查与优化功能。</p>
+<p>__attribute__根据其修饰的场景不同可以分为3种类型，分别为函数属性，变量属性和类型属性。__attribute__的使用格式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((属性列表))</span><br></pre></td></tr></table></figure>
+<p>下面，我们来介绍几种常用的__attribute__属性。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/25/OC%E4%B8%AD%22__attribute__%20%22%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%BA%94%E7%94%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1140,110 +1243,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
-    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
-      <meta itemprop="name" content="You Shaw">
-      <meta itemprop="description" content="潘驴邓小闲">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="友友的开发笔记">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">【译文】swift中的泛型编程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-06-23 12:40:38" itemprop="dateCreated datePublished" datetime="2018-06-23T12:40:38+08:00">2018-06-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/" itemprop="url" rel="index"><span itemprop="name">文章翻译</span></a>
-        </span>
-    </span>
-
-  
-    <span id="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" class="post-meta-item leancloud_visitors" data-flag-title="【译文】swift中的泛型编程" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="leancloud-visitors-count"></span>
-    </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li><a target="_blank" rel="noopener" href="https://segmentfault.com/t/swift/blogs">swift</a></li>
-<li><a target="_blank" rel="noopener" href="http://austinzheng.com/2015/09/29/swift-generics-pt-2/">原文（Generics in Swift）</a></li>
-</ul>
-<p>本文中，笔者旨在对于Swift中的泛型编程进行一个综合性描述。读者可以查看<a target="_blank" rel="noopener" href="http://austinzheng.com/2015/01/02/swift-generics-pt-1/">上一篇</a> 系列中的描述来看之前笔者的论文。泛型编程是编程方式的一种，主要是一些譬如类、结构体以及枚举这样的复杂类型以及函数可以使用类型参数进行定义(type parameters)。类型参数可以看做是真实类型的占位符，当泛型或者函数被使用时才会被真实类型替换。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
