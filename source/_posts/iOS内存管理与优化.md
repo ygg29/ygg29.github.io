@@ -55,11 +55,12 @@ static inline void *push()
 static inline void pop(void *token)
 ```
 
-- `alloc/new/copy/mutableCopy`**开头**的方法返回的对象不是 `autolease `对象，由 `ARC` 管理。
+通过文件中声明方法：`extern **void** _objc_autoreleasePoolPrint(**void**)` 可以打印 `autereleasepool` 的结构。
+
+- `alloc/new/copy/mutableCopy`**开头**的方法返回的对象**不是** `autolease `对象，由 `ARC` 管理。
 - `autoreleasepool` 是由 `autoreleasepoolpage `组成的双向链表结构，每个 pool 的起始位置会插入一个 `POOL_BOUNDARY`的哨兵对象，用以标记 pool 的边界。
 - 每个 `page `有 4096 个字节大小，除了自身占用空间（56字节，定义在`AutoreleasePoolPageData` 中）外，全部用来存储 `pool` 管理的对象，其中首个`page`需要存储`POOL_BOUNDARY`多占用 8 个字节。
 - `push` 方法会返回 `POOL_BOUNDARY` 对象的地址（即 pool 的边界标记），pop 时作为参数传入，防止将不属于自身管理的对象释放。
-
 - `pop`会释放整个 page 管理的对象，对象的释放在 ` void releaseUntil(id *stop) ` 方法中可以找到。
 
 ## Tagged Pointer
