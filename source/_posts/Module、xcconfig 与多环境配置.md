@@ -133,13 +133,31 @@ BASE_URL=http:${BIAS}/baidu.com
 
 ## Module应用
 
-#### framework
+使用 .modulemap 文件，描述 module 与 header 之间的关系。
 
+**module.modulemap ：**
 
+```objc
+framework module OCFramework {
+    umbrella header "OCFramework.h" // 指定 header 文件
+    export * // 导出 module
+    module * { // 导出子 module
+        export *
+    }
+}
+```
 
-#### OC 与 swift 混编
+> `umbrella header "OCFramework.h"` 也可以写为 `umbrella "Headers"` , Headers 实际就是头文件所在目录，两种想过一样。
 
+**注意：**编译器会自动查找命名为`module.modulemap` 的文件，如果为自定义 modulemap 文件，需要手动设置 modulemap file：
 
+![](/Users/hexo_images/WX20210203-175828@2x.png)
+
+#### framework 中 OC 与 swift 混编 
+
+framework 中没有 bridging 文件，需要使用 module 进行 OC 和 swift 的混编。
+
+modulemap 文件写法与上面相同，OC 使用 swift 代码与常规用法相同，需要引入 \<PRODUCT_NAME>-swift.h文件,；swift 使用 OC 代码，需要将 OC 头文件导入到 header 文件里才能使用。
 
 
 
