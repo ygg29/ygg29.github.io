@@ -17,7 +17,7 @@ date: 2020-12-02 16:17:41
 
 <!-- more -->
 
-```objective-c
+```objc
 inline void
 objc_object::rootDealloc()
 {
@@ -46,7 +46,7 @@ objc_object::rootDealloc()
 }
 ```
 
-```objective-c
+```objc
 void *objc_destructInstance(id obj) 
 {
     if (obj) {
