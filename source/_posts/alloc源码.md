@@ -9,7 +9,7 @@ categories:
 date: 2020-12-03 10:17:41
 ---
 
-基于[Objc4-781](https://github.com/ygg29/Objc4-781)
+基于[Objc4-818](https://github.com/ygg29/Objc4-source)
 
 源码文件：`NSObject.mm`、`objc-runtime-new.h`
 
@@ -39,9 +39,6 @@ date: 2020-12-03 10:17:41
     return [callAlloc(self, false/*checkNil*/) init];
 }
 ```
-
-#### -init
-
 `+new` 方法调用了 `callAlloc init` 和 `alloc` 中的步骤 2 相同。
 
 同时，`+new` 调用了默认的实例构造器 `-init`, 所以，如果 `class `中**没有实现其他的实例构造方法**时， 使用 `alloc init` 和使用 `new` 是一样的效果。
@@ -60,7 +57,7 @@ date: 2020-12-03 10:17:41
 }
 ```
 
-关于类方法， 就返回自身，尚不知有什么用处。
+关于类方法， 就返回class自身，应该是类似于一个工厂方法的实现。
 
 由源码可见`-init` 是个初始化方法，原样返回 `obj`， 便于程序员自定义做一些初始化的工作。
 
@@ -78,6 +75,8 @@ _objc_rootInit(id obj)
 #### +allocWithZone
 
 进入 `+allocWithZone` 方法， 发现调用了 `_objc_rootAllocWithZone ` 并且 `zone` 参数也并未使用，所以流程其实和 `alloc `是一样的， 注释也说明该方法被 `alloc `替换了。
+
+`NSZone `在 iOS 和 64 位的 macOS 也已经不再使用了。
 
 ![](/Users/hexo_images/WX20210304-155841@2x.png)
 
