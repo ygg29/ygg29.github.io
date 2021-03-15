@@ -23,21 +23,21 @@
     var CONFIG = {"hostname":"blog.yshaw.cn","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="SS是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。">
+  <meta name="description" content="¶重定位符号表 源文件编译为.o文件时，将引用第三方库的符号记录下来，在链接过程中进行符号绑定。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在Mac终端中使用SS代理">
-<meta property="og:url" content="http://blog.yshaw.cn/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/index.html">
+<meta property="og:title" content="Mach-O结构">
+<meta property="og:url" content="http://blog.yshaw.cn/2021/03/13/Mach-O%E7%BB%93%E6%9E%84/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
-<meta property="og:description" content="SS是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。">
+<meta property="og:description" content="¶重定位符号表 源文件编译为.o文件时，将引用第三方库的符号记录下来，在链接过程中进行符号绑定。">
 <meta property="og:locale" content="zh_CH">
-<meta property="article:published_time" content="2018-07-13T03:21:33.000Z">
-<meta property="article:modified_time" content="2020-12-23T15:02:09.581Z">
+<meta property="article:published_time" content="2021-03-13T03:15:21.000Z">
+<meta property="article:modified_time" content="2021-03-15T01:12:08.790Z">
 <meta property="article:author" content="You Shaw">
-<meta property="article:tag" content="VPN">
+<meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://blog.yshaw.cn/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/">
+<link rel="canonical" href="http://blog.yshaw.cn/2021/03/13/Mach-O%E7%BB%93%E6%9E%84/">
 
 
 <script class="page-configurations">
@@ -50,7 +50,7 @@
   };
 </script>
 
-  <title>在Mac终端中使用SS代理 | 友友的开发笔记</title>
+  <title>Mach-O结构 | 友友的开发笔记</title>
   
 
 
@@ -178,7 +178,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85privoxy"><span class="nav-number">2.</span> <span class="nav-text">安装privoxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#privoxy%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">privoxy配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8privoxy"><span class="nav-number">4.</span> <span class="nav-text">启动privoxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8privoxy"><span class="nav-number">5.</span> <span class="nav-text">使用privoxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEbash%E6%96%87%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">配置bash文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8bash%E5%87%BD%E6%95%B0"><span class="nav-number">7.</span> <span class="nav-text">调用bash函数</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E4%BD%8D%E7%AC%A6%E5%8F%B7%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">重定位符号表</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -261,7 +261,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
-    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2021/03/13/Mach-O%E7%BB%93%E6%9E%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
@@ -277,7 +277,7 @@
     
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          在Mac终端中使用SS代理
+          Mach-O结构
         </h1>
 
         <div class="post-meta-container">
@@ -288,7 +288,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-07-13 11:21:33" itemprop="dateCreated datePublished" datetime="2018-07-13T11:21:33+08:00">2018-07-13</time>
+      <time title="创建时间：2021-03-13 11:15:21" itemprop="dateCreated datePublished" datetime="2021-03-13T11:15:21+08:00">2021-03-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -296,12 +296,12 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">软件开发</span></a>
+          <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
         </span>
     </span>
 
   
-    <span id="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/" class="post-meta-item leancloud_visitors" data-flag-title="在Mac终端中使用SS代理" title="阅读次数">
+    <span id="/2021/03/13/Mach-O%E7%BB%93%E6%9E%84/" class="post-meta-item leancloud_visitors" data-flag-title="Mach-O结构" title="阅读次数">
       <span class="post-meta-item-icon">
         <i class="far fa-eye"></i>
       </span>
@@ -316,8 +316,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/03/13/Mach-O%E7%BB%93%E6%9E%84/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/13/Mach-O%E7%BB%93%E6%9E%84/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -331,54 +331,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><a target="_blank" rel="noopener" href="https://github.com/shadowsocks">SS</a>是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。</p>
+        <h2 id="重定位符号表"><a class="header-anchor" href="#重定位符号表">¶</a>重定位符号表</h2>
+<p>源文件编译为.o文件时，将引用第三方库的符号记录下来，在链接过程中进行<strong>符号绑定</strong>。</p>
 <a id="more"></a>
-<h2 id="准备"><a class="header-anchor" href="#准备">¶</a>准备</h2>
-<p>在开始之前，请确保：</p>
-<ul>
-<li>拥有一个可以正常使用的SS</li>
-<li>Mac上已安装有<a target="_blank" rel="noopener" href="https://brew.sh/">Homebrew</a></li>
-</ul>
-<h2 id="安装privoxy"><a class="header-anchor" href="#安装privoxy">¶</a>安装privoxy</h2>
-<p>使用以下命令安装：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install privoxy</span><br></pre></td></tr></table></figure>
-<h2 id="privoxy配置"><a class="header-anchor" href="#privoxy配置">¶</a>privoxy配置</h2>
-<p>打开配置文件，文件路径为<code>/usr/local/etc/privoxy/config</code><br>
-在配置文件底部加入以下语句：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">listen-address 0.0.0.0:8118</span><br><span class="line">forward-socks5 / localhost:1080 .</span><br></pre></td></tr></table></figure>
-<h2 id="启动privoxy"><a class="header-anchor" href="#启动privoxy">¶</a>启动privoxy</h2>
-<p>输入以下语句：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/local/sbin/privoxy /usr/local/etc/privoxy/config</span><br></pre></td></tr></table></figure>
-<p>查看是否启动成功：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -na | grep 8118</span><br></pre></td></tr></table></figure>
-<p>看到如下消息说明启动成功：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp4 0 0 *.8118 *.* LISTEN</span><br></pre></td></tr></table></figure>
-<h2 id="使用privoxy"><a class="header-anchor" href="#使用privoxy">¶</a>使用privoxy</h2>
-<p>在命令行终端中输入如下命令后，该终端即可走代理。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=&#x27;http://localhost:8118&#x27;</span><br><span class="line">export https_proxy=&#x27;http://localhost:8118&#x27;</span><br></pre></td></tr></table></figure>
-<p>这时输入<code>curl ip.gs</code>会显示代理服务器的信息<br>
-关闭终端代理：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unset http_proxy</span><br><span class="line">unset https_proxy</span><br></pre></td></tr></table></figure>
-<h2 id="配置bash文件"><a class="header-anchor" href="#配置bash文件">¶</a>配置bash文件</h2>
-<p>经过上面几步，已经可以在终端使用SS代理，每次使用都需要输入一大串命令。可以在 ~/.bash_profile 里加入函数，便于使用。</p>
-<ul>
-<li>
-<p>macOS系统中默认没有<code>.bash_profile</code>文件，需要手动创建文件：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~/</span><br><span class="line">touch .bash_profile</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>编辑<code>.bash_profile</code>文件：<code>open -e .bash_profile</code></p>
-</li>
-<li>
-<p>在<code>.bash_profile</code>里写入函数</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function proxy_off()&#123;</span><br><span class="line">    unset http_proxy</span><br><span class="line">    unset https_proxy</span><br><span class="line">    echo -e &quot;已关闭代理&quot;</span><br><span class="line">&#125;</span><br><span class="line">function proxy_on() &#123;</span><br><span class="line">    export http_proxy=&#x27;http://localhost:8118&#x27;</span><br><span class="line">    export https_proxy=&#x27;http://localhost:8118&#x27;</span><br><span class="line">    echo -e &quot;已开启代理&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>使配置立即生效：<code>source ~/.bash_profile</code></p>
-<h2 id="调用bash函数"><a class="header-anchor" href="#调用bash函数">¶</a>调用bash函数</h2>
-<p>配置已经全部完成，在终端使用<code>proxy_on</code>/<code>proxy_off</code>指令即可打开/关闭代理</p>
-</li>
-</ul>
 
     </div>
 
@@ -414,7 +369,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://blog.yshaw.cn/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/" title="在Mac终端中使用SS代理">http://blog.yshaw.cn/2018/07/13/在Mac终端中使用SS代理/</a>
+      <a href="http://blog.yshaw.cn/2021/03/13/Mach-O%E7%BB%93%E6%9E%84/" title="Mach-O结构">http://blog.yshaw.cn/2021/03/13/Mach-O结构/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -423,21 +378,18 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/VPN/" rel="tag"># VPN</a>
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" rel="prev" title="【译文】swift中的泛型编程">
-                  <i class="fa fa-chevron-left"></i> 【译文】swift中的泛型编程
+                <a href="/2020/12/03/alloc%E6%BA%90%E7%A0%81/" rel="prev" title="alloc源码">
+                  <i class="fa fa-chevron-left"></i> alloc源码
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2018/10/21/%E3%80%90%E6%91%98%E6%8A%84%E3%80%91%E6%B8%A9%E9%85%92%E6%96%A9%E5%8D%8E%E9%9B%84/" rel="next" title="【摘抄】温酒斩华雄">
-                  【摘抄】温酒斩华雄 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -582,7 +534,7 @@ NexT.utils.loadComments('#valine-comments', () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
     new Valine(Object.assign({
       el  : '#valine-comments',
-      path: "/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/",
+      path: "/2021/03/13/Mach-O%E7%BB%93%E6%9E%84/",
     }, {"enable":true,"appId":"lyxbzytuOmTmDs7t5xdJ0D8S-gzGzoHsz","appKey":"B6zz1OaMTwHI4mOd0QyucHXi","placeholder":"说点什么...","avatar":"wavatar","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":true,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
     ));
   }, window.Valine);
