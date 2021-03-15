@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20210111-153338@2x.png">
 <meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20210113-004810@2x.png">
 <meta property="article:published_time" content="2019-04-13T15:17:01.000Z">
-<meta property="article:modified_time" content="2021-03-11T06:19:04.617Z">
+<meta property="article:modified_time" content="2021-03-15T02:46:16.281Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="源码">
@@ -185,7 +185,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90"><span class="nav-number">1.</span> <span class="nav-text">内存对齐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E9%BD%90%E8%A7%84%E5%88%99"><span class="nav-number">1.1.</span> <span class="nav-text">对齐规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F"><span class="nav-number">1.2.</span> <span class="nav-text">获取内存大小</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sizeof"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">sizeof</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#class-getInstanceSize"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">class_getInstanceSize</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#malloc-size"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">malloc_size</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AutoreleasePool"><span class="nav-number">2.</span> <span class="nav-text">AutoreleasePool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tagged-Pointer"><span class="nav-number">3.</span> <span class="nav-text">Tagged Pointer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nonpointer-isa"><span class="nav-number">4.</span> <span class="nav-text">nonpointer_isa</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#retainCount"><span class="nav-number">5.</span> <span class="nav-text">retainCount</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#retainCount-%E5%82%A8%E5%AD%98%E4%BD%8D%E7%BD%AE"><span class="nav-number">5.1.</span> <span class="nav-text">retainCount 储存位置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90"><span class="nav-number">1.</span> <span class="nav-text">内存对齐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E9%BD%90%E8%A7%84%E5%88%99"><span class="nav-number">1.1.</span> <span class="nav-text">对齐规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F"><span class="nav-number">1.2.</span> <span class="nav-text">获取内存大小</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sizeof"><span class="nav-number">1.2.1.</span> <span class="nav-text">sizeof</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class-getInstanceSize"><span class="nav-number">1.2.2.</span> <span class="nav-text">class_getInstanceSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#malloc-size"><span class="nav-number">1.2.3.</span> <span class="nav-text">malloc_size</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AutoreleasePool"><span class="nav-number">2.</span> <span class="nav-text">AutoreleasePool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tagged-Pointer"><span class="nav-number">3.</span> <span class="nav-text">Tagged Pointer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nonpointer-isa"><span class="nav-number">4.</span> <span class="nav-text">nonpointer_isa</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#retainCount"><span class="nav-number">5.</span> <span class="nav-text">retainCount</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#retainCount-%E5%82%A8%E5%AD%98%E4%BD%8D%E7%BD%AE"><span class="nav-number">5.1.</span> <span class="nav-text">retainCount 储存位置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -349,11 +349,11 @@
 <p>**整体对齐规则：**数据成员按照1，2步骤对齐之后，其自身也要对齐，对齐原则是<code>min(对齐系数，数据成员最大长度)</code>的整数倍。</p>
 </blockquote>
 <h3 id="获取内存大小"><a class="header-anchor" href="#获取内存大小">¶</a>获取内存大小</h3>
-<h5 id="sizeof"><a class="header-anchor" href="#sizeof">¶</a>sizeof</h5>
+<h4 id="sizeof"><a class="header-anchor" href="#sizeof">¶</a>sizeof</h4>
 <p>返回<strong>类型</strong>所占用的实际大小，编译时确定。</p>
-<h5 id="class-getInstanceSize"><a class="header-anchor" href="#class-getInstanceSize">¶</a>class_getInstanceSize</h5>
+<h4 id="class-getInstanceSize"><a class="header-anchor" href="#class-getInstanceSize">¶</a>class_getInstanceSize</h4>
 <p>获取实例对象所占用的内存大小</p>
-<h5 id="malloc-size"><a class="header-anchor" href="#malloc-size">¶</a>malloc_size</h5>
+<h4 id="malloc-size"><a class="header-anchor" href="#malloc-size">¶</a>malloc_size</h4>
 <p>系统分配的实际内存，采用 16 字节对齐之后的内存大小。</p>
 <blockquote>
 <p>swift 中获取通过 <code>MemoryLayout</code> 获取</p>
