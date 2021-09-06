@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yshaw.cn","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="潘驴邓小闲">
+<meta property="og:type" content="website">
+<meta property="og:title" content="友友的开发笔记">
+<meta property="og:url" content="http://blog.yshaw.cn/page/2/index.html">
+<meta property="og:site_name" content="友友的开发笔记">
+<meta property="og:description" content="潘驴邓小闲">
+<meta property="og:locale" content="zh_CH">
+<meta property="article:author" content="You Shaw">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.yshaw.cn/page/2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CH'
+  };
+</script>
+
+  <title>友友的开发笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">友友的开发笔记</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">正经人谁写博客呀</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="You Shaw"
+      src="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+  <p class="site-author-name" itemprop="name">You Shaw</p>
+  <div class="site-description" itemprop="description">潘驴邓小闲</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ygg29" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ygg29" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:xiayou29@163.com" title="E-Mail → mailto:xiayou29@163.com" rel="noopener" target="_blank"><i class="163 fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.yuhanle.com/" title="http:&#x2F;&#x2F;www.yuhanle.com&#x2F;" rel="noopener" target="_blank">煜寒了</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+      
+
+      
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2019/06/23/RSA%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/06/23/RSA%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">RSA的数学原理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-23 14:16:48" itemprop="dateCreated datePublished" datetime="2019-06-23T14:16:48+08:00">2019-06-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">软件开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2019/06/23/RSA%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/" class="post-meta-item leancloud_visitors" data-flag-title="RSA的数学原理" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/06/23/RSA%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/06/23/RSA%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="发展历史"><a class="header-anchor" href="#发展历史">¶</a>发展历史</h2>
+<p><strong>密码学</strong>的历史大致可以追溯到两千年前，相传古罗马名将凯撒大帝为了防止敌方截获情报，用密码传送情报。凯撒的做法很简单，就是对二十几个罗马字母建立一张对应表。这样，如果不知道密码本，即使截获一段信息也看不懂。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/06/23/RSA%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">iOS内存管理与优化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-13 23:17:01" itemprop="dateCreated datePublished" datetime="2019-04-13T23:17:01+08:00">2019-04-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/" class="post-meta-item leancloud_visitors" data-flag-title="iOS内存管理与优化" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="内存对齐"><a class="header-anchor" href="#内存对齐">¶</a>内存对齐</h2>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Objc1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a: <span class="type">Double</span> <span class="comment">// 8</span></span><br><span class="line">    <span class="keyword">let</span> b: <span class="type">UInt32</span> <span class="comment">// 4</span></span><br><span class="line">    <span class="keyword">let</span> c: <span class="type">UInt8</span>  <span class="comment">// 1</span></span><br><span class="line">    <span class="keyword">let</span> d: <span class="type">Int</span>    <span class="comment">// 8</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Objc2</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a: <span class="type">Double</span> <span class="comment">// 8</span></span><br><span class="line">    <span class="keyword">let</span> b: <span class="type">Int</span>    <span class="comment">// 8</span></span><br><span class="line">    <span class="keyword">let</span> c: <span class="type">UInt32</span> <span class="comment">// 4</span></span><br><span class="line">    <span class="keyword">let</span> d: <span class="type">UInt8</span>  <span class="comment">// 1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;内存占用：<span class="subst">\(MemoryLayout<span class="operator">&lt;</span>Objc1<span class="operator">&gt;</span>.size)</span>&quot;</span>)   <span class="comment">//print 内存占用：24</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;实际分配：<span class="subst">\(MemoryLayout<span class="operator">&lt;</span>Objc1<span class="operator">&gt;</span>.stride)</span>&quot;</span>) <span class="comment">//print 实际分配：24</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;内存占用：<span class="subst">\(MemoryLayout<span class="operator">&lt;</span>Objc2<span class="operator">&gt;</span>.size)</span>&quot;</span>)   <span class="comment">//print 内存占用：21</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;实际分配：<span class="subst">\(MemoryLayout<span class="operator">&lt;</span>Objc2<span class="operator">&gt;</span>.stride)</span>&quot;</span>) <span class="comment">//print 实际分配：24</span></span><br></pre></td></tr></table></figure>
+<p>通过一个例子，<strong>不同的成员变量布局内存占用会有所不同</strong>（编译器会在编译期优化，即重新布局，保证内存最优）。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2019/04/02/Module%E3%80%81xcconfig%20%E4%B8%8E%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/02/Module%E3%80%81xcconfig%20%E4%B8%8E%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">Module、xcconfig 与多环境配置</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-02 15:10:16" itemprop="dateCreated datePublished" datetime="2019-04-02T15:10:16+08:00">2019-04-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2019/04/02/Module%E3%80%81xcconfig%20%E4%B8%8E%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="post-meta-item leancloud_visitors" data-flag-title="Module、xcconfig 与多环境配置" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/04/02/Module%E3%80%81xcconfig%20%E4%B8%8E%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/04/02/Module%E3%80%81xcconfig%20%E4%B8%8E%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="什么是-xcconfig"><a class="header-anchor" href="#什么是-xcconfig">¶</a>什么是 xcconfig</h2>
+<p><a target="_blank" rel="noopener" href="https://help.apple.com/xcode/mac/8.3/#/dev745c5c974">.xcconfig</a> 文件是对单个 <code>Scheme</code> 的配置，相比于Build Setting 中数百个选项，xcconfig 文件可以用单个文件管理环境配置，让项目更易于理解和维护。</p>
+<p>如 Pod 中的配置项管理就是使用的 <code>xcconfig </code>文件:</p>
+<img src="/Users/hexo_images/WX20210203-150349@2x.png" style="zoom:50%;" />
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/04/02/Module%E3%80%81xcconfig%20%E4%B8%8E%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/10/21/%E3%80%90%E6%91%98%E6%8A%84%E3%80%91%E6%B8%A9%E9%85%92%E6%96%A9%E5%8D%8E%E9%9B%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/21/%E3%80%90%E6%91%98%E6%8A%84%E3%80%91%E6%B8%A9%E9%85%92%E6%96%A9%E5%8D%8E%E9%9B%84/" class="post-title-link" itemprop="url">【摘抄】温酒斩华雄</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-10-21 20:18:33" itemprop="dateCreated datePublished" datetime="2018-10-21T20:18:33+08:00">2018-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BB%8F%E5%85%B8%E6%91%98%E6%8A%84/" itemprop="url" rel="index"><span itemprop="name">经典摘抄</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2018/10/21/%E3%80%90%E6%91%98%E6%8A%84%E3%80%91%E6%B8%A9%E9%85%92%E6%96%A9%E5%8D%8E%E9%9B%84/" class="post-meta-item leancloud_visitors" data-flag-title="【摘抄】温酒斩华雄" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/10/21/%E3%80%90%E6%91%98%E6%8A%84%E3%80%91%E6%B8%A9%E9%85%92%E6%96%A9%E5%8D%8E%E9%9B%84/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/21/%E3%80%90%E6%91%98%E6%8A%84%E3%80%91%E6%B8%A9%E9%85%92%E6%96%A9%E5%8D%8E%E9%9B%84/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>忽探子来报：“华雄引铁骑下关，用长竿挑着孙太守赤帻，来寨前大骂搦战袁术背后转出骁将俞涉曰：“小将愿往。”绍喜，便著俞涉出马。即时报来：“俞涉与华雄战不三合，被华雄斩了。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/10/21/%E3%80%90%E6%91%98%E6%8A%84%E3%80%91%E6%B8%A9%E9%85%92%E6%96%A9%E5%8D%8E%E9%9B%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/" class="post-title-link" itemprop="url">在Mac终端中使用SS代理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-07-13 11:21:33" itemprop="dateCreated datePublished" datetime="2018-07-13T11:21:33+08:00">2018-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">软件开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/" class="post-meta-item leancloud_visitors" data-flag-title="在Mac终端中使用SS代理" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><a target="_blank" rel="noopener" href="https://github.com/shadowsocks">SS</a>是当前最好用的科学上网工具之一，但是在terminal中无法直接使用ss代理，需要使用额外的工具来实现这一功能。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">【译文】swift中的泛型编程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-23 12:40:38" itemprop="dateCreated datePublished" datetime="2018-06-23T12:40:38+08:00">2018-06-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/" itemprop="url" rel="index"><span itemprop="name">文章翻译</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" class="post-meta-item leancloud_visitors" data-flag-title="【译文】swift中的泛型编程" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/t/swift/blogs">swift</a></li>
+<li><a target="_blank" rel="noopener" href="http://austinzheng.com/2015/09/29/swift-generics-pt-2/">原文（Generics in Swift）</a></li>
+</ul>
+<p>本文中，笔者旨在对于Swift中的泛型编程进行一个综合性描述。读者可以查看<a target="_blank" rel="noopener" href="http://austinzheng.com/2015/01/02/swift-generics-pt-1/">上一篇</a> 系列中的描述来看之前笔者的论文。泛型编程是编程方式的一种，主要是一些譬如类、结构体以及枚举这样的复杂类型以及函数可以使用类型参数进行定义(type parameters)。类型参数可以看做是真实类型的占位符，当泛型或者函数被使用时才会被真实类型替换。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/06/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">【译文】swift 派发机制</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-21 14:12:28" itemprop="dateCreated datePublished" datetime="2018-06-21T14:12:28+08:00">2018-06-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/" itemprop="url" rel="index"><span itemprop="name">文章翻译</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2018/06/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/" class="post-meta-item leancloud_visitors" data-flag-title="【译文】swift 派发机制" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/06/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/06/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p><strong>原文：</strong> <a target="_blank" rel="noopener" href="https://www.raizlabs.com/dev/2016/12/swift-method-dispatch/?utm_campaign=This%2BWeek%2Bin%2BSwift&amp;utm_medium=email&amp;utm_source=This_Week_in_Swift_114">Method Dispatch in Swift</a><br>
+<strong>作者：</strong> <a target="_blank" rel="noopener" href="https://www.raizlabs.com/dev/author/brian-kingraizlabs-com/">Brain King</a><br>
+<strong>译者：</strong> <a target="_blank" rel="noopener" href="https://kemchenj.github.io/">kemchenj</a></p>
+<p>**注：**之前看了很多关于 Swift 派发机制的内容, 但感觉没有一篇能够彻底讲清楚这件事情, 看完了这篇文章之后我对 Swift 的派发机制才建立起了初步的认知.</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/06/04/Swift%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%96%B9%E6%B3%95%E8%B0%83%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/04/Swift%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%96%B9%E6%B3%95%E8%B0%83%E5%BA%A6/" class="post-title-link" itemprop="url">Swift内存模型和方法调度</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-04 13:01:36" itemprop="dateCreated datePublished" datetime="2018-06-04T13:01:36+08:00">2018-06-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/" itemprop="url" rel="index"><span itemprop="name">文章翻译</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2018/06/04/Swift%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%96%B9%E6%B3%95%E8%B0%83%E5%BA%A6/" class="post-meta-item leancloud_visitors" data-flag-title="Swift内存模型和方法调度" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/06/04/Swift%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%96%B9%E6%B3%95%E8%B0%83%E5%BA%A6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/06/04/Swift%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%96%B9%E6%B3%95%E8%B0%83%E5%BA%A6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a class="header-anchor" href="#前言">¶</a>前言</h2>
+<p>Apple今年推出了Swift3.0，较2.3来说，3.0是一次重大的升级。关于这次更新，在<a target="_blank" rel="noopener" href="http://swift.gg/2016/07/27/swift3-changes/">这里</a>都可以找到，最主要的还是提高了Swift的性能，优化了Swift API的设计（命名）规范。</p>
+<p>前段时间对之前写的一个项目<a target="_blank" rel="noopener" href="https://github.com/LeoMobileDeveloper/ImageMaskTransition">ImageMaskTransition</a>做了简单迁移，先保证能在3.0下正常运行，只用了不到30分钟。总的来说，这次迁移还是非常轻松的。但是，有一点要注意：3.0的API设计规范较2.3有了质变，建议做迁移的开发者先看下WWDC的<a target="_blank" rel="noopener" href="https://blog.csdn.net/hello_hwc/article/details/Swift%20API%20Design%20Guidelines">Swift API Design Guidelines</a>。后面有时间了，我有可能也会总结下。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/04/Swift%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%96%B9%E6%B3%95%E8%B0%83%E5%BA%A6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/05/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B3%9B%E5%9E%8B%E5%AE%A3%E8%A8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B3%9B%E5%9E%8B%E5%AE%A3%E8%A8%80/" class="post-title-link" itemprop="url">【译文】swift泛型宣言</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-21 16:00:36" itemprop="dateCreated datePublished" datetime="2018-05-21T16:00:36+08:00">2018-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/" itemprop="url" rel="index"><span itemprop="name">文章翻译</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2018/05/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B3%9B%E5%9E%8B%E5%AE%A3%E8%A8%80/" class="post-meta-item leancloud_visitors" data-flag-title="【译文】swift泛型宣言" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/05/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B3%9B%E5%9E%8B%E5%AE%A3%E8%A8%80/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/05/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B3%9B%E5%9E%8B%E5%AE%A3%E8%A8%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>原文：<a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md">Generics Manifesto – Douglas Gregor</a></p>
+<h2 id="译者注"><a class="header-anchor" href="#译者注">¶</a>译者注</h2>
+<p>在我慢慢地深入使用 Swift 之后，碰壁了很多次，很大一部分都是因为 Swift 的泛型系统导致的，很多抽象都没办法很好地表达出来，所以就翻译了这篇文章来学习一下 Swift 的泛型。</p>
+<p>文章里特别提到了要用官方提到的用语来讨论，所以那些 feature 的名称我都会保留英文。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/05/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B3%9B%E5%9E%8B%E5%AE%A3%E8%A8%80/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2017/05/12/%E9%80%9A%E8%BF%87SafariServices%E8%8E%B7%E5%8F%96-Safari-%E4%B8%AD%E7%BC%93%E5%AD%98%E7%9A%84-cookie/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/05/12/%E9%80%9A%E8%BF%87SafariServices%E8%8E%B7%E5%8F%96-Safari-%E4%B8%AD%E7%BC%93%E5%AD%98%E7%9A%84-cookie/" class="post-title-link" itemprop="url">通过SafariServices获取Safari中缓存的cookie</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-05-12 09:51:18" itemprop="dateCreated datePublished" datetime="2017-05-12T09:51:18+08:00">2017-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">软件开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2017/05/12/%E9%80%9A%E8%BF%87SafariServices%E8%8E%B7%E5%8F%96-Safari-%E4%B8%AD%E7%BC%93%E5%AD%98%E7%9A%84-cookie/" class="post-meta-item leancloud_visitors" data-flag-title="通过SafariServices获取Safari中缓存的cookie" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/05/12/%E9%80%9A%E8%BF%87SafariServices%E8%8E%B7%E5%8F%96-Safari-%E4%B8%AD%E7%BC%93%E5%AD%98%E7%9A%84-cookie/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/12/%E9%80%9A%E8%BF%87SafariServices%E8%8E%B7%E5%8F%96-Safari-%E4%B8%AD%E7%BC%93%E5%AD%98%E7%9A%84-cookie/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>需求场景：</p>
+<blockquote>
+<p>通过推广人分享获得的新用户要确认与推广人产生直接联系（即与推广人绑定），iOS 因为系统封闭无法取得其他应用的信息，iOS9后苹果推出的<code>SafariServices</code>可以在应用中打开一个 Safari 页面，这个页面与 safari 共享 cookie，解决了这个问题</p>
+</blockquote>
+<p>基本流程与思路：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/05/12/%E9%80%9A%E8%BF%87SafariServices%E8%8E%B7%E5%8F%96-Safari-%E4%B8%AD%E7%BC%93%E5%AD%98%E7%9A%84-cookie/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">You Shaw</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+      <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.0/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: "/page/2/",
+    }, {"enable":true,"appId":"lyxbzytuOmTmDs7t5xdJ0D8S-gzGzoHsz","appKey":"B6zz1OaMTwHI4mOd0QyucHXi","placeholder":"说点什么...","avatar":"wavatar","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":true,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

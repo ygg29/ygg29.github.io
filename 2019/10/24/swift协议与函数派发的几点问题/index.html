@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yshaw.cn","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="¶1、 问题先从一个协议说起">
+<meta property="og:type" content="article">
+<meta property="og:title" content="swift协议与函数派发的几点问题">
+<meta property="og:url" content="http://blog.yshaw.cn/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="友友的开发笔记">
+<meta property="og:description" content="¶1、 问题先从一个协议说起">
+<meta property="og:locale" content="zh_CH">
+<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/1240.png">
+<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/1240-20201228191236613.png">
+<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/1240-20201228191236806.png">
+<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/1240-20201228191236711.png">
+<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/1240-20201228191236805.png">
+<meta property="article:published_time" content="2019-10-24T11:12:19.000Z">
+<meta property="article:modified_time" content="2021-09-06T13:04:35.370Z">
+<meta property="article:author" content="You Shaw">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="源码">
+<meta property="article:tag" content="swift">
+<meta property="article:tag" content="函数派发">
+<meta property="article:tag" content="泛型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.yshaw.cn/Users/hexo_images/1240.png">
+
+
+<link rel="canonical" href="http://blog.yshaw.cn/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CH'
+  };
+</script>
+
+  <title>swift协议与函数派发的几点问题 | 友友的开发笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">友友的开发笔记</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">正经人谁写博客呀</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81"><span class="nav-number">1.</span> <span class="nav-text">1、</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81"><span class="nav-number">2.</span> <span class="nav-text">2、</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81"><span class="nav-number">3.</span> <span class="nav-text">3、</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">问题</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="You Shaw"
+      src="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+  <p class="site-author-name" itemprop="name">You Shaw</p>
+  <div class="site-description" itemprop="description">潘驴邓小闲</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ygg29" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ygg29" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:xiayou29@163.com" title="E-Mail → mailto:xiayou29@163.com" rel="noopener" target="_blank"><i class="163 fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.yuhanle.com/" title="http:&#x2F;&#x2F;www.yuhanle.com&#x2F;" rel="noopener" target="_blank">煜寒了</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          swift协议与函数派发的几点问题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-10-24 19:12:19" itemprop="dateCreated datePublished" datetime="2019-10-24T19:12:19+08:00">2019-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/" class="post-meta-item leancloud_visitors" data-flag-title="swift协议与函数派发的几点问题" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="1、"><a class="header-anchor" href="#1、">¶</a>1、</h3>
+<p>问题先从一个协议说起</p>
+<a id="more"></a>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">DefaultProtocol</span>: <span class="title">NSObjectProtocol</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">DefaultProtocol</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;默认实现&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这是一个方法带有默认实现的协议，实现它：</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperClass</span>: <span class="title">NSObject</span>, <span class="title">DefaultProtocol</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubClass</span>: <span class="title">SuperClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;子类实现&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用：</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> object: <span class="type">DefaultProtocol</span> <span class="operator">=</span> <span class="type">SubClass</span>()</span><br><span class="line">object.defaultImpl()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输出是什么呢？</p>
+</blockquote>
+<p>可以简单分析一下代码：<br>
+<code> object</code> 指定为 <code>DefaultProtocol</code> 类型，其指针指向的是<code>SubClass</code>对象， 当调用<code>object.defaultImpl()</code> 时，系统首先拿到<code>object</code>的 <code>isa</code>指针找到 <code>SubClass</code>  然后找到<code>SubClass</code>对应的虚函数表，根据偏移量找到<code>defaultImpl()</code>方法调用，输出 <code>子类实现</code></p>
+<p>大概就是这么个流程对吧</p>
+<blockquote>
+<p>ok<br>
+现在来看输出</p>
+</blockquote>
+<p><img src="/Users/hexo_images/1240.png" alt=""></p>
+<p>纳尼？！！不科学！<br>
+这太不唯物主义了！</p>
+<p>难道swift实现了什么黑魔法？</p>
+<blockquote>
+<p>我们把代码稍微调整一下：</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//2</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperClass</span>: <span class="title">NSObject</span>, <span class="title">DefaultProtocol</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;父类实现&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubClass</span>: <span class="title">SuperClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">defaultImpl</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;子类实现&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>再来看输出：</p>
+</blockquote>
+<p><img src="/Users/hexo_images/1240-20201228191236613.png" alt=""></p>
+<p>ok， 这才是我们想要的结果。</p>
+<blockquote>
+<p>由1、2结合可以推测出来，当<code>SuperClass</code>没有实现协议方法时，<code>SubClass</code>对协议方法的实现并不会写到自己的<code>method_list</code>中, 所以才会调用方法的默认实现，在 2中<code>SuperClass</code>实现了协议方法，<code>SubClass</code>重写覆盖了父类在<code>method_list</code>中的方法，才能正常调用。</p>
+</blockquote>
+<p>通过google（<a target="_blank" rel="noopener" href="https://forums.swift.org/t/default-protocol-implementation-inheritance-behaviour-the-current-situation-and-what-if-anything-should-be-done-about-it/28049">这里</a>）后发现这玩意很可能是个bug，并且尝试过<code>Java</code>和<code>kotlin</code>的相同实现方法都没有问题。</p>
+<blockquote>
+<p>那就暂且当作一个待修复的 bug 处理吧。</p>
+</blockquote>
+<h3 id="2、"><a class="header-anchor" href="#2、">¶</a>2、</h3>
+<blockquote>
+<p>那自己写的协议与系统提供的协议会不会有不一样的表现呢？</p>
+</blockquote>
+<p>拿个我们最熟悉的协议 <code>UIScrollViewDelegate</code>举个简单的🌰。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperVC</span>: <span class="title">UIViewController</span>, <span class="title">UIScrollViewDelegate</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        <span class="keyword">self</span>.view.addSubview(scrollView)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">var</span> scrollView: <span class="type">UIScrollView</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> o <span class="operator">=</span> <span class="type">UIScrollView</span>.<span class="keyword">init</span>(frame: <span class="keyword">self</span>.view.bounds)</span><br><span class="line">        o.contentSize <span class="operator">=</span> <span class="type">CGSize</span>(width: <span class="type">ScreenW</span><span class="operator">*</span><span class="number">2</span>, height: <span class="type">ScreenH</span><span class="operator">*</span><span class="number">2</span>)</span><br><span class="line">        o.backgroundColor <span class="operator">=</span> .magenta</span><br><span class="line">        o.delegate <span class="operator">=</span> <span class="keyword">self</span></span><br><span class="line">        <span class="keyword">return</span> o &#125;()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubVC</span>: <span class="title">SuperVC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">scrollViewDidScroll</span><span class="params">(<span class="keyword">_</span> scrollView: UIScrollView)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;滚动<span class="subst">\(scrollView.contentOffset)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输出</p>
+</blockquote>
+<p><img src="/Users/hexo_images/1240-20201228191236806.png" alt=""></p>
+<p><strong>父类没有实现的协议方法在子类正常调用！！！</strong><br>
+？？？？？？？<br>
+<img src="/Users/hexo_images/1240-20201228191236711.png" alt=""><br>
+<img src="/Users/hexo_images/1240-20201228191236805.png" alt=""></p>
+<p>如果问题到这里，就按照bug解决， 爱谁谁，以后多注意就完事了</p>
+<blockquote>
+<p><strong>但偏偏我又多做了一个试验</strong></p>
+</blockquote>
+<h3 id="3、"><a class="header-anchor" href="#3、">¶</a>3、</h3>
+<blockquote>
+<p>如果实现协议的类带了泛型呢？</p>
+</blockquote>
+<p><strong>Let’s coding happily</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperVC</span>&lt;<span class="title">T</span>&gt;: <span class="title">UIViewController</span>, <span class="title">UIScrollViewDelegate</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> text: <span class="type">T</span>?</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        <span class="keyword">self</span>.view.addSubview(scrollView)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">var</span> scrollView: <span class="type">UIScrollView</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> o <span class="operator">=</span> <span class="type">UIScrollView</span>.<span class="keyword">init</span>(frame: <span class="keyword">self</span>.view.bounds)</span><br><span class="line">        o.contentSize <span class="operator">=</span> <span class="type">CGSize</span>(width: <span class="type">ScreenW</span><span class="operator">*</span><span class="number">2</span>, height: <span class="type">ScreenH</span><span class="operator">*</span><span class="number">2</span>)</span><br><span class="line">        o.backgroundColor <span class="operator">=</span> .magenta</span><br><span class="line">        o.delegate <span class="operator">=</span> <span class="keyword">self</span></span><br><span class="line">        <span class="keyword">return</span> o &#125;()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubVC</span>: <span class="title">SuperVC</span>&lt;<span class="title">NSString</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">var</span> text: <span class="type">NSString</span>? &#123;<span class="keyword">get</span>&#123;<span class="keyword">return</span> <span class="string">&quot;范型～～～&quot;</span>&#125; <span class="keyword">set</span>&#123;&#125;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">scrollViewDidScroll</span><span class="params">(<span class="keyword">_</span> scrollView: UIScrollView)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;滚动<span class="subst">\(scrollView.contentOffset)</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(text<span class="operator">!</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输出：</p>
+<p><strong>并没有任何输出！</strong></p>
+</blockquote>
+<p><strong>同问题1一样子类跳过父类实现的协议方法并没有被调用</strong><br>
+而现在我只是多加了个泛型而已</p>
+<p>试验到这我已经词穷了， 一万头草泥马，万脸懵逼。</p>
+<h3 id="问题"><a class="header-anchor" href="#问题">¶</a>问题</h3>
+<p><strong>1、协议中的<code>optional</code>方法, 实现的时候是通过何种方式派发的？</strong><br>
+<strong>2、为什么自己实现的协议与系统表现的不一样，系统提供的协议做了什么？</strong><br>
+<strong>3、swift在编译的过程中，对有范型的类除了做了泛型擦除还做了什么，以至于影响到了函数的派发？</strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我喝杯青岛吧~~~</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="You Shaw 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="You Shaw 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>You Shaw
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yshaw.cn/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/" title="swift协议与函数派发的几点问题">http://blog.yshaw.cn/2019/10/24/swift协议与函数派发的几点问题/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E6%BA%90%E7%A0%81/" rel="tag"># 源码</a>
+              <a href="/tags/swift/" rel="tag"># swift</a>
+              <a href="/tags/%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91/" rel="tag"># 函数派发</a>
+              <a href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag"># 泛型</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/06/23/RSA%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/" rel="prev" title="RSA的数学原理">
+                  <i class="fa fa-chevron-left"></i> RSA的数学原理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/04/iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92/" rel="next" title="iOS启动优化-二进制重排">
+                  iOS启动优化-二进制重排 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">You Shaw</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+      <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.0/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: "/2019/10/24/swift%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E7%9A%84%E5%87%A0%E7%82%B9%E9%97%AE%E9%A2%98/",
+    }, {"enable":true,"appId":"lyxbzytuOmTmDs7t5xdJ0D8S-gzGzoHsz","appKey":"B6zz1OaMTwHI4mOd0QyucHXi","placeholder":"说点什么...","avatar":"wavatar","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":true,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

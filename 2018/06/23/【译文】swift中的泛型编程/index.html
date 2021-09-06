@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yshaw.cn","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="swift 原文（Generics in Swift）  本文中，笔者旨在对于Swift中的泛型编程进行一个综合性描述。读者可以查看上一篇 系列中的描述来看之前笔者的论文。泛型编程是编程方式的一种，主要是一些譬如类、结构体以及枚举这样的复杂类型以及函数可以使用类型参数进行定义(type parameters)。类型参数可以看做是真实类型的占位符，当泛型或者函数被使用时才会被真实类型替换。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译文】swift中的泛型编程">
+<meta property="og:url" content="http://blog.yshaw.cn/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="友友的开发笔记">
+<meta property="og:description" content="swift 原文（Generics in Swift）  本文中，笔者旨在对于Swift中的泛型编程进行一个综合性描述。读者可以查看上一篇 系列中的描述来看之前笔者的论文。泛型编程是编程方式的一种，主要是一些譬如类、结构体以及枚举这样的复杂类型以及函数可以使用类型参数进行定义(type parameters)。类型参数可以看做是真实类型的占位符，当泛型或者函数被使用时才会被真实类型替换。">
+<meta property="og:locale" content="zh_CH">
+<meta property="article:published_time" content="2018-06-23T04:40:38.000Z">
+<meta property="article:modified_time" content="2021-09-06T13:04:35.371Z">
+<meta property="article:author" content="You Shaw">
+<meta property="article:tag" content="swift">
+<meta property="article:tag" content="泛型">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.yshaw.cn/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CH'
+  };
+</script>
+
+  <title>【译文】swift中的泛型编程 | 友友的开发笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">友友的开发笔记</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">正经人谁写博客呀</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-generics-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E6%B3%9B%E5%9E%8B-%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">Why generics (为什么使用泛型)？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Generic-entities-%E6%B3%9B%E5%9E%8B%E5%AE%9E%E4%BD%93"><span class="nav-number"></span> <span class="nav-text">Generic entities (泛型实体)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Generic-types-%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">Generic types (泛型类型)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generic-functions-%E6%B3%9B%E5%9E%8B%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">Generic functions (泛型函数)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Associated-types-%E5%85%B3%E8%81%94%E7%B1%BB%E5%9E%8B"><span class="nav-number"></span> <span class="nav-text">Associated types (关联类型)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Type-constraints-%E7%B1%BB%E5%9E%8B%E7%BA%A6%E6%9D%9F"><span class="nav-number"></span> <span class="nav-text">Type constraints (类型约束)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.</span> <span class="nav-text">简单约束</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Putting-it-all-together"><span class="nav-number"></span> <span class="nav-text">Putting it all together</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Constrained-extensions"><span class="nav-number"></span> <span class="nav-text">Constrained extensions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Syntax-and-limitations-%E8%AF%AD%E6%B3%95%E4%B8%8E%E9%99%90%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">Syntax and limitations (语法与限制)</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="You Shaw"
+      src="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+  <p class="site-author-name" itemprop="name">You Shaw</p>
+  <div class="site-description" itemprop="description">潘驴邓小闲</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ygg29" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ygg29" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:xiayou29@163.com" title="E-Mail → mailto:xiayou29@163.com" rel="noopener" target="_blank"><i class="163 fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.yuhanle.com/" title="http:&#x2F;&#x2F;www.yuhanle.com&#x2F;" rel="noopener" target="_blank">煜寒了</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
+    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
+      <meta itemprop="name" content="You Shaw">
+      <meta itemprop="description" content="潘驴邓小闲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="友友的开发笔记">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【译文】swift中的泛型编程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-23 12:40:38" itemprop="dateCreated datePublished" datetime="2018-06-23T12:40:38+08:00">2018-06-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/" itemprop="url" rel="index"><span itemprop="name">文章翻译</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" class="post-meta-item leancloud_visitors" data-flag-title="【译文】swift中的泛型编程" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <ul>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/t/swift/blogs">swift</a></li>
+<li><a target="_blank" rel="noopener" href="http://austinzheng.com/2015/09/29/swift-generics-pt-2/">原文（Generics in Swift）</a></li>
+</ul>
+<p>本文中，笔者旨在对于Swift中的泛型编程进行一个综合性描述。读者可以查看<a target="_blank" rel="noopener" href="http://austinzheng.com/2015/01/02/swift-generics-pt-1/">上一篇</a> 系列中的描述来看之前笔者的论文。泛型编程是编程方式的一种，主要是一些譬如类、结构体以及枚举这样的复杂类型以及函数可以使用类型参数进行定义(type parameters)。类型参数可以看做是真实类型的占位符，当泛型或者函数被使用时才会被真实类型替换。</p>
+<a id="more"></a>
+<p>在Swift中，对于泛型编程最直观的表现当属Array这个类型。在Objective-C中，Array的示例NSArray可以包含任意类型的对象。但是，Swift中的Array类型需要在声明时即指定它们包含的元素类型，，譬如Array<Int>, Array<UIView>。Array与Int都是一种数据类型，泛型机制允许这两种类型有机组合起来从而能够传递更多的额外的信息。</p>
+<p>备注：在Swift中惯用的声明Array包含了Foo类型的用法是<code>[Foo]</code>这种语法，而本文中使用<code>Array&lt;Foo&gt;</code>写法旨在帮助理解以及强调Array是一个通用泛型。</p>
+<h3 id="Why-generics-为什么使用泛型-？"><a class="header-anchor" href="#Why-generics-为什么使用泛型-？">¶</a>Why generics (为什么使用泛型)？</h3>
+<p>这里列举出几个静态类型语言中使用泛型编程的原因：</p>
+<ul>
+<li>类型安全：类似于Array这样的容器类型，可以给出它们存放的具体的元素的类型，从而告知编译器可以插入容器中的对象的类型以及从容器中返回的对象的类型。这种机制作用于所有可以被当做Array参数的类型，并且也作用于类型之间的关系。</li>
+<li>减少冗余代码：有些情况下需要对多个数据类型进行相同的操作，可以用一个泛型方程来代替多个不同类型参数或者返回值的重复的方程。这样可以避免潜在的代码错误等等。</li>
+<li>灵活的依赖库：第三方库可以暴露一些接口，从而避免使用这些接口的开发者被强制使用或者类型或者返回值为一个固定的类型。它们可以使用泛型进行更加抽象地编程，举例来说，泛型会允许一个接口来接受不仅仅是一个Array参数，而是一个Collection参数。</li>
+</ul>
+<h2 id="Generic-entities-泛型实体"><a class="header-anchor" href="#Generic-entities-泛型实体">¶</a>Generic entities (泛型实体)</h2>
+<p>Swift中的泛型编程主要表现在以下两个不同的情况下：当定义某个类型或者定义某个函数时。泛型类型的特性以及<code>&lt;</code>与<code>&gt;</code>这两个关键字往往意味着某个类型或者函数是泛型。</p>
+<h3 id="Generic-types-泛型类型"><a class="header-anchor" href="#Generic-types-泛型类型">¶</a>Generic types (泛型类型)</h3>
+<p>Swift中主要的三个用户可自定义的类型可以被当做泛型，下面就以Result枚举类型为例，该类型中存放了表征成功的Success以及表征失败的Failure：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Result</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="type">Success</span>(<span class="type">T</span>)</span><br><span class="line">  <span class="keyword">case</span> <span class="type">Failure</span>(<span class="type">U</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Result类型之后有两个类型参数： T以及U。这些类型参数将会在创建实例时被替换为真实的类型：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> aSuccess : <span class="type">Result</span>&lt;<span class="type">Int</span>, <span class="type">String</span>&gt; <span class="operator">=</span> .<span class="type">Success</span>(<span class="number">123</span>)</span><br><span class="line"><span class="keyword">let</span> aFailure : <span class="type">Result</span>&lt;<span class="type">Int</span>, <span class="type">String</span>&gt; <span class="operator">=</span> .<span class="type">Failure</span>(<span class="string">&quot;temperature too high&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>泛型类型的类型参数可以被用于以下的几个方面：</p>
+<ul>
+<li>作为属性的类型</li>
+<li>作为枚举体中的关联类型</li>
+<li>作为某个方法的返回值或者参数</li>
+<li>作为构造器的参数类型</li>
+<li>作为另一个泛型的类型参数，譬如<code>Array</code></li>
+</ul>
+<p>泛型可以在以下两种方式中被初始化：</p>
+<ul>
+<li>在创建新的实例时，类型参数被用户给出的真实的数据类型替换。</li>
+<li>类型被推导得出，通过调用初始化器或者静态方法来创建某个实例。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Queue</span>&lt;<span class="title">T</span>&gt; </span>&#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// First way to instantiate</span></span><br><span class="line"><span class="keyword">let</span> a1 : <span class="type">Queue</span>&lt;<span class="type">Int</span>&gt; <span class="operator">=</span> <span class="type">Queue</span>()</span><br><span class="line"><span class="keyword">let</span> a2 : <span class="type">Queue</span>&lt;<span class="type">Int</span>&gt; <span class="operator">=</span> <span class="type">Queue</span>.staticFactoryMethod() <span class="comment">// or just .staticFactoryMethod()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Second way to instantiate</span></span><br><span class="line"><span class="keyword">let</span> b1 <span class="operator">=</span> <span class="type">Queue</span>&lt;<span class="type">Int</span>&gt;()</span><br><span class="line"><span class="keyword">let</span> b2 <span class="operator">=</span> <span class="type">Queue</span>&lt;<span class="type">Int</span>&gt;.staticFactoryMethod()</span><br></pre></td></tr></table></figure>
+<p>注意，像T这样的类型参数在类型定义时出现，无论这个类型何时被调用，这些类型参数都会被替换为真实的类型。举例而言，<code>Array&lt;String&gt;</code>或者<code>Array&lt;UIWindow&gt;</code>，便是以固定类型初始化的数组。而如果是像<code>Array&lt;T&gt;</code>这样的，它便一直处于由其他类型或者函数作为类型参数定义的上下文中。</p>
+<h3 id="Generic-functions-泛型函数"><a class="header-anchor" href="#Generic-functions-泛型函数">¶</a>Generic functions (泛型函数)</h3>
+<p>函数、方法、属性、下标以及初始化器都可以当做泛型进行处理，它们自身可以成为泛型或者存在于某个泛型类型的上下文中：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Given an item, return an array with that item repeated n times</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">duplicate</span>&lt;T&gt;<span class="params">(item: T, numberOfTimes n: Int)</span></span> -&gt; [<span class="type">T</span>] &#123;</span><br><span class="line">  <span class="keyword">var</span> buffer : [<span class="type">T</span>] <span class="operator">=</span> []</span><br><span class="line">  <span class="keyword">for</span> <span class="keyword">_</span> <span class="keyword">in</span> <span class="number">0</span> <span class="operator">..&lt;</span> n &#123;</span><br><span class="line">    buffer.append(item)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> buffer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样的，类型参数是定义在<code>&lt;</code>与<code>&gt;</code>紧跟在函数名之后。它主要可以用于以下几个方面：</p>
+<ul>
+<li>作为某个函数的参数</li>
+<li>作为函数的返回值</li>
+<li>作为另一个泛型类型的类型参数，譬如<code>T</code>可以作为<code>Array&lt;T?&gt;</code>中的一部分</li>
+</ul>
+<p>当然，如果所有的类型参数都是未用状态编译器会不太友好。而泛型方法可以同时定义在泛型类型与非泛型类型上：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Result</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Transform the value of the &#x27;Result&#x27; using one of two mapping functions</span></span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">transform</span>&lt;V&gt;<span class="params">(left: T -&gt; V, right: U -&gt; V)</span></span> -&gt; <span class="type">V</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Success</span>(<span class="keyword">let</span> value): <span class="keyword">return</span> left(value)</span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Failure</span>(<span class="keyword">let</span> value): <span class="keyword">return</span> right(value)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述中的<code>transform</code>方法就是泛型方法，存放于泛型类型<code>Result</code>中。除了由Result中定义的类型参数T、U，泛型方法本身也定义了一个泛型参数V。当调用一个泛型方程时，不一定需要指明清楚传入的类型参数。编译器的类型推导接口会自动根据参数与返回类型推导出相关信息：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Example use of the &#x27;duplicate:numberOfTimes:&#x27; function defined earlier.</span></span><br><span class="line"><span class="comment">// T is inferred to be Int.</span></span><br><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> duplicate(<span class="number">52</span>, numberOfTimes: <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>实际上，尝试去清楚地设置参数类型还会引发错误：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Does not compile</span></span><br><span class="line"><span class="comment">// Error: &quot;Cannot explicitly specialize a generic function&quot;</span></span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> duplicate<span class="operator">&lt;</span><span class="type">String</span><span class="operator">&gt;</span>(<span class="string">&quot;foo&quot;</span>, numberOfTimes: <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="Associated-types-关联类型"><a class="header-anchor" href="#Associated-types-关联类型">¶</a>Associated types (关联类型)</h2>
+<p>Swift中的Protocol不可以使用类型参数定义泛型，不过Protocol可以使用<code>typealias</code>关键字来定义一些关联类型：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A protocol for things that can accept food.</span></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">FoodEatingType</span> </span>&#123;</span><br><span class="line">  <span class="keyword">typealias</span> <span class="type">Food</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> isSatiated : <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">feed</span><span class="params">(food: Food)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个实例中，Food是定义在FoodEatingType协议中的关联类型，而某个协议中的关联类型数目可以根据实际的需求数量定义。</p>
+<p>关联类型，类似于类型参数，都是一种占位符。而后面如果某个类需要实现这个协议，则需要确定<code>Food</code>的具体类型，是Hay还是Rabbit。具体的做法就是继承并且实现协议的属性与方法，并在实现时再判断应该用哪些真实的数据类型去替换这些关联类型：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Koala</span> : <span class="title">FoodEatingType</span> </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> foodLevel <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> isSatiated : <span class="type">Bool</span> &#123; <span class="keyword">return</span> foodLevel <span class="operator">&lt;</span> <span class="number">10</span> &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Koalas are notoriously picky eaters</span></span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">feed</span><span class="params">(food: Eucalyptus)</span></span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">if</span> <span class="operator">!</span>isSatiated &#123;</span><br><span class="line">      foodLevel <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于<code>Koala</code>这个具体的实现者，关联类型Food被定义为了<code>Eucalyptus</code>，换言之，也就是<code>Koala.Food</code>被定义为了<code>Eucalyptus</code>。如果某个类型实现了多个协议，那么对于每个协议中的关联类型也都必须实现。而如果某个继承的类型也是个泛型，也可以使用类型参数去帮助确定关联类型：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Gourmand Wolf is a picky eater and will only eat his or her favorite food.</span></span><br><span class="line"><span class="comment">// Individual wolves may prefer different foods, though.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GourmandWolf</span>&lt;<span class="title">FoodType</span>&gt; : <span class="title">FoodEatingType</span> </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> isSatiated : <span class="type">Bool</span> &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">feed</span><span class="params">(food: FoodType)</span></span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> meela <span class="operator">=</span> <span class="type">GourmandWolf</span>&lt;<span class="type">Rabbit</span>&gt;()</span><br><span class="line"><span class="keyword">let</span> rabbit <span class="operator">=</span> <span class="type">Rabbit</span>()</span><br><span class="line">meela.feed(rabbit)</span><br></pre></td></tr></table></figure>
+<p>在上述代码中, <code>GourmandWolf&lt;Goose&gt;.Food</code> 即 <code>Goose</code>, 而 <code>GourmandWolf&lt;Sheep&gt;.Food</code> 即 <code>Sheep</code>。顺便说一句，协议中的关联类型虽然属于泛型，但也可以为其添加一些约束或者父类。譬如我们定义的某个协议中为Heap添加了一些列的操作，并且要保证所有的Heap的Key是可比较的，即必须是Comparable的子类或者实现，那么可以添加如下约束：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Types that conform represent simple max-heaps which use their elements as keys</span></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">MaxHeapType</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Elements must support comparison ops; e.g. &#x27;a is greater than b&#x27;.</span></span><br><span class="line">  <span class="keyword">typealias</span> <span class="type">Element</span> : <span class="type">Comparable</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">insert</span><span class="params">(x: Element)</span></span></span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">findMax</span><span class="params">()</span></span> -&gt; <span class="type">Element</span>?</span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">deleteMax</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Type-constraints-类型约束"><a class="header-anchor" href="#Type-constraints-类型约束">¶</a>Type constraints (类型约束)</h2>
+<p>截至目前，我们提及的泛型，诸如T以及U可以用任意类型来替换。而标准库中的Array类型即是这样一种无任何约束的典型，可以由其类型参数来决断。譬如下面一个例子中，需要编写一个函数，输入一个数组而获取数组中最大的那个值并且返回：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Doesn&#x27;t compile.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findLargestInArray</span>&lt;T&gt;<span class="params">(array: Array&lt;T&gt;)</span></span> -&gt; <span class="type">T</span>? &#123;</span><br><span class="line">  <span class="keyword">if</span> array.isEmpty &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</span><br><span class="line">  <span class="keyword">var</span> soFar : <span class="type">T</span> <span class="operator">=</span> array[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">..&lt;</span>array.count &#123;</span><br><span class="line">    soFar <span class="operator">=</span> array[i] <span class="operator">&gt;</span> soFar <span class="operator">?</span> array[i] : soFar</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> soFar</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过这样毫无限制的泛型对于编译器是非常不友好的，如上述代码中需要进行一个比较，即<code>array[i] &gt; soFar</code>，而我们只知道<code>array[i]</code>是类型T，并且<code>soFar</code>也是类型T。但是编译器根本不知道这个类型T能否进行比较。譬如我们创建一个空的结构体<code>Foo</code>，并且把它当做类型参数传了进来，那么我们压根不知道<code>&gt;</code>这个比较运算符能否起作用。</p>
+<p>在上文对于Protocol的讨论中，我们已经尝试使用<code>:</code>为某个关联类型设置一些约束，而在刚才的例子中，如果传入的String类型是可以正常编译的，但是一旦传入的是NSView类型，则不能正常编译了。而我们可以以如下方式添加约束：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Note that &lt;T&gt; became &lt;T : Comparable&gt;, meaning that whatever type fills in</span></span><br><span class="line"><span class="comment">// &#x27;T&#x27; must conform to Comparable.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findLargestInArray</span>&lt;T : Comparable&gt;<span class="params">(array: Array&lt;T&gt;)</span></span> -&gt; <span class="type">T</span>? &#123;</span><br><span class="line">  <span class="keyword">if</span> array.isEmpty &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</span><br><span class="line">  <span class="keyword">var</span> soFar : <span class="type">T</span> <span class="operator">=</span> array[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">..&lt;</span>array.count &#123;</span><br><span class="line">    soFar <span class="operator">=</span> array[i] <span class="operator">&gt;</span> soFar <span class="operator">?</span> array[i] : soFar</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> soFar</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Example usage:</span></span><br><span class="line"><span class="keyword">let</span> arrayToTest <span class="operator">=</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">100</span>, <span class="number">12</span>]</span><br><span class="line"><span class="comment">// We&#x27;re calling &#x27;findLargestInArray()&#x27; with T = Int.</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> result <span class="operator">=</span> findLargestInArray(arrayToTest) &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;the largest element in the array is <span class="subst">\(result)</span>&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;the array was empty...&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// prints: &quot;the largest element in the array is 100&quot;</span></span><br></pre></td></tr></table></figure>
+<p>这是因为，在某种意义上，存在着一种悖论，越限制类型参数与添加约束，用户越能方便地使用这些参数。不加任何限制地类型参数往往只能使用在简单地交换或者从集合中添加或者删除某些元素。</p>
+<h3 id="简单约束"><a class="header-anchor" href="#简单约束">¶</a>简单约束</h3>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">example</span>&lt;T, U : Equatable, V : Hashable&gt;<span class="params">(foo: T, bar: U, baz: V)</span></span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果需要对泛型进行细粒度的控制，首先来讨论下在哪些地方可以进行控制处理：</p>
+<ul>
+<li>类似于U,V这样的类型参数，即上文中的普通的泛型参数</li>
+<li>类型参数的关联类型，即上文中协议里的关联类型。</li>
+</ul>
+<p>Swift中提供了以下三个类型的约束：</p>
+<ul>
+<li><code>T : SomeProtocol</code>：类型T必须遵从协议<code>SomeProtocol</code>。需要注意，使用<code>protocol&lt;Foo,Bar&gt;</code>。</li>
+<li><code>T==U</code>：类型参数T必须是类型参数或者关联类型U。</li>
+<li><code>T:SomeClass</code>:T必须是一个类，更加具体而言，T必须是SomeClass的一个实例或者它的子类。</li>
+</ul>
+<h2 id="Putting-it-all-together"><a class="header-anchor" href="#Putting-it-all-together">¶</a>Putting it all together</h2>
+<p>上文中已经介绍了基本的泛型的用法和约束，而对于泛型类型的签名可以综合使用如下：</p>
+<ul>
+<li>声明类型参数，如果愿意的话，最好每个类型参数都要声明遵循某个协议。</li>
+<li>使用<code>where</code>关键字。</li>
+<li>使用逗号分割声明约束。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">  <span class="keyword">typealias</span> <span class="type">Key</span></span><br><span class="line">  <span class="keyword">typealias</span> <span class="type">Element</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Bar</span> </span>&#123;</span><br><span class="line">  <span class="keyword">typealias</span> <span class="type">RawGeneratorType</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">example</span>&lt;T : Foo, U, V where V : Foo, V : Bar, T.Key == V.RawGeneratorType, U == V.Element&gt;</span></span><br><span class="line"><span class="function">  <span class="params">(arg1: T, arg2: U, arg3: V)</span></span> -&gt; <span class="type">U</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不要惊慌，我们会一步一步地介绍这些泛型的用法。在<code>where</code>关键字之前，我们声明了三个类型参数：T，U以及V。其中T必须遵循Foo协议。而在where关键字之后，我们声明了四个约束：</p>
+<ul>
+<li>V必须遵循Foo协议。</li>
+<li>V也必须实现了Bar协议。</li>
+<li>由于T实现了Foo协议，T有一个关联类型为<code>T.Key</code>。V还有另一个关联类型，V.RawGeneratorType。这两个类型必须是相同的：T.Key == V.RawGeneratorType。</li>
+<li>因为V实现了协议Foo，V包含一个关联类型V.Element。这个类型必须与U一致，U == V.Element。</li>
+</ul>
+<p>综上所述，无论何时使用<code>example()</code>函数时，必须要选择合适的T、U以及V类型。</p>
+<h2 id="Constrained-extensions"><a class="header-anchor" href="#Constrained-extensions">¶</a>Constrained extensions</h2>
+<p>Swift 2中新近提出了约束扩展的概念，一个更强大的能够使用泛型的语法特性。在Swift中，扩展允许向任意类型，即使尚未定义的类型中添加方法。同样允许向某个协议中添加默认的实现方法。同样的，这样的基于约束的扩展可以方便某些泛型的用法：</p>
+<ul>
+<li>对于像Array这样的泛型，可以在类型参数符合某个特定的约束的情况下添加某个方法。</li>
+<li>对于像CollectionType这样包含关联类型的协议，可以当某个关联类型符合某个约束时添加默认的实现方法。</li>
+</ul>
+<h3 id="Syntax-and-limitations-语法与限制"><a class="header-anchor" href="#Syntax-and-limitations-语法与限制">¶</a>Syntax and limitations (语法与限制)</h3>
+<p>基于约束的扩展语法如下所示：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Methods in this extension are only available to Arrays whose elements are</span></span><br><span class="line"><span class="comment">// both hashable and comparable.</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Array</span> <span class="title">where</span> <span class="title">Element</span> : <span class="title">Hashable</span>, <span class="title">Element</span> : <span class="title">Comparable</span> </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>where关键字跟随在类型参数之后，而后跟着以逗号分割的一系列泛型类型和参数。不过这其中的约束中并不能限定为非泛型，即：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// An extension on Array&lt;Int&gt;.</span></span><br><span class="line"><span class="comment">// Error: &quot;Same-type requirement makes generic parameter &#x27;Element&#x27; non-generic&quot;</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Array</span> <span class="title">where</span> <span class="title">Element</span> == <span class="title">Int</span> </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时，也不能进行协议的传递：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">MyProtocol</span> </span>&#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Only Arrays with comparable elements conform to MyProtocol.</span></span><br><span class="line"><span class="comment">// Error: &quot;Extension of type &#x27;Array&#x27; with constraints cannot have an inheritance clause&quot;</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Array</span> : <span class="title">MyProtocol</span> <span class="title">where</span> <span class="title">Element</span> : <span class="title">Comparable</span> </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我喝杯青岛吧~~~</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="You Shaw 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="You Shaw 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>You Shaw
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yshaw.cn/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" title="【译文】swift中的泛型编程">http://blog.yshaw.cn/2018/06/23/【译文】swift中的泛型编程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/swift/" rel="tag"># swift</a>
+              <a href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag"># 泛型</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/06/21/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/" rel="prev" title="【译文】swift 派发机制">
+                  <i class="fa fa-chevron-left"></i> 【译文】swift 派发机制
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/07/13/%E5%9C%A8Mac%E7%BB%88%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8SS%E4%BB%A3%E7%90%86/" rel="next" title="在Mac终端中使用SS代理">
+                  在Mac终端中使用SS代理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">You Shaw</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+      <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.0/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: "/2018/06/23/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91swift%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/",
+    }, {"enable":true,"appId":"lyxbzytuOmTmDs7t5xdJ0D8S-gzGzoHsz","appKey":"B6zz1OaMTwHI4mOd0QyucHXi","placeholder":"说点什么...","avatar":"wavatar","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":true,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
