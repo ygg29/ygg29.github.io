@@ -79,14 +79,17 @@ theme: next #landscape
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-- type: git
-  repository: root@129.211.20.54:/var/repo/myblog.git
-  branch: master
-- type: git
-  repository: https://github.com/ygg29/ygg29.github.io.git
-  # //https://github.com/ygg29/ygg29.github.io.git
-  branch: master
-
+# - type: git
+#   repository: root@129.211.20.54:/var/repo/myblog.git
+#   branch: master
+# - type: git
+#   repository: https://github.com/ygg29/ygg29.github.io.git
+#   # //https://github.com/ygg29/ygg29.github.io.git
+#   branch: master
+  type: git
+  repo: git@github.com:ygg29/ygg29.github.io.git
+  # example, https://github.com/hexojs/hexojs.github.io
+  branch: gh-pages
 # live2d
 live2d:
   enable: true

@@ -14,6 +14,8 @@ Apple今年推出了Swift3.0，较2.3来说，3.0是一次重大的升级。关�
 
 前段时间对之前写的一个项目[ImageMaskTransition](https://github.com/LeoMobileDeveloper/ImageMaskTransition)做了简单迁移，先保证能在3.0下正常运行，只用了不到30分钟。总的来说，这次迁移还是非常轻松的。但是，有一点要注意：3.0的API设计规范较2.3有了质变，建议做迁移的开发者先看下WWDC的[Swift API Design Guidelines](https://blog.csdn.net/hello_hwc/article/details/Swift%20API%20Design%20Guidelines)。后面有时间了，我有可能也会总结下。
 
+<!-- more -->
+
 ## 内存分配
 
 通过查看Github上[Swift的源代码](https://github.com/apple/swift)语言分布
