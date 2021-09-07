@@ -101,7 +101,7 @@ live2d:
   debug: false
   model:
     # https://github.com/xiazeyu/live2d-widget-models
-    use: live2d-widget-model-shizuku
+    use: live2d-widget-model-tororo
   display:
     position: right
     width: 150
