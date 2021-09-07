@@ -88,7 +88,7 @@ deploy:
 #   branch: master
   type: git
   repo: git@github.com:ygg29/ygg29.github.io.git
-  # example, https://github.com/hexojs/hexojs.github.io
+  # example, https://github.com/hexojs/hexojs.github.io 
   branch: gh-pages
 # live2d
 live2d:
