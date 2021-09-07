@@ -20,31 +20,31 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yshaw.cn","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"ygg29.github.io","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
   <meta name="description" content="¶内存对齐 1234567891011121314151617struct Objc1 &amp;#123;    let a: Double &#x2F;&#x2F; 8    let b: UInt32 &#x2F;&#x2F; 4    let c: UInt8  &#x2F;&#x2F; 1    let d: Int    &#x2F;&#x2F; 8&amp;#125;struct Objc2 &amp;#123;    let a: Double &#x2F;&#x2F; 8    let b: Int">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS内存管理与优化">
-<meta property="og:url" content="http://blog.yshaw.cn/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:url" content="https://ygg29.github.io/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
 <meta property="og:description" content="¶内存对齐 1234567891011121314151617struct Objc1 &amp;#123;    let a: Double &#x2F;&#x2F; 8    let b: UInt32 &#x2F;&#x2F; 4    let c: UInt8  &#x2F;&#x2F; 1    let d: Int    &#x2F;&#x2F; 8&amp;#125;struct Objc2 &amp;#123;    let a: Double &#x2F;&#x2F; 8    let b: Int">
 <meta property="og:locale" content="zh_CH">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20210110-122032.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20210107-215218@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20210107-224536@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20210111-153338@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20210113-004810@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20210110-122032.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20210107-215218@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20210107-224536@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20210111-153338@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20210113-004810@2x.png">
 <meta property="article:published_time" content="2019-04-13T15:17:01.000Z">
-<meta property="article:modified_time" content="2021-09-06T13:04:35.369Z">
+<meta property="article:modified_time" content="2021-09-07T04:54:23.212Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="源码">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20210110-122032.png">
+<meta name="twitter:image" content="https://ygg29.github.io/Users/hexo_images/WX20210110-122032.png">
 
 
-<link rel="canonical" href="http://blog.yshaw.cn/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/">
+<link rel="canonical" href="https://ygg29.github.io/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/">
 
 
 <script class="page-configurations">
@@ -268,7 +268,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
-    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="https://ygg29.github.io/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
@@ -502,7 +502,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://blog.yshaw.cn/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/" title="iOS内存管理与优化">http://blog.yshaw.cn/2019/04/13/iOS内存管理与优化/</a>
+      <a href="https://ygg29.github.io/2019/04/13/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/" title="iOS内存管理与优化">https://ygg29.github.io/2019/04/13/iOS内存管理与优化/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -678,5 +678,5 @@ NexT.utils.loadComments('#valine-comments', () => {
 });
 </script>
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-tororo"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
 </html>

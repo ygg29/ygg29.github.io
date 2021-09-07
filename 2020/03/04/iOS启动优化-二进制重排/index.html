@@ -20,36 +20,36 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yshaw.cn","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"ygg29.github.io","root":"/","scheme":"Pisces","version":"8.0.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
   <meta name="description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS启动优化-二进制重排">
-<meta property="og:url" content="http://blog.yshaw.cn/2020/03/04/iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92/index.html">
+<meta property="og:url" content="https://ygg29.github.io/2020/03/04/iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92/index.html">
 <meta property="og:site_name" content="友友的开发笔记">
 <meta property="og:description" content="随着业务开发进入迭代稳定期，App 的各种优化任务随之而来。抖音研发实践中提出了二进制重排的优化经验，号称提升了 15%的启动速度，本文尝试探究一下二进制重排的原理及 clang 插桩的优化方案。">
 <meta property="og:locale" content="zh_CH">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201217-110408@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201216-143742@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201216-152625@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201216-162043@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201216-163608@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201216-163816@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201216-173003@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201216-173355@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201218-183905@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201217-173509@2x.png">
-<meta property="og:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201221-150023@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201217-110408@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201216-143742@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201216-152625@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201216-162043@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201216-163608@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201216-163816@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201216-173003@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201216-173355@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201218-183905@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201217-173509@2x.png">
+<meta property="og:image" content="https://ygg29.github.io/Users/hexo_images/WX20201221-150023@2x.png">
 <meta property="article:published_time" content="2020-03-04T11:33:23.000Z">
-<meta property="article:modified_time" content="2021-09-06T13:04:35.370Z">
+<meta property="article:modified_time" content="2021-09-07T04:54:23.212Z">
 <meta property="article:author" content="You Shaw">
 <meta property="article:tag" content="启动优化">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.yshaw.cn/Users/hexo_images/WX20201217-110408@2x.png">
+<meta name="twitter:image" content="https://ygg29.github.io/Users/hexo_images/WX20201217-110408@2x.png">
 
 
-<link rel="canonical" href="http://blog.yshaw.cn/2020/03/04/iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92/">
+<link rel="canonical" href="https://ygg29.github.io/2020/03/04/iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92/">
 
 
 <script class="page-configurations">
@@ -273,7 +273,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CH">
-    <link itemprop="mainEntityOfPage" href="http://blog.yshaw.cn/2020/03/04/iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92/">
+    <link itemprop="mainEntityOfPage" href="https://ygg29.github.io/2020/03/04/iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/Users/hexo_images/005PIzc6ly1g5pyr7ct7lj31op1op4qp.jpg">
@@ -514,7 +514,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://blog.yshaw.cn/2020/03/04/iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92/" title="iOS启动优化-二进制重排">http://blog.yshaw.cn/2020/03/04/iOS启动优化-二进制重排/</a>
+      <a href="https://ygg29.github.io/2020/03/04/iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92/" title="iOS启动优化-二进制重排">https://ygg29.github.io/2020/03/04/iOS启动优化-二进制重排/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -689,5 +689,5 @@ NexT.utils.loadComments('#valine-comments', () => {
 });
 </script>
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-tororo"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
 </html>
